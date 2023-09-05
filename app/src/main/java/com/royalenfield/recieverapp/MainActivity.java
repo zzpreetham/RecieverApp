@@ -1,7 +1,5 @@
 package com.royalenfield.recieverapp;
 
-import static com.royalenfield.recieverapp.MessageReceiver.CUSTOM_ACTION;
-
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -10,11 +8,26 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.util.Log;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.ImageView;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.robinhood.ticker.TickerUtils;
+import com.robinhood.ticker.TickerView;
+
+import org.eclipse.paho.client.mqttv3.MqttClient;
+import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
+import org.eclipse.paho.client.mqttv3.MqttException;
+import org.eclipse.paho.client.mqttv3.MqttMessage;
+import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -22,238 +35,285 @@ public class MainActivity extends AppCompatActivity {
 
     TextView txtspeed;
     TextView txtdistance;
-    TextView txtodo;
+    TextView txtmodes;
+    TickerView txtodo;
+    SpeedoMeterView speedoMeterView;
+    SeekBar seekBar;
+    LandscapeProgressWidgetCharging chargingbar;
+
     TextView txtvehiclechrg;
     TextView txtchrgtym;
     TextView txtsoc;
     TextView txtLowSoc;
     TextView txtbatterysoh;
-    TextView rightstr;
-    TextView leftstr;
-    TextView hazardstr;
-    TextView errorstr;
-    TextView regenstr;
-    TextView abs_str;
+    ImageView rightstr;
+    ImageView leftstr;
+    ImageView hazardstr;
+    ImageView errorstr;
+    ImageView regenstr;
+    ImageView abs_str;
 
-    public static String speed, distance, odo, vehiclechrg, chrgtym, soc, LowSoc, batterysoh,
-            right, left, hazard, error, regen, abs = "";
+    ImageView right_on;
+    ImageView left_on;
+    ImageView hazard_on;
+    ImageView error_on;
+    ImageView regen_on;
+    ImageView abs_on;
+
+    public static String LowSoc, right, left, hazard;
+
+    String broker = "tcp://35.200.186.3:1883";
+    String topic = "gprsData";
+    String username = "royalenfield";
+    String password = "RoyalEnfieldMqttBroker";
+    String clientid = "publish_client";
+    String content = "Hello MQTT";
+
+    int qos = 0;
+
+    String packetType="NR",alertId="2",packetStatus="H",date="29102023",time="183507",latitude="12.975843",latitudeDir="N",longitude="77.549438",longitudeDir="E",ignitionStatus="1";
+    String gsmSignalStrength="31",frameNumber="8273",obdData,tripId="1";
+
+    String vehicleErrorIndication="ON", rideMode="Sports", vehicleCharge="Complete", regenerationActive="ON", vehicleRange="120", vehicleChargingTime="300",
+            reverseMode="ON", stateOfCharge="100", speedometer="80", batterySOH="85",absEvent="0", vehicleOdometer="1520";
+
 
     private MyBroadcastReceiver MyReceiver;
+    public static final String CUSTOM_ACTION = "com.royalenfield.evcansim.CUSTOM_ACTION";
+    private  boolean dataReceived = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+        setContentView(R.layout.gauge_layout);
+
+        //remove bottom navigation
+        View decorView = getWindow().getDecorView();
+        int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION |View.SYSTEM_UI_FLAG_FULLSCREEN;
+        decorView.setSystemUiVisibility(uiOptions);
+        dataReceived = false;
 
 
-        txtspeed = findViewById(R.id.speed_change);
-        txtdistance = findViewById(R.id.distance_change);
-        txtodo = findViewById(R.id.odo_change);
-        txtvehiclechrg = findViewById(R.id.charge_state);
-        txtchrgtym = findViewById(R.id.charge_time);
-        txtsoc = findViewById(R.id.vehicle_soc);
-        txtLowSoc = findViewById(R.id.vehicle_low_soc);
-        txtbatterysoh = findViewById(R.id.battery_SOH);
-        rightstr = findViewById(R.id.right_switch);
-        leftstr = findViewById(R.id.left_switch);
-        hazardstr = findViewById(R.id.hazard_switch);
-        errorstr = findViewById(R.id.vehicle_err_switch);
-        regenstr = findViewById(R.id.regen_switch);
-        abs_str = findViewById(R.id.abs_switch);
+        txtspeed = findViewById(R.id.speed);
+        txtdistance = findViewById(R.id.rangeTxt);
+        txtodo = findViewById(R.id.odoMeter);
+        speedoMeterView=findViewById(R.id.speedometerview);
+        seekBar=findViewById(R.id.seekBar);
+        txtmodes=findViewById(R.id.txtmodes);
+        txtvehiclechrg=findViewById(R.id.chargePercent);
+        rightstr=findViewById(R.id.imageView7);
+        leftstr=findViewById(R.id.imageView6);
+        hazardstr=findViewById(R.id.imageView2);
+        errorstr=findViewById(R.id.imageView3);
+        regenstr=findViewById(R.id.imageView);
+        abs_str=findViewById(R.id.imageView5);
+        chargingbar=findViewById(R.id.landscapeProgressWidgetCharging);
 
+        right_on=findViewById(R.id.right_on);
+        left_on=findViewById(R.id.left_on);
+        hazard_on=findViewById(R.id.hazard_ON);
+        error_on=findViewById(R.id.dtcON);
+        regen_on=findViewById(R.id.powerON);
+        abs_on=findViewById(R.id.absON);
+
+        txtodo.setCharacterLists(TickerUtils.provideNumberList());
+        txtodo.setPreferredScrollingDirection(TickerView.ScrollingDirection.DOWN);
+
+        //Receive data which has been broadcasted
         IntentFilter filter = new IntentFilter("com.royalenfield.evcansim.CUSTOM_ACTION");
         MyReceiver = new MyBroadcastReceiver();
         registerReceiver(MyReceiver, filter);
 
+        new CountDownTimer(10000, 1000) {
+            @Override
+            public void onTick(long l) {
+                if(dataReceived) {
+                    new UploadData().execute();
+                }
+            }
+
+            @Override
+            public void onFinish() {
+                start();
+            }
+        }.start();
     }
 
-
+    /**
+     * Function for receiving Broadcast
+     */
     public class MyBroadcastReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
             if (intent != null && intent.getAction() != null) {
                 if (intent.getAction().equals(CUSTOM_ACTION)) {
-
-                    //Log.d("valueeeee",intent.getStringExtra("SignalPacket"));
-
                     try {
                         JSONObject jsonObject = new JSONObject(intent.getStringExtra(""));
-                        Log.d("jsonVal12344", jsonObject.toString());
-                        Log.d("jsonVal", jsonObject.getString("signal") + "\t" + jsonObject.getString("data") + "\t" + jsonObject.getString("timestamp"));
-
 
                         if (jsonObject.getString("signal").contains("speed")) {
-                            //Log.d("speeedddd", jsonObject.getString("speed"));
-                            speed = jsonObject.getString("data");
-                            txtspeed.setText(speed + " kmph");
-                        } else if (jsonObject.getString("signal").contains("distance")) {
-                            //Log.d("speeedddd", jsonObject.getString("distance"));
-                            distance = jsonObject.getString("data");
-                            txtdistance.setText(distance + " km");
+                            speedometer = jsonObject.getString("data");
+                            txtspeed.setText(speedometer);
+                            speedoMeterView.setSpeed(Integer.parseInt(speedometer)/2,true);
+                        } else if (jsonObject.getString("signal").contains("vehicle_range")) {
+                            vehicleRange = jsonObject.getString("data");
+                            seekBar.setProgress(Integer.parseInt(vehicleRange));
+                            txtdistance.setText(vehicleRange + " km");
                         } else if (jsonObject.getString("signal").contains("odo")) {
-                            //Log.d("speeedddd", jsonObject.getString("distance"));
-                            odo = jsonObject.getString("data");
-                            txtodo.setText(odo + " km");
-                        } else if (jsonObject.getString("signal").contains("vehiclechrg")) {
-                            //Log.d("speeedddd", jsonObject.getString("distance"));
-                            vehiclechrg = jsonObject.getString("data");
-                            txtvehiclechrg.setText(vehiclechrg + "%");
-                        } else if (jsonObject.getString("signal").contains("chrgtym")) {
-                            //Log.d("speeedddd", jsonObject.getString("distance"));
-                            chrgtym = jsonObject.getString("data");
-                            txtchrgtym.setText(chrgtym + " min");
+                            vehicleOdometer = jsonObject.getString("data");
+                            txtodo.setText(vehicleOdometer);
+                        } else if (jsonObject.getString("signal").contains("charging_status")) {
+                            vehicleCharge = jsonObject.getString("data");
+                        } else if (jsonObject.getString("signal").contains("charging_time")) {
+                            vehicleChargingTime = jsonObject.getString("data");
                         } else if (jsonObject.getString("signal").contains("soc")) {
-                            //Log.d("speeedddd", jsonObject.getString("distance"));
-                            soc = jsonObject.getString("data");
-                            txtsoc.setText(soc);
-                        } else if (jsonObject.getString("signal").contains("lowSOC")) {
-                            //Log.d("speeedddd", jsonObject.getString("distance"));
+                            stateOfCharge = jsonObject.getString("data");
+                            Log.d("chargeeee",stateOfCharge);
+                            if (stateOfCharge.equalsIgnoreCase("0")){
+                            }
+                            else {
+                                txtvehiclechrg.setText(stateOfCharge+"%");
+                                chargingbar.setPercentage(Integer.parseInt(stateOfCharge));
+                            }
+                        } else if (jsonObject.getString("signal").contains("soc_low")) {
                             LowSoc = jsonObject.getString("data");
-                            txtLowSoc.setText(LowSoc + " %");
-                        } else if (jsonObject.getString("signal").contains("batterySOH")) {
-                            //Log.d("speeedddd", jsonObject.getString("distance"));
-                            batterysoh = jsonObject.getString("data");
-                            txtbatterysoh.setText(batterysoh + " %");
-                        } else if (jsonObject.getString("signal").contains("rightIND")) {
-                            //Log.d("speeedddd", jsonObject.getString("distance"));
+                        } else if (jsonObject.getString("signal").contains("battery_soh")) {
+                            batterySOH = jsonObject.getString("data");
+                        } else if (jsonObject.getString("signal").contains("right_ttl")) {
                             right = jsonObject.getString("data");
-                            rightstr.setText(right);
-                        } else if (jsonObject.getString("signal").contains("leftIND")) {
-                            //Log.d("speeedddd", jsonObject.getString("distance"));
+                            if (right.equalsIgnoreCase("true")){
+                                rightstr.setVisibility(View.GONE);
+                                right_on.setVisibility(View.VISIBLE);
+                            } else if (right.equalsIgnoreCase("false")) {
+                                rightstr.setVisibility(View.VISIBLE);
+                                right_on.setVisibility(View.GONE);
+                            }
+                        } else if (jsonObject.getString("signal").contains("left_ttl")) {
                             left = jsonObject.getString("data");
-                            leftstr.setText(left);
-                        } else if (jsonObject.getString("signal").contains("hazard")) {
-                            //Log.d("speeedddd", jsonObject.getString("distance"));
+                            if (left.equalsIgnoreCase("true")){
+                                leftstr.setVisibility(View.GONE);
+                                left_on.setVisibility(View.VISIBLE);
+                            } else if (left.equalsIgnoreCase("false")) {
+                                leftstr.setVisibility(View.VISIBLE);
+                                left_on.setVisibility(View.GONE);
+                            }
+                        } else if (jsonObject.getString("signal").contains("hazard_ttl")) {
                             hazard = jsonObject.getString("data");
-                            hazardstr.setText(hazard);
-                        } else if (jsonObject.getString("signal").contains("vehicle_err")) {
-                            //Log.d("speeedddd", jsonObject.getString("distance"));
-                            error = jsonObject.getString("data");
-                            errorstr.setText(error);
-                        } else if (jsonObject.getString("signal").contains("regen")) {
-                            //Log.d("speeedddd", jsonObject.getString("distance"));
-                            regen = jsonObject.getString("data");
-                            regenstr.setText(regen);
-                        } else if (jsonObject.getString("signal").contains("abs")) {
-                            //Log.d("speeedddd", jsonObject.getString("distance"));
-                            abs = jsonObject.getString("data");
-                            abs_str.setText(abs);
+                            if (hazard.equalsIgnoreCase("true")){
+                                hazardstr.setVisibility(View.GONE);
+                                hazard_on.setVisibility(View.VISIBLE);
+                            } else if (hazard.equalsIgnoreCase("false")) {
+                                hazardstr.setVisibility(View.VISIBLE);
+                                hazard_on.setVisibility(View.GONE);
+                            }
+                        } else if (jsonObject.getString("signal").contains("vehicle_error_ind")) {
+                            vehicleErrorIndication = jsonObject.getString("data");
+                            if (vehicleErrorIndication.equalsIgnoreCase("true")){
+                                errorstr.setVisibility(View.GONE);
+                                error_on.setVisibility(View.VISIBLE);
+                            } else if (vehicleErrorIndication.equalsIgnoreCase("false")) {
+                                errorstr.setVisibility(View.VISIBLE);
+                                error_on.setVisibility(View.GONE);
+                            }
+                        } else if (jsonObject.getString("signal").contains("regen_active")) {
+                            regenerationActive = jsonObject.getString("data");
+                            if (regenerationActive.equalsIgnoreCase("true")){
+                                regenstr.setVisibility(View.GONE);
+                                regen_on.setVisibility(View.VISIBLE);
+                            } else if (regenerationActive.equalsIgnoreCase("false")) {
+                                regenstr.setVisibility(View.VISIBLE);
+                                regen_on.setVisibility(View.GONE);
+                            }
+                        } else if (jsonObject.getString("signal").contains("abs_active")) {
+                            absEvent = jsonObject.getString("data");
+                            if (absEvent.equalsIgnoreCase("0")){
+                                abs_str.setVisibility(View.GONE);
+                                abs_on.setVisibility(View.VISIBLE);
+                            } else if (absEvent.equalsIgnoreCase("1")) {
+                                abs_str.setVisibility(View.VISIBLE);
+                                abs_on.setVisibility(View.GONE);
+                            }
+                        }else if(jsonObject.getString("signal").contains("riding_mode")){
+                            rideMode=jsonObject.getString("data");
+                            if (rideMode.equalsIgnoreCase("ES")) {
+                                rideMode = "Eco";
+                                txtmodes.setText(rideMode);
+
+                            } else if (rideMode.equalsIgnoreCase("ST")) {
+                                rideMode = "Tour";
+                                txtmodes.setText(rideMode);
+
+                            } else if (rideMode.equalsIgnoreCase("IS")) {
+                                rideMode = "Sports";
+                                txtmodes.setText(rideMode);
+                            }
+                        }else if(jsonObject.getString("signal").contains("reverse_mode")){
+                            reverseMode=jsonObject.getString("data");
                         }
 
-
-                       /* switch (intent.getStringExtra("signal")){
-                            case "speed":
-                                if(intent.getStringExtra("signal").equalsIgnoreCase("speed")) {
-                                    Log.d("speeedddd", intent.getStringExtra("signal") + "\t" + intent.getStringExtra("timestamp"));
-                                    speed = intent.getStringExtra("data");
-                                    txtspeed.setText(speed);
-                                }
-                                break;
-                            case "distance":
-                                if(intent.getStringExtra("signal").equalsIgnoreCase("distance")) {
-                                    Log.d("speeedddd", intent.getStringExtra("signal") + "\t" + intent.getStringExtra("timestamp"));
-                                    distance = intent.getStringExtra("data");
-                                    txtdistance.setText(distance);
-                                }
-                                break;
-                            case "odometer":
-                                Log.d("speeedddd", intent.getStringExtra("signal")+"\t"+intent.getStringExtra("timestamp"));
-                                odo=intent.getStringExtra("data");
-                                txtodo.setText(odo);
-                                break;
-                        }*/
-
+                        dataReceived = true;
 
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-
-                    /*if(intent.getStringExtra("speed")!=null) {
-                        Log.d("speeedddd", intent.getStringExtra("speed"));
-                        speed=intent.getStringExtra("speed");
-                        txtspeed.setText(speed);
-                    }
-                    else if(intent.getStringExtra("distance")!=null) {
-                        Log.d("speeedddd", intent.getStringExtra("distance"));
-                        distance=intent.getStringExtra("distance");
-                        txtdistance.setText(distance);
-                    }
-                    else if(intent.getStringExtra("odometer")!=null) {
-                        Log.d("speeedddd", intent.getStringExtra("odometer"));
-                        odo=intent.getStringExtra("odometer");
-                        txtodo.setText(odo);
-                    }else if(intent.getStringExtra("vhlchrg")!=null) {
-                        Log.d("speeedddd", intent.getStringExtra("vhlchrg"));
-                        vehiclechrg=intent.getStringExtra("vhlchrg");
-                        txtvehiclechrg.setText(vehiclechrg);
-                    }else if(intent.getStringExtra("chrgtym")!=null) {
-                        Log.d("speeedddd", intent.getStringExtra("chrgtym"));
-                        chrgtym=intent.getStringExtra("chrgtym");
-                        txtchrgtym.setText(chrgtym);
-                    }else if(intent.getStringExtra("soc")!=null) {
-                        Log.d("speeedddd", intent.getStringExtra("soc"));
-                        soc=intent.getStringExtra("soc");
-                        txtsoc.setText(soc);
-                    }else if(intent.getStringExtra("lowSOC")!=null) {
-                        Log.d("speeedddd", intent.getStringExtra("lowSOC"));
-                        LowSoc=intent.getStringExtra("lowSOC");
-                        txtLowSoc.setText(LowSoc);
-                    }else if(intent.getStringExtra("btrySOH")!=null) {
-                        Log.d("speeedddd", intent.getStringExtra("btrySOH"));
-                        batterysoh=intent.getStringExtra("btrySOH");
-                        txtbatterysoh.setText(batterysoh);
-                    }else if(intent.getStringExtra("rightIND")!=null) {
-                        Log.d("speeedddd", intent.getStringExtra("rightIND"));
-                        right=intent.getStringExtra("rightIND");
-                        rightstr.setText(right);
-                    }else if(intent.getStringExtra("leftIND")!=null) {
-                        Log.d("speeedddd", intent.getStringExtra("leftIND"));
-                        left=intent.getStringExtra("leftIND");
-                        leftstr.setText(left);
-                    }else if(intent.getStringExtra("hzrd")!=null) {
-                        Log.d("speeedddd", intent.getStringExtra("hzrd"));
-                        hazard=intent.getStringExtra("hzrd");
-                        hazardstr.setText(hazard);
-                    }else if(intent.getStringExtra("error")!=null) {
-                        Log.d("speeedddd", intent.getStringExtra("error"));
-                        error=intent.getStringExtra("error");
-                        errorstr.setText(error);
-                    }else if(intent.getStringExtra("regen")!=null) {
-                        Log.d("speeedddd", intent.getStringExtra("regen"));
-                        regen=intent.getStringExtra("regen");
-                        regenstr.setText(regen);
-                    }else if(intent.getStringExtra("abs")!=null) {
-                        Log.d("speeedddd", intent.getStringExtra("abs"));
-                        abs=intent.getStringExtra("abs");
-                        abs_str.setText(abs);
-                    }*/
-
-
-
-
-
-
-                    /*try {
-                        JSONObject jsonObject = new JSONObject(message);
-                        txtspeed.setText(jsonObject.getString("speed"));
-                        txtdistance.setText(jsonObject.getString("distance"));
-                        txtodo.setText(jsonObject.getString("odometer"));
-                        txtvehiclechrg.setText(jsonObject.getString("vhlchrg"));
-                        txtchrgtym.setText(jsonObject.getString("chrgtym"));
-                        txtsoc.setText(jsonObject.getString("soc"));
-                        txtLowSoc.setText(jsonObject.getString("lowSOC"));
-                        txtbatterysoh.setText(jsonObject.getString("btrySOH"));
-                        rightstr.setText(jsonObject.getString("rightIND"));
-                        leftstr.setText(jsonObject.getString("leftIND"));
-                        hazardstr.setText(jsonObject.getString("hzrd"));
-                        errorstr.setText(jsonObject.getString("error"));
-                        regenstr.setText(jsonObject.getString("regen"));
-                        abs_str.setText(jsonObject.getString("abs"));
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }*/
                 }
             }
         }
+    }
+
+    public class UploadData extends AsyncTask<String,String,String>{
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected String doInBackground(String... voids) {
+            obdData="ON|SEQ_PHASED|PHASED|"+ vehicleErrorIndication +"|[1126;0;0;0;0;0]|"+ rideMode +"|1095|29.000|"+ vehicleCharge +"|"+ regenerationActive +"|2.334|0|0|19.938|36|102.719|86.938|"+ vehicleRange +
+                    "|312|0.513|0.160|0.160|0.547|1.000|0.000|[41;0;0;0;0;0]|[0.000;0;0;0;0;0]|12.930|5.676|"+ vehicleChargingTime +"|0.505|6.383|2.364|6.562|-1.000|0.000|36.719|0.938|2.404|"
+                    + reverseMode +"|0.000|"+ stateOfCharge +"|"+ speedometer +"|-3.100|12420.60|"+ batterySOH +"|8.00|12.95|[0;0;0;0;0;0;0;0;0]|0.00|1.00|"+absEvent+"|1.00|0.00|0.00|0.00|0.00|0.00|0.00|0.00|0.00|0.00|"+ vehicleOdometer;
+
+            content = "{\"payload\":\"$,RE-CONNECT,506.6,4.4,V9.4,"+packetType+","+alertId+","+packetStatus+",660906045499651,1," +
+                    ""+date+","+time+","+latitude+","+latitudeDir+","+longitude+","+longitudeDir+",0.0,0,0,0,0.0,0.0,airtel,"+ignitionStatus+",12.31,"+gsmSignalStrength+
+                    ",1,"+frameNumber+",0,"+obdData+",,P0030,ME3J3A5FBM2005446,"+tripId+",M4A,*4e\"}";
+
+            Log.d("string_val",content);
+
+            return content;
+        }
+
+        @Override
+        protected void onPostExecute(String contentVal) {
+            super.onPostExecute(contentVal);
+            try {
+                MqttClient client = new MqttClient(broker, clientid, new MemoryPersistence());
+                MqttConnectOptions options = new MqttConnectOptions();
+                options.setUserName(username);
+                options.setPassword(password.toCharArray());
+                options.setConnectionTimeout(60);
+                options.setKeepAliveInterval(60);
+                // connect
+                client.connect(options);
+                // create message and setup QoS
+                MqttMessage message = new MqttMessage(contentVal.getBytes());
+                message.setQos(qos);
+                // publish message
+                client.publish(topic, message);
+                System.out.println("Message published");
+                System.out.println("topic: " + topic);
+                System.out.println("message content: " + contentVal);
+                // disconnect
+                client.disconnect();
+                // close client
+                client.close();
+            }
+            catch (MqttException e){
+                e.printStackTrace();
+            }
+        }
+
     }
 }

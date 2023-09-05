@@ -1,0 +1,481 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <com.royalenfield.recieverapp.SpeedoMeterView
+        android:id="@+id/speedometerview"
+        android:layout_width="900px"
+        android:layout_height="900px"
+        android:layout_margin="2dp"
+        android:background="@color/background"
+        android:backgroundTint="@color/background"
+        android:rotation="10"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+
+        />
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="800px"
+        android:layout_height="800px"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="@+id/speedometerview"
+        app:layout_constraintEnd_toEndOf="@+id/speedometerview"
+        app:layout_constraintStart_toStartOf="@+id/speedometerview"
+        app:layout_constraintTop_toTopOf="@+id/speedometerview">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:background="@drawable/bg5"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="42dp"
+                android:background="@drawable/circle"
+                android:backgroundTint="@color/background">
+
+                <!-- <soup.neumorphism.NeumorphCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="42dp"
+                    app:neumorph_backgroundColor="#1B1E20"
+                    app:neumorph_shadowColorDark="@color/card_bg"
+                    app:neumorph_shadowColorLight="@color/quantum_grey"
+                    app:neumorph_shadowElevation="4dp"
+
+                    app:neumorph_shapeType="basin"
+                    app:neumorph_strokeColor="@color/border_card_view"
+                    app:neumorph_strokeWidth="4dp">-->
+
+                <com.royalenfield.recieverapp.LandscapeProgressWidget
+                    android:id="@+id/landscapeProgressWidget"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical"
+                    android:layout_margin="3dp"
+                    android:visibility="invisible"
+                    app:ec_arc_progress_color="#fff"
+                    app:ec_vb_progress="0"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_marginStart="25dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="20dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/landscapeProgressWidget"
+                    app:layout_constraintEnd_toEndOf="@+id/landscapeProgressWidget"
+                    app:layout_constraintHorizontal_bias="0.064"
+                    app:layout_constraintStart_toStartOf="@+id/landscapeProgressWidget"
+                    app:layout_constraintTop_toTopOf="@+id/landscapeProgressWidget"
+                    app:layout_constraintVertical_bias="0.0"
+                    app:srcCompat="@drawable/power" />
+
+                <ImageView
+                    android:id="@+id/powerON"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_marginStart="25dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="20dp"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="@+id/landscapeProgressWidget"
+                    app:layout_constraintEnd_toEndOf="@+id/landscapeProgressWidget"
+                    app:layout_constraintHorizontal_bias="0.064"
+                    app:layout_constraintStart_toStartOf="@+id/landscapeProgressWidget"
+                    app:layout_constraintTop_toTopOf="@+id/landscapeProgressWidget"
+                    app:layout_constraintVertical_bias="0.0"
+                    app:srcCompat="@drawable/power_on" />
+
+                <ImageView
+                    android:id="@+id/imageView2"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_marginStart="10dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/landscapeProgressWidget"
+                    app:layout_constraintEnd_toEndOf="@+id/landscapeProgressWidget"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="@+id/landscapeProgressWidget"
+                    app:layout_constraintTop_toTopOf="@+id/landscapeProgressWidget"
+                    app:layout_constraintVertical_bias="0.272"
+                    app:srcCompat="@drawable/hazard" />
+
+
+                <ImageView
+                    android:id="@+id/hazard_ON"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="@+id/landscapeProgressWidget"
+                    app:layout_constraintEnd_toEndOf="@+id/landscapeProgressWidget"
+                    app:layout_constraintHorizontal_bias="0.055"
+                    app:layout_constraintStart_toStartOf="@+id/landscapeProgressWidget"
+                    app:layout_constraintTop_toTopOf="@+id/landscapeProgressWidget"
+                    app:layout_constraintVertical_bias="0.272"
+                    app:srcCompat="@drawable/hazard_on" />
+
+                <ImageView
+                    android:id="@+id/imageView3"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_marginStart="2dp"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginEnd="5dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/landscapeProgressWidget"
+                    app:layout_constraintEnd_toEndOf="@+id/landscapeProgressWidget"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="@+id/landscapeProgressWidget"
+                    app:layout_constraintTop_toTopOf="@+id/landscapeProgressWidget"
+                    app:layout_constraintVertical_bias="0.446"
+                    app:srcCompat="@drawable/dtc" />
+
+                <ImageView
+                    android:id="@+id/dtcON"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_marginStart="2dp"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginEnd="5dp"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="@+id/landscapeProgressWidget"
+                    app:layout_constraintEnd_toEndOf="@+id/landscapeProgressWidget"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="@+id/landscapeProgressWidget"
+                    app:layout_constraintTop_toTopOf="@+id/landscapeProgressWidget"
+                    app:layout_constraintVertical_bias="0.468"
+                    app:srcCompat="@drawable/dtc_on" />
+
+                <ImageView
+                    android:id="@+id/imageView4"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="3dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/landscapeProgressWidget"
+                    app:layout_constraintEnd_toEndOf="@+id/landscapeProgressWidget"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="@+id/landscapeProgressWidget"
+
+                    app:layout_constraintTop_toTopOf="@+id/landscapeProgressWidget"
+                    app:layout_constraintVertical_bias="0.627"
+                    app:srcCompat="@drawable/high_beam" />
+
+                <ImageView
+                    android:id="@+id/imageView5"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_marginStart="20dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/landscapeProgressWidget"
+                    app:layout_constraintEnd_toEndOf="@+id/landscapeProgressWidget"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="@+id/landscapeProgressWidget"
+                    app:layout_constraintTop_toTopOf="@+id/landscapeProgressWidget"
+                    app:layout_constraintVertical_bias="0.8"
+                    app:srcCompat="@drawable/abs" />
+
+                <ImageView
+                    android:id="@+id/absON"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_marginStart="20dp"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="@+id/landscapeProgressWidget"
+                    app:layout_constraintEnd_toEndOf="@+id/landscapeProgressWidget"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="@+id/landscapeProgressWidget"
+                    app:layout_constraintTop_toTopOf="@+id/landscapeProgressWidget"
+                    app:layout_constraintVertical_bias="0.788"
+                    app:srcCompat="@drawable/abs_on" />
+
+                <ImageView
+                    android:id="@+id/imageView6"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginStart="30dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/landscapeProgressWidget"
+                    app:layout_constraintEnd_toEndOf="@+id/landscapeProgressWidget"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="@+id/landscapeProgressWidget"
+                    app:layout_constraintTop_toBottomOf="@+id/imageView5"
+                    app:srcCompat="@drawable/left" />
+
+                <ImageView
+                    android:id="@+id/left_on"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginStart="30dp"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="@+id/landscapeProgressWidget"
+                    app:layout_constraintEnd_toEndOf="@+id/landscapeProgressWidget"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="@+id/landscapeProgressWidget"
+                    app:layout_constraintTop_toBottomOf="@+id/imageView5"
+                    app:srcCompat="@drawable/left_on" />
+
+                <ImageView
+                    android:id="@+id/imageView7"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginEnd="28dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/imageView6"
+                    app:layout_constraintEnd_toEndOf="@+id/landscapeProgressWidget"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toStartOf="@+id/landscapeProgressWidget"
+                    app:layout_constraintTop_toTopOf="@+id/imageView6"
+                    app:srcCompat="@drawable/right" />
+                <ImageView
+                    android:id="@+id/right_on"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginEnd="28dp"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="@+id/imageView6"
+                    app:layout_constraintEnd_toEndOf="@+id/landscapeProgressWidget"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toStartOf="@+id/landscapeProgressWidget"
+                    app:layout_constraintTop_toTopOf="@+id/imageView6"
+                    app:srcCompat="@drawable/right_on" />
+
+                <ImageView
+                    android:id="@+id/imageView8"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_marginEnd="5dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/landscapeProgressWidget"
+                    app:layout_constraintEnd_toEndOf="@+id/landscapeProgressWidget"
+                    app:layout_constraintHorizontal_bias="0.965"
+                    app:layout_constraintStart_toStartOf="@+id/landscapeProgressWidget"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.846"
+                    app:srcCompat="@drawable/charge" />
+
+                <ImageView
+                    android:id="@+id/chargeON"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_marginEnd="5dp"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="@+id/landscapeProgressWidget"
+                    app:layout_constraintEnd_toEndOf="@+id/landscapeProgressWidget"
+                    app:layout_constraintHorizontal_bias="0.965"
+                    app:layout_constraintStart_toStartOf="@+id/landscapeProgressWidget"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.846"
+                    app:srcCompat="@drawable/charge_on" />
+
+                <ImageView
+                    android:id="@+id/imageView9"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:scaleType="centerCrop"
+                    app:layout_constraintBottom_toBottomOf="@+id/landscapeProgressWidget"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.896"
+                    app:layout_constraintStart_toStartOf="@+id/landscapeProgressWidget"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.147"
+                    app:srcCompat="@drawable/soc" />
+
+
+                <ImageView
+                    android:id="@+id/lowsocON"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:scaleType="centerCrop"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="@+id/landscapeProgressWidget"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.896"
+                    app:layout_constraintStart_toStartOf="@+id/landscapeProgressWidget"
+                    app:layout_constraintTop_toTopOf="@+id/landscapeProgressWidget"
+                    app:layout_constraintVertical_bias="0.133"
+                    app:srcCompat="@drawable/soc_low" />
+
+                <TextView
+                    android:id="@+id/speed"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:fontFamily="@font/audiowide"
+                    android:text="82"
+                    android:textColor="@color/white"
+                    android:textSize="35sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/landscapeProgressWidget"
+                    app:layout_constraintEnd_toEndOf="@+id/landscapeProgressWidget"
+                    app:layout_constraintStart_toStartOf="@+id/landscapeProgressWidget"
+                    app:layout_constraintTop_toTopOf="@+id/landscapeProgressWidget"
+                    app:layout_constraintVertical_bias="0.0" />
+
+                <TextView
+                    android:id="@+id/speedTxt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/audiowide"
+                    android:text="km/h"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    app:layout_constraintEnd_toEndOf="@+id/speed"
+                    app:layout_constraintStart_toStartOf="@+id/speed"
+                    app:layout_constraintTop_toBottomOf="@+id/speed" />
+
+                <SeekBar
+                    android:id="@+id/seekBar"
+                    android:layout_width="150dp"
+                    android:layout_height="20dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="4dp"
+                    android:padding="20dp"
+                    android:progress="0"
+                    android:progressDrawable="@drawable/custom_seekbar"
+                    android:thumb="@drawable/bike"
+                    app:layout_constraintEnd_toEndOf="@+id/speedTxt"
+                    app:layout_constraintHorizontal_bias="0.426"
+                    app:layout_constraintStart_toStartOf="@+id/speedTxt"
+                    app:layout_constraintTop_toBottomOf="@+id/speedTxt" />
+
+                <TextView
+                    android:id="@+id/rangeTxt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/audiowide"
+                    android:text="150 km"
+                    android:textColor="@color/white"
+                    android:textSize="8sp"
+                    app:layout_constraintEnd_toEndOf="@+id/seekBar"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toStartOf="@+id/seekBar"
+                    app:layout_constraintTop_toBottomOf="@+id/seekBar" />
+
+                <com.robinhood.ticker.TickerView
+                    android:id="@+id/odoMeter"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/audiowide"
+                    android:gravity="end"
+                    android:textColor="@color/white"
+                    android:visibility="visible"
+                    app:layout_constraintBottom_toBottomOf="@+id/landscapeProgressWidget"
+                    app:layout_constraintEnd_toEndOf="@+id/seekBar"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="@+id/seekBar"
+                    app:layout_constraintTop_toBottomOf="@+id/rangeTxt"
+                    app:layout_constraintVertical_bias="0.108"
+                    app:ticker_animationDuration="1500" />
+
+                <TextView
+                    android:id="@+id/odoTxt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:fontFamily="@font/audiowide"
+                    android:text="km"
+                    android:textColor="@color/white"
+                    android:textSize="8sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/odoMeter"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toEndOf="@+id/odoMeter"
+                    app:layout_constraintTop_toTopOf="@+id/odoMeter"
+                    app:layout_constraintVertical_bias="0.49" />
+
+
+                <soup.neumorphism.NeumorphCardView
+                    android:id="@+id/rlByDrive"
+                    android:layout_width="80dp"
+                    android:layout_height="45dp"
+
+                    android:layout_marginTop="10dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/landscapeProgressWidget"
+                    app:layout_constraintHorizontal_bias="0.496"
+                    app:layout_constraintStart_toStartOf="@+id/landscapeProgressWidget"
+                    app:layout_constraintTop_toTopOf="@+id/landscapeProgressWidget"
+                    app:layout_constraintVertical_bias="1.0"
+                    app:neumorph_backgroundColor="#1B1E20"
+                    app:neumorph_shadowColorDark="#26A52C"
+                    app:neumorph_shadowColorLight="#26A52C"
+                    app:neumorph_shadowElevation="1.5dp"
+                    app:neumorph_shapeType="pressed"
+                    app:neumorph_strokeColor="#26A52C"
+                    app:neumorph_strokeWidth="1.5dp">
+
+                    <TextView
+                        android:id="@+id/txtmodes"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_gravity="center"
+                        android:text="Eco"
+                        android:textAlignment="center"
+                        android:textColor="@android:color/white"
+                        android:textSize="13sp">
+
+                    </TextView>
+                </soup.neumorphism.NeumorphCardView>
+
+
+                <!--</soup.neumorphism.NeumorphCardView>-->
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            <com.royalenfield.recieverapp.LandscapeProgressWidgetCharging
+                android:id="@+id/landscapeProgressWidgetCharging"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:layout_margin="20dp"
+                app:ec_arc_progress_color="#fff"
+                app:ec_vb_progress="0"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <TextView
+                android:id="@+id/chargePercent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="30dp"
+                android:layout_marginBottom="5dp"
+                android:padding="5dp"
+                android:rotation="39"
+                android:text="90%"
+                android:textColor="@color/white"
+                android:textSize="16dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/landscapeProgressWidgetCharging"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="@+id/landscapeProgressWidgetCharging"
+                app:layout_constraintTop_toTopOf="@+id/landscapeProgressWidgetCharging"
+                app:layout_constraintVertical_bias="0.0" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
