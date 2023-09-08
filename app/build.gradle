@@ -11,10 +11,10 @@ android {
 
     defaultConfig {
         applicationId "com.royalenfield.recieverapp"
-        minSdk 24
+        minSdk 26
         targetSdk 33
         versionCode 1
-        versionName "1.6"
+        versionName "1.7"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -45,5 +45,11 @@ dependencies {
     implementation 'com.robinhood.ticker:ticker:2.0.4'
     implementation 'com.github.Borutsky:neumorphism-android:1.0.0-alpha01'
     implementation 'com.github.fornewid:neumorphism:0.3.0'
+    implementation 'com.github.bumptech.glide:glide:4.16.0'
+
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
+    implementation ("com.shimaami.android:progressview:1.0.1") {
+        exclude module: "appcompat-v7"
+    }
 
 }
