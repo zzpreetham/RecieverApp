@@ -1,4 +1,4 @@
-package com.royalenfield.recieverapp;
+package com.royalenfield.recieverapp.speedometerView;
 
 import android.animation.Animator;
 import android.animation.ValueAnimator;
@@ -28,6 +28,8 @@ import android.view.animation.DecelerateInterpolator;
 import androidx.annotation.ColorInt;
 import androidx.annotation.DrawableRes;
 import androidx.core.content.ContextCompat;
+
+import com.royalenfield.recieverapp.R;
 
 import java.util.Random;
 
@@ -333,27 +335,27 @@ public class SpeedoMeterView extends View {
 
     public void setSpeed(int speed, boolean wantmaintainspeed){
         speed = (speed > 140) ? 140 : (speed < 0) ? 0 : speed;
-        if (speed == this.speed)
+        Log.d("speed_val",speed+"");
+        /*if(this.speed == speed) {
             return;
-        this.speed = speed;
-
-
-
-        isSpeedIncrease = speed > currentSpeed;
-
-        cancelSpeedAnimator();
-        speedAnimator = ValueAnimator.ofFloat(currentSpeed, speed);
-        speedAnimator.setInterpolator(new DecelerateInterpolator());
-        speedAnimator.setDuration(2000);
-        speedAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                currentSpeed = (float) speedAnimator.getAnimatedValue();
-                postInvalidate();
-            }
-        });
-        speedAnimator.addListener(animatorListener);
-        speedAnimator.start();
+        }*/
+        /*if (speed == this.speed) {*/
+            //cancelSpeedAnimator();
+            this.speed = speed;
+            isSpeedIncrease = speed > currentSpeed;
+            cancelSpeedAnimator();
+            speedAnimator = ValueAnimator.ofFloat(currentSpeed, speed);
+            speedAnimator.setInterpolator(new DecelerateInterpolator());
+            speedAnimator.setDuration(10);
+            speedAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                @Override
+                public void onAnimationUpdate(ValueAnimator animation) {
+                    currentSpeed = (float) speedAnimator.getAnimatedValue();
+                    postInvalidate();
+                }
+            });
+            speedAnimator.addListener(animatorListener);
+            speedAnimator.start();
     }
     protected void cancelSpeedAnimator() {
         cancelSpeedMove();

@@ -1,4 +1,4 @@
-package com.royalenfield.recieverapp;
+package com.royalenfield.recieverapp.progressView;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -11,12 +11,14 @@ import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.view.View;
 
+import com.royalenfield.recieverapp.R;
+
 /**
  * Created by Agiliz on 5/24/2016.
  */
-public class LandscapeProgressWidgetCharging extends View {
+public class LandscapeProgressWidget extends View {
     private int progressColor;
-    private int percent = 90;
+    private int percent = 70;
     private int radiusOuter = 110, radiusInner = 115;
     private Paint mPaintOuter;
     private Paint mPaintPercent;
@@ -31,12 +33,12 @@ public class LandscapeProgressWidgetCharging extends View {
     private int lineWidth, lineSpace;
     private float strokeWidth;
 
-    public LandscapeProgressWidgetCharging(Context context) {
+    public LandscapeProgressWidget(Context context) {
         super(context);
         initialization();
     }
 
-    public LandscapeProgressWidgetCharging(Context context, AttributeSet attrs) {
+    public LandscapeProgressWidget(Context context, AttributeSet attrs) {
         super(context, attrs);
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.ec_arc_progress);
         progressColor = a.getColor(R.styleable.ec_arc_progress_ec_arc_progress_color, Color.CYAN);
@@ -45,20 +47,20 @@ public class LandscapeProgressWidgetCharging extends View {
         initialization();
     }
 
-    public LandscapeProgressWidgetCharging(Context context, AttributeSet attrs, int defStyleAttr) {
+    public LandscapeProgressWidget(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         initialization();
     }
 
     private void initialization() {
 
-        strokeWidth = 35;
+        strokeWidth = 22;
         this.lineWidth = getSizeInPixels(10, getContext());
         this.lineSpace = getSizeInPixels(2, getContext());
 
         mPaintOuter = new Paint(Paint.ANTI_ALIAS_FLAG);
         mPaintOuter.setAntiAlias(true);
-        mPaintOuter.setColor(Color.DKGRAY);
+        mPaintOuter.setColor(Color.GRAY);
         mPaintOuter.setStrokeWidth(strokeWidth);
         mPaintOuter.setStyle(Paint.Style.STROKE);
         mPaintOuter.setPathEffect(new DashPathEffect(new float[]{lineWidth, lineSpace}, 0));
@@ -117,9 +119,9 @@ public class LandscapeProgressWidgetCharging extends View {
 
         //canvas.drawCircle(mCenterX, mCenterY, radiusOuter, mPaintOuter);
         //canvas.drawArc(mCenterX - radiusOuter, mCenterY - radiusOuter, mCenterX + radiusOuter, mCenterY + radiusOuter,105, 240, true, mPaintOuter );
-        canvas.drawArc(new RectF(mCenterX - radiusOuter, mCenterY - radiusOuter, mCenterX + radiusOuter, mCenterY + radiusOuter), 320, 85, false, mPaintOuter);
+        canvas.drawArc(new RectF(mCenterX - radiusOuter, mCenterY - radiusOuter, mCenterX + radiusOuter, mCenterY + radiusOuter), 135, 140, false, mPaintOuter);
         if(percent > 0)
-            canvas.drawArc(new RectF(mCenterX - radiusOuter, mCenterY - radiusOuter, mCenterX + radiusOuter, mCenterY + radiusOuter), 45, - percent*0.85f, false, mPaintPercent);
+            canvas.drawArc(new RectF(mCenterX - radiusOuter, mCenterY - radiusOuter, mCenterX + radiusOuter, mCenterY + radiusOuter), 140, percent*2.6f, false, mPaintPercent);
     }
 
     public void drawPercentageText(Canvas canvas) {
