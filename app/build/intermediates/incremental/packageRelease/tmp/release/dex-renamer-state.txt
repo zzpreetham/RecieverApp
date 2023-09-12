@@ -1,0 +1,4 @@
+#Thu Sep 07 19:06:48 IST 2023
+base.0=/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/recieverapp/app/build/intermediates/dex/release/mergeDexRelease/classes.dex
+renamed.0=classes.dex
+path.0=classes.dex

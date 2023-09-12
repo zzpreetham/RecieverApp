@@ -2,19 +2,26 @@ package com.royalenfield.recieverapp.activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
 
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.util.EventLogTags;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -22,12 +29,14 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.progress.progressview.ProgressView;
 import com.robinhood.ticker.TickerUtils;
 import com.robinhood.ticker.TickerView;
 import com.royalenfield.recieverapp.R;
+import com.royalenfield.recieverapp.database.DBHandler;
 import com.royalenfield.recieverapp.liveDataModel.ABSModel;
 import com.royalenfield.recieverapp.liveDataModel.BatterySOHModel;
 import com.royalenfield.recieverapp.liveDataModel.ChargingStatusModel;
@@ -64,8 +73,12 @@ public class MainActivity extends AppCompatActivity {
     SpeedoMeterView speedoMeterView;
     SeekBar seekBar;
     LandscapeProgressWidgetCharging chargingbar;
+    LandscapeProgressWidgetCharging chargingbarBattery;
 
     TextView txtvehiclechrg;
+    TextView txtvehiclechrgBattery;
+    TextView txtvehiclechrgTime;
+    TextView txtvehiclechrgPercent;
     TextView txtchrgtym;
     TextView txtsoc;
     TextView txtLowSoc;
@@ -77,6 +90,7 @@ public class MainActivity extends AppCompatActivity {
     ImageView regenstr;
     ImageView abs_str;
     ImageView vehicle_charge;
+    ImageView vehicle_chargeBat;
 
     public static String LowSoc, right, left, hazard;
 
@@ -94,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
 
     String vehicleErrorIndication="ON", rideMode="Sports", vehicleCharge="Complete", regenerationActive="ON", vehicleRange="120", vehicleChargingTime="300",
             reverseMode="ON", stateOfCharge="100", speedometer="80", batterySOH="85",absEvent="0", vehicleOdometer="1520";
-    private  boolean dataReceived = false;
+    public static boolean dataReceived = false;
 
     public static SpeedModel speedModel;
     public static DistanceModel distanceModel;
@@ -114,6 +128,12 @@ public class MainActivity extends AppCompatActivity {
     public static ReverseModeModel reverseModeModel;
     private ProgressView mProgressView;
     int[] colorList = new int[0];
+    private boolean charging = false;
+
+    ConstraintLayout linearLayout_cluster;
+    ConstraintLayout linearLayoutbat;
+    DBHandler dbHandler;
+
 
 
     @Override
@@ -129,6 +149,8 @@ public class MainActivity extends AppCompatActivity {
         int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION |View.SYSTEM_UI_FLAG_FULLSCREEN;
         decorView.setSystemUiVisibility(uiOptions);
         dataReceived = false;
+        charging = false;
+        dbHandler = new DBHandler(MainActivity.this);
 
 
         txtspeed = findViewById(R.id.speed);
@@ -138,6 +160,9 @@ public class MainActivity extends AppCompatActivity {
         seekBar=findViewById(R.id.seekBar);
         txtmodes=findViewById(R.id.txtmodes);
         txtvehiclechrg=findViewById(R.id.chargePercent);
+        txtvehiclechrgBattery=findViewById(R.id.chargePercentbat);
+        txtvehiclechrgTime=findViewById(R.id.charging_time);
+        txtvehiclechrgPercent=findViewById(R.id.battery_percent);
         rightstr=findViewById(R.id.right_ind);
         leftstr=findViewById(R.id.left_ind);
         hazardstr=findViewById(R.id.vehicle_hazard);
@@ -145,25 +170,28 @@ public class MainActivity extends AppCompatActivity {
         regenstr=findViewById(R.id.vehicle_regen);
         abs_str=findViewById(R.id.vehicle_abs);
         vehicle_charge=findViewById(R.id.vehicle_charge);
+        vehicle_chargeBat=findViewById(R.id.imageView8);
         chargingbar=findViewById(R.id.landscapeProgressWidgetCharging);
+        chargingbarBattery=findViewById(R.id.landscapeProgressWidgetChargingbat);
         mProgressView = findViewById(R.id.gradiant_progress);
+        linearLayout_cluster = findViewById(R.id.linearLayout_cluster);
+        linearLayoutbat = findViewById(R.id.linearLayoutbat);
 
         txtodo.setCharacterLists(TickerUtils.provideNumberList());
         txtodo.setPreferredScrollingDirection(TickerView.ScrollingDirection.DOWN);
 
-        /*new CountDownTimer(10000, 1000) {
+        new CountDownTimer(10000, 2000) {
             @Override
             public void onTick(long l) {
-                if(dataReceived) {
+                /*if(dataReceived) {
                     new UploadData().execute();
-                }
+                }*/
             }
-
             @Override
             public void onFinish() {
                 start();
             }
-        }.start();*/
+        }.start();
         startService(new Intent(MainActivity.this, ClusterService.class));
 
         speedModel= new ViewModelProvider(this).get(SpeedModel.class);
@@ -220,17 +248,33 @@ public class MainActivity extends AppCompatActivity {
             vehicle_charge.setVisibility(View.VISIBLE);
             if (vehicleCharge.equalsIgnoreCase("DISABLED")) {
                 Glide.with(getApplicationContext()).load(R.drawable.charge).into(vehicle_charge);
+                charging = false;
+                linearLayout_cluster.setVisibility(View.VISIBLE);
+                linearLayoutbat.setVisibility(View.GONE);
+                speedoMeterView.setVisibility(View.VISIBLE);
             } else if (vehicleCharge.equalsIgnoreCase("STATIC")) {
                 Glide.with(getApplicationContext()).load(R.drawable.charge_error).into(vehicle_charge);
+                charging = false;
             } else if (vehicleCharge.equalsIgnoreCase("FREQ")) {
                 Glide.with(getApplicationContext()).load(R.drawable.charge_on).into(vehicle_charge);
+                Glide.with(getApplicationContext()).load(R.drawable.charge_on).into(vehicle_chargeBat);
+                charging = true;
+                linearLayout_cluster.setVisibility(View.GONE);
+                linearLayoutbat.setVisibility(View.VISIBLE);
+                speedoMeterView.setVisibility(View.GONE);
             } else if (vehicleCharge.equalsIgnoreCase("OUTPUT")) {
                 Glide.with(getApplicationContext()).load(R.drawable.charge_complete).into(vehicle_charge);
+                Glide.with(getApplicationContext()).load(R.drawable.charge_complete).into(vehicle_chargeBat);
+                charging = true;
+                linearLayout_cluster.setVisibility(View.GONE);
+                linearLayoutbat.setVisibility(View.VISIBLE);
+                speedoMeterView.setVisibility(View.GONE);
             }
         });
 
         chargingTimeModel.getData().observe(this,newData->{
             vehicleChargingTime = newData;
+            txtvehiclechrgTime.setText(getTotalTime(Integer.parseInt(vehicleChargingTime)));
         });
 
         socModel.getData().observe(this,newData->{
@@ -239,8 +283,14 @@ public class MainActivity extends AppCompatActivity {
             if (stateOfCharge.equalsIgnoreCase("0")){
             }
             else {
-                txtvehiclechrg.setText(stateOfCharge+"%");
-                chargingbar.setPercentage(Integer.parseInt(stateOfCharge));
+                if(!charging) {
+                    txtvehiclechrg.setText(stateOfCharge + "%");
+                    chargingbar.setPercentage(Integer.parseInt(stateOfCharge));
+                }
+                else{
+                    txtvehiclechrgBattery.setText(stateOfCharge + "%");
+                    chargingbarBattery.setPercentage(Integer.parseInt(stateOfCharge));
+                }
             }
         });
 
@@ -250,6 +300,7 @@ public class MainActivity extends AppCompatActivity {
 
         batterySOHModel.getData().observe(this,newData->{
             batterySOH = newData;
+            txtvehiclechrgPercent.setText(batterySOH + "%");
         });
         rightTTLModel.getData().observe(this,newData->{
             right = newData;
@@ -323,6 +374,19 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    public static String getTotalTime(int time) {
+        int hour = time / 3600;
+        int minu = (time % 3600) / 60;
+        int sec = time % 60;
+        String str = "";
+        if (hour == 0) {
+            str = String.format("%02d:%02d", minu, sec);
+        } else {/*  w ww  .j  av  a2s  .c om*/
+            str = String.format("%02d:%02d:%02d", hour, minu, sec);
+        }
+        return str;
+    }
+
     public class UploadData extends AsyncTask<String,String,String>{
 
         @Override
@@ -332,15 +396,28 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected String doInBackground(String... voids) {
-            obdData="ON|SEQ_PHASED|PHASED|"+ vehicleErrorIndication +"|[1126;0;0;0;0;0]|"+ rideMode +"|1095|29.000|"+ vehicleCharge +"|"+ regenerationActive +"|2.334|0|0|19.938|36|102.719|86.938|"+ vehicleRange +
+           /* obdData="ON|SEQ_PHASED|PHASED|"+ vehicleErrorIndication +"|[1126;0;0;0;0;0]|"+ rideMode +"|1095|29.000|"+ vehicleCharge +"|"+ regenerationActive +"|2.334|0|0|19.938|36|102.719|86.938|"+ vehicleRange +
                     "|312|0.513|0.160|0.160|0.547|1.000|0.000|[41;0;0;0;0;0]|[0.000;0;0;0;0;0]|12.930|5.676|"+ vehicleChargingTime +"|0.505|6.383|2.364|6.562|-1.000|0.000|36.719|0.938|2.404|"
                     + reverseMode +"|0.000|"+ stateOfCharge +"|"+ speedometer +"|-3.100|12420.60|"+ batterySOH +"|8.00|12.95|[0;0;0;0;0;0;0;0;0]|0.00|1.00|"+absEvent+"|1.00|0.00|0.00|0.00|0.00|0.00|0.00|0.00|0.00|0.00|"+ vehicleOdometer;
+            */
+
+            obdData="ON|SEQ_PHASED|PHASED|"+ vehicleErrorIndication +"|[1126;0;0;0;0;0]|"+ rideMode +"|1095|29.000|"+ vehicleCharge +"|"+ regenerationActive +"|2.334|0|0|19.938|36|102.719|86.938|"+ vehicleRange +
+                    "|312|0.513|0.160|0.160|0.547|1.000|0.000|[41;0;0;0;0;0]|[0.000;0;0;0;0;0]|12.930|5.676|"+ vehicleChargingTime +"|0.505|6.383|2.364|6.562|-1.000|0.000|36.719|0.938|2.404|"
+                    + reverseMode +"|0.000|"+ stateOfCharge +"|"+ speedometer +"|-3.100|12420.60|"+ batterySOH +"|8.00|12.95|[0;0;0;0;0;0;0;0;0]|0.00|1.00|"+absEvent+"|1.00|0.00|0.00|0.00|0.00|0.00|"+ vehicleOdometer;
 
             content = "{\"payload\":\"$,RE-CONNECT,506.6,4.4,V9.4,"+packetType+","+alertId+","+packetStatus+",660906045499651,1," +
                     ""+date+","+time+","+latitude+","+latitudeDir+","+longitude+","+longitudeDir+",0.0,0,0,0,0.0,0.0,airtel,"+ignitionStatus+",12.31,"+gsmSignalStrength+
                     ",1,"+frameNumber+",0,"+obdData+",,P0030,ME3J3A5FBM2005446,"+tripId+",M4A,*4e\"}";
 
             Log.d("string_val",content);
+
+            ConnectivityManager conMgr =  (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo netInfo = conMgr.getActiveNetworkInfo();
+            if (netInfo == null){
+                save_mqtt_records(content,"0",String.valueOf(System.currentTimeMillis()));
+            }else{
+                save_mqtt_records(content,"1",String.valueOf(System.currentTimeMillis()));
+            }
 
             return content;
         }
@@ -374,6 +451,14 @@ public class MainActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
+
+    }
+
+    public void save_mqtt_records(String rawData,String uploadStatus,String timestamp){
+        dbHandler.addNewCourse(rawData, uploadStatus, timestamp);
+    }
+
+    public void getMqttData(){
 
     }
 }

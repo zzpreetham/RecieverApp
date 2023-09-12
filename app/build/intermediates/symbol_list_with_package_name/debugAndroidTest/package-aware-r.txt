@@ -1,0 +1,3 @@
+com.royalenfield.recieverapp.test
+style WhiteBackgroundDialogTheme
+style WhiteBackgroundTheme

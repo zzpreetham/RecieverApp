@@ -89,7 +89,7 @@ public class ClusterService extends Service{
                             MainActivity.reverseModeModel.updateData(jsonObject.getString("data"));
                         }
 
-                        //dataReceived = true;
+                        MainActivity.dataReceived = true;
 
                     } catch (Exception e) {
                         e.printStackTrace();

@@ -1,0 +1,138 @@
+[
+    {
+        "merged": "com.royalenfield.recieverapp-merged_res-33:/drawable_charge_error.xml.flat",
+        "source": "com.royalenfield.recieverapp-main-34:/drawable/charge_error.xml"
+    },
+    {
+        "merged": "com.royalenfield.recieverapp-merged_res-33:/drawable_left.xml.flat",
+        "source": "com.royalenfield.recieverapp-main-34:/drawable/left.xml"
+    },
+    {
+        "merged": "com.royalenfield.recieverapp-merged_res-33:/drawable_right.xml.flat",
+        "source": "com.royalenfield.recieverapp-main-34:/drawable/right.xml"
+    },
+    {
+        "merged": "com.royalenfield.recieverapp-merged_res-33:/drawable_charge_on.xml.flat",
+        "source": "com.royalenfield.recieverapp-main-34:/drawable/charge_on.xml"
+    },
+    {
+        "merged": "com.royalenfield.recieverapp-merged_res-33:/xml_backup_rules.xml.flat",
+        "source": "com.royalenfield.recieverapp-main-34:/xml/backup_rules.xml"
+    },
+    {
+        "merged": "com.royalenfield.recieverapp-merged_res-33:/drawable_degress.xml.flat",
+        "source": "com.royalenfield.recieverapp-main-34:/drawable/degress.xml"
+    },
+    {
+        "merged": "com.royalenfield.recieverapp-merged_res-33:/drawable_hazard.xml.flat",
+        "source": "com.royalenfield.recieverapp-main-34:/drawable/hazard.xml"
+    },
+    {
+        "merged": "com.royalenfield.recieverapp-merged_res-33:/drawable_dtc.xml.flat",
+        "source": "com.royalenfield.recieverapp-main-34:/drawable/dtc.xml"
+    },
+    {
+        "merged": "com.royalenfield.recieverapp-merged_res-33:/drawable_right_on.xml.flat",
+        "source": "com.royalenfield.recieverapp-main-34:/drawable/right_on.xml"
+    },
+    {
+        "merged": "com.royalenfield.recieverapp-merged_res-33:/drawable_high_beam.xml.flat",
+        "source": "com.royalenfield.recieverapp-main-34:/drawable/high_beam.xml"
+    },
+    {
+        "merged": "com.royalenfield.recieverapp-merged_res-33:/drawable_soc_low.xml.flat",
+        "source": "com.royalenfield.recieverapp-main-34:/drawable/soc_low.xml"
+    },
+    {
+        "merged": "com.royalenfield.recieverapp-merged_res-33:/drawable-v24_bg5.png.flat",
+        "source": "com.royalenfield.recieverapp-main-34:/drawable-v24/bg5.png"
+    },
+    {
+        "merged": "com.royalenfield.recieverapp-merged_res-33:/drawable_abs_on.xml.flat",
+        "source": "com.royalenfield.recieverapp-main-34:/drawable/abs_on.xml"
+    },
+    {
+        "merged": "com.royalenfield.recieverapp-merged_res-33:/drawable_circular_layout.xml.flat",
+        "source": "com.royalenfield.recieverapp-main-34:/drawable/circular_layout.xml"
+    },
+    {
+        "merged": "com.royalenfield.recieverapp-merged_res-33:/drawable_abs.xml.flat",
+        "source": "com.royalenfield.recieverapp-main-34:/drawable/abs.xml"
+    },
+    {
+        "merged": "com.royalenfield.recieverapp-merged_res-33:/drawable_gradient_circle_border.xml.flat",
+        "source": "com.royalenfield.recieverapp-main-34:/drawable/gradient_circle_border.xml"
+    },
+    {
+        "merged": "com.royalenfield.recieverapp-merged_res-33:/layout_re_layout.xml.flat",
+        "source": "com.royalenfield.recieverapp-main-34:/layout/re_layout.xml"
+    },
+    {
+        "merged": "com.royalenfield.recieverapp-merged_res-33:/drawable_dtc_on.xml.flat",
+        "source": "com.royalenfield.recieverapp-main-34:/drawable/dtc_on.xml"
+    },
+    {
+        "merged": "com.royalenfield.recieverapp-merged_res-33:/drawable_left_on.xml.flat",
+        "source": "com.royalenfield.recieverapp-main-34:/drawable/left_on.xml"
+    },
+    {
+        "merged": "com.royalenfield.recieverapp-merged_res-33:/drawable_power.xml.flat",
+        "source": "com.royalenfield.recieverapp-main-34:/drawable/power.xml"
+    },
+    {
+        "merged": "com.royalenfield.recieverapp-merged_res-33:/drawable_bike.xml.flat",
+        "source": "com.royalenfield.recieverapp-main-34:/drawable/bike.xml"
+    },
+    {
+        "merged": "com.royalenfield.recieverapp-merged_res-33:/drawable_logo.png.flat",
+        "source": "com.royalenfield.recieverapp-main-34:/drawable/logo.png"
+    },
+    {
+        "merged": "com.royalenfield.recieverapp-merged_res-33:/drawable_circle.xml.flat",
+        "source": "com.royalenfield.recieverapp-main-34:/drawable/circle.xml"
+    },
+    {
+        "merged": "com.royalenfield.recieverapp-merged_res-33:/drawable_high_beam_on.xml.flat",
+        "source": "com.royalenfield.recieverapp-main-34:/drawable/high_beam_on.xml"
+    },
+    {
+        "merged": "com.royalenfield.recieverapp-merged_res-33:/drawable_charge_complete.xml.flat",
+        "source": "com.royalenfield.recieverapp-main-34:/drawable/charge_complete.xml"
+    },
+    {
+        "merged": "com.royalenfield.recieverapp-merged_res-33:/layout_gauge_layout.xml.flat",
+        "source": "com.royalenfield.recieverapp-main-34:/layout/gauge_layout.xml"
+    },
+    {
+        "merged": "com.royalenfield.recieverapp-merged_res-33:/drawable_power_on.xml.flat",
+        "source": "com.royalenfield.recieverapp-main-34:/drawable/power_on.xml"
+    },
+    {
+        "merged": "com.royalenfield.recieverapp-merged_res-33:/drawable_custom_seekbar.xml.flat",
+        "source": "com.royalenfield.recieverapp-main-34:/drawable/custom_seekbar.xml"
+    },
+    {
+        "merged": "com.royalenfield.recieverapp-merged_res-33:/drawable_hazard_on.xml.flat",
+        "source": "com.royalenfield.recieverapp-main-34:/drawable/hazard_on.xml"
+    },
+    {
+        "merged": "com.royalenfield.recieverapp-merged_res-33:/xml_data_extraction_rules.xml.flat",
+        "source": "com.royalenfield.recieverapp-main-34:/xml/data_extraction_rules.xml"
+    },
+    {
+        "merged": "com.royalenfield.recieverapp-merged_res-33:/drawable_charge.xml.flat",
+        "source": "com.royalenfield.recieverapp-main-34:/drawable/charge.xml"
+    },
+    {
+        "merged": "com.royalenfield.recieverapp-merged_res-33:/drawable_applogo.png.flat",
+        "source": "com.royalenfield.recieverapp-main-34:/drawable/applogo.png"
+    },
+    {
+        "merged": "com.royalenfield.recieverapp-merged_res-33:/font_audiowide.xml.flat",
+        "source": "com.royalenfield.recieverapp-main-34:/font/audiowide.xml"
+    },
+    {
+        "merged": "com.royalenfield.recieverapp-merged_res-33:/drawable_soc.xml.flat",
+        "source": "com.royalenfield.recieverapp-main-34:/drawable/soc.xml"
+    }
+]

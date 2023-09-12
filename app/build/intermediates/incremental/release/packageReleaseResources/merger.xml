@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merger version="3" xmlns:ns1="http://schemas.android.com/tools"><dataSet aapt-namespace="http://schemas.android.com/apk/res-auto" config="main$Generated" generated="true" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/recieverapp/app/src/main/res"/><source path="/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/recieverapp/app/build/generated/res/rs/release"/><source path="/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/recieverapp/app/build/generated/res/resValues/release"/></dataSet><dataSet aapt-namespace="http://schemas.android.com/apk/res-auto" config="main" generated-set="main$Generated" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/recieverapp/app/src/main/res"><file name="bg5" path="/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/recieverapp/app/src/main/res/drawable-v24/bg5.png" qualifiers="v24" type="drawable"/><file name="custom_seekbar" path="/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/recieverapp/app/src/main/res/drawable/custom_seekbar.xml" qualifiers="" type="drawable"/><file name="charge_error" path="/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/recieverapp/app/src/main/res/drawable/charge_error.xml" qualifiers="" type="drawable"/><file name="hazard_on" path="/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/recieverapp/app/src/main/res/drawable/hazard_on.xml" qualifiers="" type="drawable"/><file name="applogo" path="/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/recieverapp/app/src/main/res/drawable/applogo.png" qualifiers="" type="drawable"/><file name="circular_layout" path="/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/recieverapp/app/src/main/res/drawable/circular_layout.xml" qualifiers="" type="drawable"/><file name="charge" path="/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/recieverapp/app/src/main/res/drawable/charge.xml" qualifiers="" type="drawable"/><file name="left_on" path="/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/recieverapp/app/src/main/res/drawable/left_on.xml" qualifiers="" type="drawable"/><file name="bike" path="/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/recieverapp/app/src/main/res/drawable/bike.xml" qualifiers="" type="drawable"/><file name="power" path="/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/recieverapp/app/src/main/res/drawable/power.xml" qualifiers="" type="drawable"/><file name="abs" path="/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/recieverapp/app/src/main/res/drawable/abs.xml" qualifiers="" type="drawable"/><file name="hazard" path="/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/recieverapp/app/src/main/res/drawable/hazard.xml" qualifiers="" type="drawable"/><file name="soc_low" path="/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/recieverapp/app/src/main/res/drawable/soc_low.xml" qualifiers="" type="drawable"/><file name="circle" path="/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/recieverapp/app/src/main/res/drawable/circle.xml" qualifiers="" type="drawable"/><file name="charge_on" path="/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/recieverapp/app/src/main/res/drawable/charge_on.xml" qualifiers="" type="drawable"/><file name="abs_on" path="/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/recieverapp/app/src/main/res/drawable/abs_on.xml" qualifiers="" type="drawable"/><file name="left" path="/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/recieverapp/app/src/main/res/drawable/left.xml" qualifiers="" type="drawable"/><file name="bg5" path="/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/recieverapp/app/src/main/res/drawable/bg5.png" qualifiers="" type="drawable"/><file name="dtc_on" path="/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/recieverapp/app/src/main/res/drawable/dtc_on.xml" qualifiers="" type="drawable"/><file name="logo" path="/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/recieverapp/app/src/main/res/drawable/logo.png" qualifiers="" type="drawable"/><file name="high_beam" path="/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/recieverapp/app/src/main/res/drawable/high_beam.xml" qualifiers="" type="drawable"/><file name="high_beam_on" path="/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/recieverapp/app/src/main/res/drawable/high_beam_on.xml" qualifiers="" type="drawable"/><file name="gradient_circle_border" path="/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/recieverapp/app/src/main/res/drawable/gradient_circle_border.xml" qualifiers="" type="drawable"/><file name="soc" path="/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/recieverapp/app/src/main/res/drawable/soc.xml" qualifiers="" type="drawable"/><file name="charge_complete" path="/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/recieverapp/app/src/main/res/drawable/charge_complete.xml" qualifiers="" type="drawable"/><file name="right_on" path="/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/recieverapp/app/src/main/res/drawable/right_on.xml" qualifiers="" type="drawable"/><file name="dtc" path="/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/recieverapp/app/src/main/res/drawable/dtc.xml" qualifiers="" type="drawable"/><file name="right" path="/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/recieverapp/app/src/main/res/drawable/right.xml" qualifiers="" type="drawable"/><file name="degress" path="/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/recieverapp/app/src/main/res/drawable/degress.xml" qualifiers="" type="drawable"/><file name="power_on" path="/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/recieverapp/app/src/main/res/drawable/power_on.xml" qualifiers="" type="drawable"/><file name="re_layout" path="/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/recieverapp/app/src/main/res/layout/re_layout.xml" qualifiers="" type="layout"/><file name="gauge_layout" path="/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/recieverapp/app/src/main/res/layout/gauge_layout.xml" qualifiers="" type="layout"/><file path="/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/recieverapp/app/src/main/res/values/colors.xml" qualifiers=""><color name="purple_200">#FFBB86FC</color><color name="purple_500">#FF6200EE</color><color name="purple_700">#FF3700B3</color><color name="teal_200">#EB262D</color><color name="teal_700">#FF018786</color><color name="black">#FF000000</color><color name="white">#FFFFFFFF</color><color name="textColor">#323232</color><color name="textLightColor">#999999</color><color name="redCircleColor">#da291c</color><color name="background">#232323</color></file><file path="/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/recieverapp/app/src/main/res/values/font_certs.xml" qualifiers=""><array name="com_google_android_gms_fonts_certs">
+        <item>@array/com_google_android_gms_fonts_certs_dev</item>
+        <item>@array/com_google_android_gms_fonts_certs_prod</item>
+    </array><string-array name="com_google_android_gms_fonts_certs_dev">
+        <item>
+            MIIEqDCCA5CgAwIBAgIJANWFuGx90071MA0GCSqGSIb3DQEBBAUAMIGUMQswCQYDVQQGEwJVUzETMBEGA1UECBMKQ2FsaWZvcm5pYTEWMBQGA1UEBxMNTW91bnRhaW4gVmlldzEQMA4GA1UEChMHQW5kcm9pZDEQMA4GA1UECxMHQW5kcm9pZDEQMA4GA1UEAxMHQW5kcm9pZDEiMCAGCSqGSIb3DQEJARYTYW5kcm9pZEBhbmRyb2lkLmNvbTAeFw0wODA0MTUyMzM2NTZaFw0zNTA5MDEyMzM2NTZaMIGUMQswCQYDVQQGEwJVUzETMBEGA1UECBMKQ2FsaWZvcm5pYTEWMBQGA1UEBxMNTW91bnRhaW4gVmlldzEQMA4GA1UEChMHQW5kcm9pZDEQMA4GA1UECxMHQW5kcm9pZDEQMA4GA1UEAxMHQW5kcm9pZDEiMCAGCSqGSIb3DQEJARYTYW5kcm9pZEBhbmRyb2lkLmNvbTCCASAwDQYJKoZIhvcNAQEBBQADggENADCCAQgCggEBANbOLggKv+IxTdGNs8/TGFy0PTP6DHThvbbR24kT9ixcOd9W+EaBPWW+wPPKQmsHxajtWjmQwWfna8mZuSeJS48LIgAZlKkpFeVyxW0qMBujb8X8ETrWy550NaFtI6t9+u7hZeTfHwqNvacKhp1RbE6dBRGWynwMVX8XW8N1+UjFaq6GCJukT4qmpN2afb8sCjUigq0GuMwYXrFVee74bQgLHWGJwPmvmLHC69EH6kWr22ijx4OKXlSIx2xT1AsSHee70w5iDBiK4aph27yH3TxkXy9V89TDdexAcKk/cVHYNnDBapcavl7y0RiQ4biu8ymM8Ga/nmzhRKya6G0cGw8CAQOjgfwwgfkwHQYDVR0OBBYEFI0cxb6VTEM8YYY6FbBMvAPyT+CyMIHJBgNVHSMEgcEwgb6AFI0cxb6VTEM8YYY6FbBMvAPyT+CyoYGapIGXMIGUMQswCQYDVQQGEwJVUzETMBEGA1UECBMKQ2FsaWZvcm5pYTEWMBQGA1UEBxMNTW91bnRhaW4gVmlldzEQMA4GA1UEChMHQW5kcm9pZDEQMA4GA1UECxMHQW5kcm9pZDEQMA4GA1UEAxMHQW5kcm9pZDEiMCAGCSqGSIb3DQEJARYTYW5kcm9pZEBhbmRyb2lkLmNvbYIJANWFuGx90071MAwGA1UdEwQFMAMBAf8wDQYJKoZIhvcNAQEEBQADggEBABnTDPEF+3iSP0wNfdIjIz1AlnrPzgAIHVvXxunW7SBrDhEglQZBbKJEk5kT0mtKoOD1JMrSu1xuTKEBahWRbqHsXclaXjoBADb0kkjVEJu/Lh5hgYZnOjvlba8Ld7HCKePCVePoTJBdI4fvugnL8TsgK05aIskyY0hKI9L8KfqfGTl1lzOv2KoWD0KWwtAWPoGChZxmQ+nBli+gwYMzM1vAkP+aayLe0a1EQimlOalO762r0GXO0ks+UeXde2Z4e+8S/pf7pITEI/tP+MxJTALw9QUWEv9lKTk+jkbqxbsh8nfBUapfKqYn0eidpwq2AzVp3juYl7//fKnaPhJD9gs=
+        </item>
+    </string-array><string-array name="com_google_android_gms_fonts_certs_prod">
+        <item>
+            MIIEQzCCAyugAwIBAgIJAMLgh0ZkSjCNMA0GCSqGSIb3DQEBBAUAMHQxCzAJBgNVBAYTAlVTMRMwEQYDVQQIEwpDYWxpZm9ybmlhMRYwFAYDVQQHEw1Nb3VudGFpbiBWaWV3MRQwEgYDVQQKEwtHb29nbGUgSW5jLjEQMA4GA1UECxMHQW5kcm9pZDEQMA4GA1UEAxMHQW5kcm9pZDAeFw0wODA4MjEyMzEzMzRaFw0zNjAxMDcyMzEzMzRaMHQxCzAJBgNVBAYTAlVTMRMwEQYDVQQIEwpDYWxpZm9ybmlhMRYwFAYDVQQHEw1Nb3VudGFpbiBWaWV3MRQwEgYDVQQKEwtHb29nbGUgSW5jLjEQMA4GA1UECxMHQW5kcm9pZDEQMA4GA1UEAxMHQW5kcm9pZDCCASAwDQYJKoZIhvcNAQEBBQADggENADCCAQgCggEBAKtWLgDYO6IIrgqWbxJOKdoR8qtW0I9Y4sypEwPpt1TTcvZApxsdyxMJZ2JORland2qSGT2y5b+3JKkedxiLDmpHpDsz2WCbdxgxRczfey5YZnTJ4VZbH0xqWVW/8lGmPav5xVwnIiJS6HXk+BVKZF+JcWjAsb/GEuq/eFdpuzSqeYTcfi6idkyugwfYwXFU1+5fZKUaRKYCwkkFQVfcAs1fXA5V+++FGfvjJ/CxURaSxaBvGdGDhfXE28LWuT9ozCl5xw4Yq5OGazvV24mZVSoOO0yZ31j7kYvtwYK6NeADwbSxDdJEqO4k//0zOHKrUiGYXtqw/A0LFFtqoZKFjnkCAQOjgdkwgdYwHQYDVR0OBBYEFMd9jMIhF1Ylmn/Tgt9r45jk14alMIGmBgNVHSMEgZ4wgZuAFMd9jMIhF1Ylmn/Tgt9r45jk14aloXikdjB0MQswCQYDVQQGEwJVUzETMBEGA1UECBMKQ2FsaWZvcm5pYTEWMBQGA1UEBxMNTW91bnRhaW4gVmlldzEUMBIGA1UEChMLR29vZ2xlIEluYy4xEDAOBgNVBAsTB0FuZHJvaWQxEDAOBgNVBAMTB0FuZHJvaWSCCQDC4IdGZEowjTAMBgNVHRMEBTADAQH/MA0GCSqGSIb3DQEBBAUAA4IBAQBt0lLO74UwLDYKqs6Tm8/yzKkEu116FmH4rkaymUIE0P9KaMftGlMexFlaYjzmB2OxZyl6euNXEsQH8gjwyxCUKRJNexBiGcCEyj6z+a1fuHHvkiaai+KL8W1EyNmgjmyy8AW7P+LLlkR+ho5zEHatRbM/YAnqGcFh5iZBqpknHf1SKMXFh4dd239FJ1jWYfbMDMy3NS5CTMQ2XFI1MvcyUTdZPErjQfTbQe3aDQsQcafEQPD+nqActifKZ0Np0IS9L9kR/wbNvyz6ENwPiTrjV2KRkEjH78ZMcUQXg0L3BYHJ3lc69Vs5Ddf9uUGGMYldX3WfMBEmh/9iFBDAaTCK
+        </item>
+    </string-array></file><file path="/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/recieverapp/app/src/main/res/values/themes.xml" qualifiers=""><style name="Theme.RecieverApp" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        
+        <item name="colorPrimary">@color/purple_500</item>
+        <item name="colorPrimaryVariant">@color/purple_700</item>
+        <item name="colorOnPrimary">@color/white</item>
+        
+        <item name="colorSecondary">@color/teal_200</item>
+        <item name="colorSecondaryVariant">@color/teal_700</item>
+        <item name="colorOnSecondary">@color/black</item>
+        
+        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
+        
+    </style></file><file path="/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/recieverapp/app/src/main/res/values/strings.xml" qualifiers=""><string name="app_name">RecieverApp</string></file><file path="/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/recieverapp/app/src/main/res/values/attrs.xml" qualifiers=""><declare-styleable name="ec_arc_progress">
+        <attr format="color" name="ec_arc_container_color"/>
+        <attr format="color" name="ec_arc_progress_color"/>
+        <attr format="dimension" name="ec_arc_text_size"/>
+        <attr format="color" name="ec_arc_text_color"/>
+        <attr format="string" name="ec_arc_text"/>
+        <attr format="integer" name="ec_arc_max"/>
+        <attr format="integer" name="ec_arc_current"/>
+        <attr format="dimension" name="ec_arc_unit_text_size"/>
+        <attr format="color" name="ec_arc_unit_text_color"/>
+        <attr format="string" name="ec_arc_unit_text"/>
+        <attr format="string" name="ec_hud_orientation"/>
+        <attr format="integer" name="ec_vb_progress"/>
+        <attr format="integer" name="ec_vb_max"/>
+    </declare-styleable><declare-styleable name="MyCustomView">
+        <attr format="color" name="needlecolor"/>
+        <attr format="color" name="linecolor"/>
+        <attr format="reference|color" name="backimage"/>
+        <attr format="boolean" name="removeborder"/>
+
+    </declare-styleable><declare-styleable name="TickerView">
+        <attr format="reference|integer" name="ticker_animationDuration"/>
+        <attr format="reference|boolean" name="ticker_animateMeasurementChange"/>
+        <attr format="enum" name="ticker_defaultCharacterList">
+            <enum name="number" value="1"/>
+            <enum name="alphabet" value="2"/>
+        </attr>
+        <attr format="enum" name="ticker_defaultPreferredScrollingDirection">
+            <enum name="any" value="0"/>
+            <enum name="up" value="1"/>
+            <enum name="down" value="2"/>
+        </attr>
+
+        
+        <attr name="android:gravity" ns1:ignore="ResourceName"/>
+        <attr name="android:shadowColor" ns1:ignore="ResourceName"/>
+        <attr name="android:shadowDx" ns1:ignore="ResourceName"/>
+        <attr name="android:shadowDy" ns1:ignore="ResourceName"/>
+        <attr name="android:shadowRadius" ns1:ignore="ResourceName"/>
+        <attr name="android:text" ns1:ignore="ResourceName"/>
+        <attr name="android:textAppearance" ns1:ignore="ResourceName"/>
+        <attr name="android:textColor" ns1:ignore="ResourceName"/>
+        <attr name="android:textSize" ns1:ignore="ResourceName"/>
+        <attr name="android:textStyle" ns1:ignore="ResourceName"/>
+    </declare-styleable></file><file path="/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/recieverapp/app/src/main/res/values/preloaded_fonts.xml" qualifiers=""><array name="preloaded_fonts" translatable="false">
+        <item>@font/audiowide</item>
+    </array></file><file name="backup_rules" path="/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/recieverapp/app/src/main/res/xml/backup_rules.xml" qualifiers="" type="xml"/><file name="data_extraction_rules" path="/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/recieverapp/app/src/main/res/xml/data_extraction_rules.xml" qualifiers="" type="xml"/><file name="audiowide" path="/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/recieverapp/app/src/main/res/font/audiowide.xml" qualifiers="" type="font"/></source><source path="/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/recieverapp/app/build/generated/res/rs/release"/><source path="/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/recieverapp/app/build/generated/res/resValues/release"/></dataSet><dataSet aapt-namespace="http://schemas.android.com/apk/res-auto" config="release$Generated" generated="true" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/recieverapp/app/src/release/res"/></dataSet><dataSet aapt-namespace="http://schemas.android.com/apk/res-auto" config="release" generated-set="release$Generated" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/recieverapp/app/src/release/res"/></dataSet><dataSet aapt-namespace="http://schemas.android.com/apk/res-auto" config="generated$Generated" generated="true" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"/><dataSet aapt-namespace="http://schemas.android.com/apk/res-auto" config="generated" generated-set="generated$Generated" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"/><mergedItems><configuration qualifiers=""><declare-styleable name="MyCustomView">
+        <attr format="color" name="needlecolor"/>
+        <attr format="color" name="linecolor"/>
+        <attr format="reference|color" name="backimage"/>
+        <attr format="boolean" name="removeborder"/>
+
+    </declare-styleable><declare-styleable name="ec_arc_progress">
+        <attr format="color" name="ec_arc_container_color"/>
+        <attr format="color" name="ec_arc_progress_color"/>
+        <attr format="dimension" name="ec_arc_text_size"/>
+        <attr format="color" name="ec_arc_text_color"/>
+        <attr format="string" name="ec_arc_text"/>
+        <attr format="integer" name="ec_arc_max"/>
+        <attr format="integer" name="ec_arc_current"/>
+        <attr format="dimension" name="ec_arc_unit_text_size"/>
+        <attr format="color" name="ec_arc_unit_text_color"/>
+        <attr format="string" name="ec_arc_unit_text"/>
+        <attr format="string" name="ec_hud_orientation"/>
+        <attr format="integer" name="ec_vb_progress"/>
+        <attr format="integer" name="ec_vb_max"/>
+    </declare-styleable><declare-styleable name="TickerView">
+        <attr format="reference|integer" name="ticker_animationDuration"/>
+        <attr format="reference|boolean" name="ticker_animateMeasurementChange"/>
+        <attr format="enum" name="ticker_defaultCharacterList">
+            <enum name="number" value="1"/>
+            <enum name="alphabet" value="2"/>
+        </attr>
+        <attr format="enum" name="ticker_defaultPreferredScrollingDirection">
+            <enum name="any" value="0"/>
+            <enum name="up" value="1"/>
+            <enum name="down" value="2"/>
+        </attr>
+
+        
+        <attr name="android:gravity" ns1:ignore="ResourceName"/>
+        <attr name="android:shadowColor" ns1:ignore="ResourceName"/>
+        <attr name="android:shadowDx" ns1:ignore="ResourceName"/>
+        <attr name="android:shadowDy" ns1:ignore="ResourceName"/>
+        <attr name="android:shadowRadius" ns1:ignore="ResourceName"/>
+        <attr name="android:text" ns1:ignore="ResourceName"/>
+        <attr name="android:textAppearance" ns1:ignore="ResourceName"/>
+        <attr name="android:textColor" ns1:ignore="ResourceName"/>
+        <attr name="android:textSize" ns1:ignore="ResourceName"/>
+        <attr name="android:textStyle" ns1:ignore="ResourceName"/>
+    </declare-styleable></configuration></mergedItems></merger>
