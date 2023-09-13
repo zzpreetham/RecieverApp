@@ -67,6 +67,10 @@
             android:name="com.royalenfield.recieverapp.service.ClusterService"
             android:exported="true" />
 
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
+
         <provider
             android:name="androidx.startup.InitializationProvider"
             android:authorities="com.royalenfield.recieverapp.androidx-startup"

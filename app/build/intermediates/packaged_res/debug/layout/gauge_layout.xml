@@ -39,9 +39,9 @@
         <com.progress.progressview.ProgressView
             android:id="@+id/gradiant_progress"
             android:layout_width="330dp"
-            android:layout_height="265dp"
-            android:layout_marginEnd="95dp"
-            android:layout_marginBottom="130dp"
+            android:layout_height="600dp"
+            android:layout_marginEnd="120dp"
+            android:layout_marginBottom="160dp"
             android:rotation="317"
             app:circularflow_angles="80"
             app:flow_firstHorizontalStyle="spread"
@@ -69,7 +69,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_margin="50dp"
+                android:layout_margin="65dp"
                 android:background="@drawable/circle"
                 android:backgroundTint="@color/background">
 
@@ -104,7 +104,7 @@
                     android:id="@+id/vehicle_regen"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
-                    android:layout_marginStart="22dp"
+                    android:layout_marginStart="23dp"
                     android:layout_marginTop="22dp"
                     android:layout_marginBottom="20dp"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -119,7 +119,7 @@
                     android:id="@+id/vehicle_hazard"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
-                    android:layout_marginStart="10dp"
+                    android:layout_marginStart="15dp"
                     app:layout_constraintBottom_toBottomOf="@+id/landscapeProgressWidget"
                     app:layout_constraintEnd_toEndOf="@+id/landscapeProgressWidget"
                     app:layout_constraintHorizontal_bias="0.0"
@@ -128,13 +128,12 @@
                     app:layout_constraintVertical_bias="0.272"
                     app:srcCompat="@drawable/hazard" />
 
-                
 
                 <ImageView
                     android:id="@+id/vehicle_error"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
-                    android:layout_marginStart="2dp"
+                    android:layout_marginStart="0dp"
                     android:layout_marginTop="3dp"
                     android:layout_marginEnd="5dp"
                     app:layout_constraintBottom_toBottomOf="@+id/landscapeProgressWidget"
@@ -149,7 +148,7 @@
                     android:id="@+id/vehicle_light"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
-                    android:layout_marginStart="10dp"
+                    android:layout_marginStart="14dp"
                     android:layout_marginTop="3dp"
                     app:layout_constraintBottom_toBottomOf="@+id/landscapeProgressWidget"
                     app:layout_constraintEnd_toEndOf="@+id/landscapeProgressWidget"
@@ -163,7 +162,7 @@
                     android:id="@+id/vehicle_abs"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
-                    android:layout_marginStart="20dp"
+                    android:layout_marginStart="22dp"
                     app:layout_constraintBottom_toBottomOf="@+id/landscapeProgressWidget"
                     app:layout_constraintEnd_toEndOf="@+id/landscapeProgressWidget"
                     app:layout_constraintHorizontal_bias="0.0"
@@ -202,15 +201,14 @@
                     android:id="@+id/vehicle_charge"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
-                    android:layout_marginEnd="5dp"
                     app:layout_constraintBottom_toBottomOf="@+id/landscapeProgressWidget"
                     app:layout_constraintEnd_toEndOf="@+id/landscapeProgressWidget"
-                    app:layout_constraintHorizontal_bias="0.965"
+                    app:layout_constraintHorizontal_bias="1.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="0.846"
                     app:srcCompat="@drawable/charge" />
-                
+
 
                 <ImageView
                     android:id="@+id/vehicle_soc"
@@ -219,13 +217,12 @@
                     android:scaleType="centerCrop"
                     app:layout_constraintBottom_toBottomOf="@+id/landscapeProgressWidget"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.896"
+                    app:layout_constraintHorizontal_bias="1.0"
                     app:layout_constraintStart_toStartOf="@+id/landscapeProgressWidget"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="0.147"
                     app:srcCompat="@drawable/soc" />
 
-                
 
                 <TextView
                     android:id="@+id/speed"
@@ -235,7 +232,7 @@
                     android:fontFamily="@font/audiowide"
                     android:text="0"
                     android:textColor="@color/white"
-                    android:textSize="35sp"
+                    android:textSize="48sp"
                     app:layout_constraintBottom_toBottomOf="@+id/landscapeProgressWidget"
                     app:layout_constraintEnd_toEndOf="@+id/landscapeProgressWidget"
                     app:layout_constraintStart_toStartOf="@+id/landscapeProgressWidget"
@@ -249,18 +246,18 @@
                     android:fontFamily="@font/audiowide"
                     android:text="km/h"
                     android:textColor="@color/white"
-                    android:textSize="14sp"
+                    android:textSize="20sp"
                     app:layout_constraintEnd_toEndOf="@+id/speed"
                     app:layout_constraintStart_toStartOf="@+id/speed"
                     app:layout_constraintTop_toBottomOf="@+id/speed" />
 
                 <SeekBar
                     android:id="@+id/seekBar"
-                    android:layout_width="150dp"
-                    android:layout_height="20dp"
+                    android:layout_width="200dp"
+                    android:layout_height="30dp"
                     android:layout_marginLeft="15dp"
-                    android:layout_marginTop="4dp"
-                    android:padding="20dp"
+                    android:layout_marginTop="5dp"
+                    android:padding="5dp"
                     android:progress="0"
                     android:progressDrawable="@drawable/custom_seekbar"
                     android:thumb="@drawable/bike"
@@ -276,25 +273,29 @@
                     android:fontFamily="@font/audiowide"
                     android:text="km"
                     android:textColor="@color/white"
-                    android:textSize="8sp"
+                    android:textSize="10sp"
+                    android:visibility="visible"
+                    app:layout_constraintBottom_toBottomOf="@+id/seekBar"
                     app:layout_constraintEnd_toEndOf="@+id/seekBar"
-                    app:layout_constraintHorizontal_bias="1.0"
-                    app:layout_constraintStart_toStartOf="@+id/seekBar"
-                    app:layout_constraintTop_toBottomOf="@+id/seekBar" />
+                    app:layout_constraintStart_toEndOf="@+id/seekBar"
+                    app:layout_constraintTop_toTopOf="@+id/seekBar" />
 
                 <com.robinhood.ticker.TickerView
                     android:id="@+id/odoMeter"
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/audiowide"
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp"
+                    android:maxLength="5"
+                    android:textStyle="bold"
+                    android:fontFamily="@font/audiowide_regular"
                     android:gravity="end"
+                    android:text="0000000"
                     android:textColor="@color/white"
+                    android:textSize="22dp"
                     android:visibility="visible"
                     app:layout_constraintBottom_toBottomOf="@+id/landscapeProgressWidget"
                     app:layout_constraintEnd_toEndOf="@+id/seekBar"
-                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="@+id/seekBar"
-                    app:layout_constraintTop_toBottomOf="@+id/rangeTxt"
+                    app:layout_constraintTop_toBottomOf="@+id/seekBar"
                     app:layout_constraintVertical_bias="0.108"
                     app:ticker_animationDuration="1500" />
 
@@ -317,8 +318,8 @@
 
                 <soup.neumorphism.NeumorphCardView
                     android:id="@+id/rlByDrive"
-                    android:layout_width="80dp"
-                    android:layout_height="45dp"
+                    android:layout_width="100dp"
+                    android:layout_height="55dp"
 
                     android:layout_marginTop="10dp"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -344,7 +345,7 @@
                         android:text="Eco"
                         android:textAlignment="center"
                         android:textColor="@android:color/white"
-                        android:textSize="13sp">
+                        android:textSize="18sp">
 
                     </TextView>
                 </soup.neumorphism.NeumorphCardView>
@@ -373,8 +374,8 @@
                 android:id="@+id/chargePercent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="40dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginEnd="55dp"
                 android:layout_marginBottom="5dp"
                 android:padding="5dp"
                 android:rotation="39"
@@ -420,6 +421,7 @@
                 android:id="@+id/chargeON"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
+                android:layout_marginTop="22dp"
                 app:layout_constraintBottom_toBottomOf="@+id/charging_bike"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -430,8 +432,8 @@
 
             <ImageView
                 android:id="@+id/charging_bike"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
+                android:layout_width="160dp"
+                android:layout_height="160dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.497"
@@ -446,6 +448,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/audiowide"
                 android:text="1h 5m"
+                android:layout_marginTop="7dp"
                 android:textColor="@color/white"
                 android:textSize="25sp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -454,62 +457,81 @@
                 app:layout_constraintTop_toTopOf="@+id/charging_bike"
                 app:layout_constraintVertical_bias="0.406" />
 
-            <TextView
-                android:id="@+id/battery_soh"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="200dp"
                 android:layout_height="wrap_content"
-                android:text="Battery(SOH)"
-                android:textColor="@color/smoke_grey"
-                android:textSize="10sp"
+                android:orientation="horizontal"
+                android:gravity="center"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.322"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/charging_time"
-                app:layout_constraintVertical_bias="0.077" />
+                app:layout_constraintVertical_bias="0.077">
 
-            <TextView
-                android:id="@+id/battery_percent"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="0%"
-                android:textColor="@color/white"
-                android:textSize="10sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@+id/battery_soh"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="@+id/battery_soh"
-                app:layout_constraintTop_toBottomOf="@+id/battery_soh"
-                app:layout_constraintVertical_bias="0.0" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:id="@+id/battery_soh"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Battery(SOH)"
+                        android:gravity="start"
+                        android:padding="3dp"
+                        android:textColor="@color/smoke_grey"
+                        android:textSize="10sp" />
+
+                    <TextView
+                        android:id="@+id/battery_percent"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="0%"
+                        android:padding="3dp"
+                        android:gravity="start"
+                        android:textColor="@color/white"
+                        android:textSize="13sp"
+                        />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:id="@+id/modes"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Ride Mode"
+                        android:padding="3dp"
+                        android:gravity="end"
+                        android:textColor="@color/smoke_grey"
+                        android:textSize="10sp" />
+
+                    <TextView
+                        android:id="@+id/mode_type"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Sport+"
+                        android:padding="3dp"
+                        android:gravity="end"
+                        android:textColor="@color/white"
+                        android:textSize="13sp" />
+
+                </LinearLayout>
 
 
-            <TextView
-                android:id="@+id/modes"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Mode"
-                android:textColor="@color/smoke_grey"
-                android:textSize="10sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.62"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/charging_time"
-                app:layout_constraintVertical_bias="0.085" />
+            </LinearLayout>
 
-            <TextView
-                android:id="@+id/mode_type"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Sport+"
-                android:textColor="@color/white"
-                android:textSize="10sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@+id/modes"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="@+id/modes"
-                app:layout_constraintTop_toBottomOf="@+id/modes"
-                app:layout_constraintVertical_bias="0.0" />
+
+
+
+
 
             <ImageView
                 android:id="@+id/imageView8"

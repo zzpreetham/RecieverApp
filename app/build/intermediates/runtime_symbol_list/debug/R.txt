@@ -3127,7 +3127,9 @@ int drawable soc_low 0x7f0800f9
 int drawable test_level_drawable 0x7f0800fa
 int drawable tooltip_frame_dark 0x7f0800fb
 int drawable tooltip_frame_light 0x7f0800fc
-int font audiowide 0x7f090000
+int font alfa_slab_one 0x7f090000
+int font audiowide 0x7f090001
+int font audiowide_regular 0x7f090002
 int id ALT 0x7f0a0000
 int id BOTTOM_END 0x7f0a0001
 int id BOTTOM_START 0x7f0a0002
@@ -7246,21 +7248,24 @@ int[] styleable ThemeEnforcement { 0x01010034, 0x7f0401b3, 0x7f0401b4 }
 int styleable ThemeEnforcement_android_textAppearance 0
 int styleable ThemeEnforcement_enforceMaterialTheme 1
 int styleable ThemeEnforcement_enforceTextAppearance 2
-int[] styleable TickerView { 0x01010034, 0x01010095, 0x01010097, 0x01010098, 0x010100af, 0x0101014f, 0x01010161, 0x01010162, 0x01010163, 0x01010164, 0x7f0404ab, 0x7f0404ac, 0x7f0404ad, 0x7f0404ae }
+int[] styleable TickerView { 0x01010034, 0x01010095, 0x01010097, 0x01010098, 0x010100af, 0x0101014f, 0x01010160, 0x01010161, 0x01010162, 0x01010163, 0x01010164, 0x010103ac, 0x01010532, 0x7f0404ab, 0x7f0404ac, 0x7f0404ad, 0x7f0404ae }
 int styleable TickerView_android_textAppearance 0
 int styleable TickerView_android_textSize 1
 int styleable TickerView_android_textStyle 2
 int styleable TickerView_android_textColor 3
 int styleable TickerView_android_gravity 4
 int styleable TickerView_android_text 5
-int styleable TickerView_android_shadowColor 6
-int styleable TickerView_android_shadowDx 7
-int styleable TickerView_android_shadowDy 8
-int styleable TickerView_android_shadowRadius 9
-int styleable TickerView_ticker_animateMeasurementChange 10
-int styleable TickerView_ticker_animationDuration 11
-int styleable TickerView_ticker_defaultCharacterList 12
-int styleable TickerView_ticker_defaultPreferredScrollingDirection 13
+int styleable TickerView_android_maxLength 6
+int styleable TickerView_android_shadowColor 7
+int styleable TickerView_android_shadowDx 8
+int styleable TickerView_android_shadowDy 9
+int styleable TickerView_android_shadowRadius 10
+int styleable TickerView_android_fontFamily 11
+int styleable TickerView_android_font 12
+int styleable TickerView_ticker_animateMeasurementChange 13
+int styleable TickerView_ticker_animationDuration 14
+int styleable TickerView_ticker_defaultCharacterList 15
+int styleable TickerView_ticker_defaultPreferredScrollingDirection 16
 int[] styleable Toolbar { 0x010100af, 0x01010140, 0x7f04008d, 0x7f0400e3, 0x7f0400e4, 0x7f040138, 0x7f040139, 0x7f04013a, 0x7f04013b, 0x7f04013c, 0x7f04013d, 0x7f0402d1, 0x7f0402d3, 0x7f040308, 0x7f040310, 0x7f04034e, 0x7f04034f, 0x7f04039d, 0x7f040426, 0x7f040428, 0x7f040429, 0x7f0404b2, 0x7f0404b6, 0x7f0404b7, 0x7f0404b8, 0x7f0404b9, 0x7f0404ba, 0x7f0404bb, 0x7f0404bd, 0x7f0404be }
 int styleable Toolbar_android_gravity 0
 int styleable Toolbar_android_minHeight 1

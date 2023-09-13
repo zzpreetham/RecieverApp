@@ -35,7 +35,7 @@
 20-->[androidx.core:core:1.9.0] /Users/preethamacharya/.gradle/caches/transforms-3/48da4d468f697fb0fb5d56e4c7c822b9/transformed/core-1.9.0/AndroidManifest.xml:26:22-94
 21
 22    <application
-22-->/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/github/RecieverApp/app/src/main/AndroidManifest.xml:10:5-50:19
+22-->/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/github/RecieverApp/app/src/main/AndroidManifest.xml:10:5-53:19
 23        android:allowBackup="true"
 23-->/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/github/RecieverApp/app/src/main/AndroidManifest.xml:11:9-35
 24        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
@@ -113,27 +113,34 @@
 68            android:exported="true" />
 68-->/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/github/RecieverApp/app/src/main/AndroidManifest.xml:49:13-36
 69
-70        <provider
-70-->[androidx.emoji2:emoji2:1.2.0] /Users/preethamacharya/.gradle/caches/transforms-3/b534eca45ae0368be30899d5007a440e/transformed/emoji2-1.2.0/AndroidManifest.xml:24:9-32:20
-71            android:name="androidx.startup.InitializationProvider"
-71-->[androidx.emoji2:emoji2:1.2.0] /Users/preethamacharya/.gradle/caches/transforms-3/b534eca45ae0368be30899d5007a440e/transformed/emoji2-1.2.0/AndroidManifest.xml:25:13-67
-72            android:authorities="com.royalenfield.recieverapp.androidx-startup"
-72-->[androidx.emoji2:emoji2:1.2.0] /Users/preethamacharya/.gradle/caches/transforms-3/b534eca45ae0368be30899d5007a440e/transformed/emoji2-1.2.0/AndroidManifest.xml:26:13-68
-73            android:exported="false" >
-73-->[androidx.emoji2:emoji2:1.2.0] /Users/preethamacharya/.gradle/caches/transforms-3/b534eca45ae0368be30899d5007a440e/transformed/emoji2-1.2.0/AndroidManifest.xml:27:13-37
-74            <meta-data
-74-->[androidx.emoji2:emoji2:1.2.0] /Users/preethamacharya/.gradle/caches/transforms-3/b534eca45ae0368be30899d5007a440e/transformed/emoji2-1.2.0/AndroidManifest.xml:29:13-31:52
-75                android:name="androidx.emoji2.text.EmojiCompatInitializer"
-75-->[androidx.emoji2:emoji2:1.2.0] /Users/preethamacharya/.gradle/caches/transforms-3/b534eca45ae0368be30899d5007a440e/transformed/emoji2-1.2.0/AndroidManifest.xml:30:17-75
-76                android:value="androidx.startup" />
-76-->[androidx.emoji2:emoji2:1.2.0] /Users/preethamacharya/.gradle/caches/transforms-3/b534eca45ae0368be30899d5007a440e/transformed/emoji2-1.2.0/AndroidManifest.xml:31:17-49
-77            <meta-data
-77-->[androidx.lifecycle:lifecycle-process:2.4.1] /Users/preethamacharya/.gradle/caches/transforms-3/b0761d22b5c86c7f873b7a426ffce717/transformed/lifecycle-process-2.4.1/AndroidManifest.xml:31:13-33:52
-78                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
-78-->[androidx.lifecycle:lifecycle-process:2.4.1] /Users/preethamacharya/.gradle/caches/transforms-3/b0761d22b5c86c7f873b7a426ffce717/transformed/lifecycle-process-2.4.1/AndroidManifest.xml:32:17-78
-79                android:value="androidx.startup" />
-79-->[androidx.lifecycle:lifecycle-process:2.4.1] /Users/preethamacharya/.gradle/caches/transforms-3/b0761d22b5c86c7f873b7a426ffce717/transformed/lifecycle-process-2.4.1/AndroidManifest.xml:33:17-49
-80        </provider>
-81    </application>
-82
-83</manifest>
+70        <meta-data
+70-->/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/github/RecieverApp/app/src/main/AndroidManifest.xml:33:13-35:61
+71            android:name="preloaded_fonts"
+71-->/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/github/RecieverApp/app/src/main/AndroidManifest.xml:34:17-47
+72            android:resource="@array/preloaded_fonts" />
+72-->/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/github/RecieverApp/app/src/main/AndroidManifest.xml:35:17-58
+73
+74        <provider
+74-->[androidx.emoji2:emoji2:1.2.0] /Users/preethamacharya/.gradle/caches/transforms-3/b534eca45ae0368be30899d5007a440e/transformed/emoji2-1.2.0/AndroidManifest.xml:24:9-32:20
+75            android:name="androidx.startup.InitializationProvider"
+75-->[androidx.emoji2:emoji2:1.2.0] /Users/preethamacharya/.gradle/caches/transforms-3/b534eca45ae0368be30899d5007a440e/transformed/emoji2-1.2.0/AndroidManifest.xml:25:13-67
+76            android:authorities="com.royalenfield.recieverapp.androidx-startup"
+76-->[androidx.emoji2:emoji2:1.2.0] /Users/preethamacharya/.gradle/caches/transforms-3/b534eca45ae0368be30899d5007a440e/transformed/emoji2-1.2.0/AndroidManifest.xml:26:13-68
+77            android:exported="false" >
+77-->[androidx.emoji2:emoji2:1.2.0] /Users/preethamacharya/.gradle/caches/transforms-3/b534eca45ae0368be30899d5007a440e/transformed/emoji2-1.2.0/AndroidManifest.xml:27:13-37
+78            <meta-data
+78-->[androidx.emoji2:emoji2:1.2.0] /Users/preethamacharya/.gradle/caches/transforms-3/b534eca45ae0368be30899d5007a440e/transformed/emoji2-1.2.0/AndroidManifest.xml:29:13-31:52
+79                android:name="androidx.emoji2.text.EmojiCompatInitializer"
+79-->[androidx.emoji2:emoji2:1.2.0] /Users/preethamacharya/.gradle/caches/transforms-3/b534eca45ae0368be30899d5007a440e/transformed/emoji2-1.2.0/AndroidManifest.xml:30:17-75
+80                android:value="androidx.startup" />
+80-->[androidx.emoji2:emoji2:1.2.0] /Users/preethamacharya/.gradle/caches/transforms-3/b534eca45ae0368be30899d5007a440e/transformed/emoji2-1.2.0/AndroidManifest.xml:31:17-49
+81            <meta-data
+81-->[androidx.lifecycle:lifecycle-process:2.4.1] /Users/preethamacharya/.gradle/caches/transforms-3/b0761d22b5c86c7f873b7a426ffce717/transformed/lifecycle-process-2.4.1/AndroidManifest.xml:31:13-33:52
+82                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+82-->[androidx.lifecycle:lifecycle-process:2.4.1] /Users/preethamacharya/.gradle/caches/transforms-3/b0761d22b5c86c7f873b7a426ffce717/transformed/lifecycle-process-2.4.1/AndroidManifest.xml:32:17-78
+83                android:value="androidx.startup" />
+83-->[androidx.lifecycle:lifecycle-process:2.4.1] /Users/preethamacharya/.gradle/caches/transforms-3/b0761d22b5c86c7f873b7a426ffce717/transformed/lifecycle-process-2.4.1/AndroidManifest.xml:33:17-49
+84        </provider>
+85    </application>
+86
+87</manifest>

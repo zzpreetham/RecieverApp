@@ -3,6 +3,7 @@ package com.royalenfield.recieverapp.activity;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
@@ -16,6 +17,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -23,6 +25,7 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.EventLogTags;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -179,6 +182,9 @@ public class MainActivity extends AppCompatActivity {
 
         txtodo.setCharacterLists(TickerUtils.provideNumberList());
         txtodo.setPreferredScrollingDirection(TickerView.ScrollingDirection.DOWN);
+        Typeface typeface = ResourcesCompat.getFont(MainActivity.this, R.font.audiowide_regular);
+        txtodo.setTypeface(typeface);
+        txtodo.setGravity(Gravity.CENTER);
 
         new CountDownTimer(10000, 2000) {
             @Override

@@ -73,7 +73,9 @@ drawable right_on
 drawable royal_enfield_logo
 drawable soc
 drawable soc_low
+font alfa_slab_one
 font audiowide
+font audiowide_regular
 id alphabet
 id any
 id battery_percent
@@ -125,7 +127,7 @@ layout re_layout
 string app_name
 style Theme.RecieverApp
 styleable MyCustomView needlecolor linecolor backimage removeborder
-styleable TickerView ticker_animationDuration ticker_animateMeasurementChange ticker_defaultCharacterList ticker_defaultPreferredScrollingDirection android:gravity android:shadowColor android:shadowDx android:shadowDy android:shadowRadius android:text android:textAppearance android:textColor android:textSize android:textStyle
+styleable TickerView ticker_animationDuration ticker_animateMeasurementChange ticker_defaultCharacterList ticker_defaultPreferredScrollingDirection android:gravity android:shadowColor android:shadowDx android:shadowDy android:shadowRadius android:text android:textAppearance android:textColor android:textSize android:textStyle android:fontFamily android:font android:maxLength
 styleable ec_arc_progress ec_arc_container_color ec_arc_progress_color ec_arc_text_size ec_arc_text_color ec_arc_text ec_arc_max ec_arc_current ec_arc_unit_text_size ec_arc_unit_text_color ec_arc_unit_text ec_hud_orientation ec_vb_progress ec_vb_max
 xml backup_rules
 xml data_extraction_rules
