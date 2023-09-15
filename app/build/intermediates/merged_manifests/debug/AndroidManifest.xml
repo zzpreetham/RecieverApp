@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.royalenfield.recieverapp"
     android:versionCode="1"
-    android:versionName="1.8" >
+    android:versionName="2.0" >
 
     <uses-sdk
         android:minSdkVersion="26"
@@ -12,6 +12,8 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <permission
         android:name="com.royalenfield.recieverapp.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
@@ -26,9 +28,9 @@
         android:debuggable="true"
         android:extractNativeLibs="false"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@drawable/applogo"
+        android:icon="@drawable/logo"
         android:label="@string/app_name"
-        android:roundIcon="@drawable/applogo"
+        android:roundIcon="@drawable/logo"
         android:supportsRtl="true"
         android:testOnly="true"
         android:theme="@style/Theme.RecieverApp"

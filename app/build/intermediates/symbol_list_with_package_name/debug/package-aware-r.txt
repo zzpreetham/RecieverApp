@@ -2996,7 +2996,6 @@ drawable abc_textfield_search_material
 drawable abc_vector_test
 drawable abs
 drawable abs_on
-drawable applogo
 drawable avd_hide_password
 drawable avd_show_password
 drawable bg5
@@ -3302,7 +3301,6 @@ id disableIntraAutoTransition
 id disablePostScroll
 id disableScroll
 id disjoint
-id distance_change
 id down
 id dragAnticlockwise
 id dragClockwise
@@ -3484,7 +3482,6 @@ id notification_main_column_container
 id number
 id odoMeter
 id odoTxt
-id odo_change
 id off
 id on
 id onInterceptTouchReturnSwipe
@@ -3582,7 +3579,6 @@ id spacer
 id special_effects_controller_view_tag
 id speed
 id speedTxt
-id speed_change
 id speedometerview
 id splashLogo
 id spline

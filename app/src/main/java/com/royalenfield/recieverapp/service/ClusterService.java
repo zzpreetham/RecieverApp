@@ -23,7 +23,9 @@ import org.json.JSONObject;
 public class ClusterService extends Service{
 
     private MyBroadcastReceiver MyReceiver;
-    public static final String CUSTOM_ACTION = "com.royalenfield.evcansim.CUSTOM_ACTION";
+    private double speed;
+    private double soc;
+    public static final String CUSTOM_ACTION = "com.example.myapplication.ACTION_SEND";
 
     @Nullable
     @Override
@@ -35,7 +37,7 @@ public class ClusterService extends Service{
     public int onStartCommand(Intent intent, int flags, int startId) {
 
         //Receive data which has been broadcasted
-        IntentFilter filter = new IntentFilter("com.royalenfield.evcansim.CUSTOM_ACTION");
+        IntentFilter filter = new IntentFilter("com.example.myapplication.ACTION_SEND");
         MyReceiver = new MyBroadcastReceiver();
         registerReceiver(MyReceiver, filter);
         return super.onStartCommand(intent, flags, startId);
@@ -53,8 +55,34 @@ public class ClusterService extends Service{
             if (intent != null && intent.getAction() != null) {
                 if (intent.getAction().equals(CUSTOM_ACTION)) {
                     try {
+
+                        //Log.d("received_can",jsonObject.toString());
+                        /*double tempSpeed = intent.getDoubleExtra("speed", -1.0);
+                        Log.d("Rec_speed",tempSpeed+"");
+                        if( tempSpeed != -1.0) {
+
+                            speed = tempSpeed;
+                            speed = speed * 100;
+                            speed = Math.round(speed);
+                            speed = speed / 100;
+                            MainActivity.speedModel.updateData(String.valueOf((int)speed));
+                        }
+
+                        double tempSoc =  intent.getDoubleExtra("soc", -1.0);
+                        Log.d("MyBroadcastReceiver", "tempsoc: " + tempSoc);
+                        if( tempSoc != -1.0 ) {
+                            soc = tempSoc;
+                            soc = soc *100;
+                            soc = Math.round(soc);
+                            soc = Math.round(soc);
+                            soc = Math.round(soc);
+                            soc = soc /100;
+                            MainActivity.socModel.updateData(String.valueOf((int)soc));
+                        }*/
+
+                        //JSONObject jsonObject = new JSONObject(intent.getStringExtra(""));
+
                         JSONObject jsonObject = new JSONObject(intent.getStringExtra(""));
-                        Log.d("received_can",jsonObject.toString());
                         if (jsonObject.getString("signal").contains("speed")) {
                             MainActivity.speedModel.updateData(jsonObject.getString("data"));
                         } else if (jsonObject.getString("signal").contains("vehicle_range")) {
@@ -88,6 +116,7 @@ public class ClusterService extends Service{
                         }else if(jsonObject.getString("signal").contains("reverse_mode")){
                             MainActivity.reverseModeModel.updateData(jsonObject.getString("data"));
                         }
+
 
                         MainActivity.dataReceived = true;
 

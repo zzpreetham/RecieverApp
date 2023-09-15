@@ -7,8 +7,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class DBHandler extends SQLiteOpenHelper {
     private static final String DB_NAME = "re_database";
-    private static final int DB_VERSION = 1;
-    private static final String TABLE_NAME = "mqtt_raw_data";
+    private static final int DB_VERSION = 2;
+    private static final String TABLE_NAME = "mqtt_data";
     private static final String ID_COL = "id";
     private static final String RAW_DTA = "raw_data";
     private static final String UPLOAD_STATUS = "upload_status";
@@ -22,7 +22,7 @@ public class DBHandler extends SQLiteOpenHelper {
                 + ID_COL + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + RAW_DTA + " TEXT,"
                 + UPLOAD_STATUS + " TEXT,"
-                + TIMESTAMP + " TEXT)";
+                + TIMESTAMP + " TEXT )";
 
         db.execSQL(query);
     }

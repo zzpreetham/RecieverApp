@@ -43,7 +43,6 @@ color transparent
 color white
 drawable abs
 drawable abs_on
-drawable applogo
 drawable bg5
 drawable bike
 drawable bike_charge
@@ -86,7 +85,6 @@ id chargePercentbat
 id charging_bike
 id charging_time
 id constraintLayout
-id distance_change
 id down
 id gradiant_progress
 id imageView8
@@ -102,14 +100,12 @@ id modes
 id number
 id odoMeter
 id odoTxt
-id odo_change
 id rangeTxt
 id right_ind
 id rlByDrive
 id seekBar
 id speed
 id speedTxt
-id speed_change
 id speedometerview
 id splashLogo
 id txtmodes

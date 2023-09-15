@@ -1,8 +1,12 @@
 package com.royalenfield.recieverapp.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -12,10 +16,14 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
 import com.royalenfield.recieverapp.R;
+import com.royalenfield.recieverapp.database.DBHandler;
+import com.royalenfield.recieverapp.database.LocationDBHandler;
 
 public class SplashScreen extends AppCompatActivity {
 
     ImageView logo;
+    DBHandler dbHandler;
+    LocationDBHandler locationDBHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +31,20 @@ public class SplashScreen extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_splash_screen);
+        dbHandler = new DBHandler(SplashScreen.this);
+        locationDBHandler = new LocationDBHandler(SplashScreen.this);
+
+        try {
+            if (ContextCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 101);
+            }else if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_COARSE_LOCATION}, 101);
+            }else {
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         //remove bottom navigation
         View decorView = getWindow().getDecorView();
         int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION |View.SYSTEM_UI_FLAG_FULLSCREEN;

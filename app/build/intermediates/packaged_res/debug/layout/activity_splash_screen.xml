@@ -9,11 +9,12 @@
     android:orientation="vertical"
     tools:context=".activity.SplashScreen">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="800px"
         android:layout_height="800px"
         android:gravity="center"
+        android:background="@drawable/circle_progress"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -22,10 +23,11 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintLayout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="700px"
+            android:layout_height="700px"
             android:layout_margin="5dp"
-            android:background="@drawable/circle_progress"
+           android:background="@drawable/circle"
+            android:backgroundTint="@color/black"
             android:gravity="center"
             android:orientation="vertical"
             tools:layout_editor_absoluteX="5dp"
@@ -44,6 +46,6 @@
                 app:srcCompat="@drawable/royal_enfield_logo" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
