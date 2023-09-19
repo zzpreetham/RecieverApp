@@ -15,6 +15,7 @@
         </item>
     </string-array>
     <array name="preloaded_fonts" translatable="false">
+        <item>@font/alfa_slab_one</item>
         <item>@font/audiowide</item>
     </array>
     <color name="background">#232323</color>
@@ -23,14 +24,17 @@
     <color name="purple_500">#FF6200EE</color>
     <color name="purple_700">#FF3700B3</color>
     <color name="redCircleColor">#da291c</color>
+    <color name="smoke_grey">#848884 </color>
     <color name="teal_200">#EB262D</color>
     <color name="teal_700">#FF018786</color>
     <color name="textColor">#323232</color>
     <color name="textLightColor">#999999</color>
+    <color name="transparent">#0000ffff </color>
     <color name="white">#FFFFFFFF</color>
     <string name="app_name">RecieverApp</string>
     <style name="Theme.RecieverApp" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         
+        <item name="fontFamily">@font/audiowide_regular</item>
         <item name="colorPrimary">@color/purple_500</item>
         <item name="colorPrimaryVariant">@color/purple_700</item>
         <item name="colorOnPrimary">@color/white</item>
@@ -73,6 +77,9 @@
         <attr name="android:textColor" ns1:ignore="ResourceName"/>
         <attr name="android:textSize" ns1:ignore="ResourceName"/>
         <attr name="android:textStyle" ns1:ignore="ResourceName"/>
+        <attr name="android:fontFamily" ns1:ignore="ResourceName"/>
+        <attr name="android:font" ns1:ignore="ResourceName"/>
+        <attr name="android:maxLength" ns1:ignore="ResouceName"/>
     </declare-styleable>
     <declare-styleable name="ec_arc_progress">
         <attr format="color" name="ec_arc_container_color"/>

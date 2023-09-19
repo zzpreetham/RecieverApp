@@ -108,6 +108,19 @@
       externalAnnotations="annotations.zip"
       proguardRules="proguard.txt"/>
   <library
+      name="com.shimaami.android:progressview:1.0.1@aar"
+      jars="/Users/preethamacharya/.gradle/caches/transforms-3/799eaa30f09efa4228caabec61e2a239/transformed/progressview-1.0.1/jars/classes.jar"
+      resolved="com.shimaami.android:progressview:1.0.1"
+      folder="/Users/preethamacharya/.gradle/caches/transforms-3/799eaa30f09efa4228caabec61e2a239/transformed/progressview-1.0.1"
+      manifest="AndroidManifest.xml"
+      resFolder="res"
+      assetsFolder="assets"
+      lintJar="lint.jar"
+      publicResources="public.txt"
+      symbolFile="R.txt"
+      externalAnnotations="annotations.zip"
+      proguardRules="proguard.txt"/>
+  <library
       name="androidx.viewpager2:viewpager2:1.0.0@aar"
       jars="/Users/preethamacharya/.gradle/caches/transforms-3/d79342ee9818b768bd3b596a7b57b752/transformed/viewpager2-1.0.0/jars/classes.jar"
       resolved="androidx.viewpager2:viewpager2:1.0.0"

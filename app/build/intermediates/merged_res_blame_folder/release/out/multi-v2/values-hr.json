@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.royalenfield.recieverapp-mergeReleaseResources-31:/values-hr/values-hr.xml",
+            "outputFile": "com.royalenfield.recieverapp-mergeReleaseResources-32:/values-hr/values-hr.xml",
             "map": [
                 {
                     "source": "/Users/preethamacharya/.gradle/caches/transforms-3/901bd1e79ca3a5e2188025eed5ecc80d/transformed/appcompat-1.6.1/res/values-hr/values-hr.xml",

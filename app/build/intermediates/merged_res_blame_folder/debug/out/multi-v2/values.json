@@ -160,9 +160,11 @@
                 {
                     "source": "/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/github/RecieverApp/app/src/main/res/values/strings.xml",
                     "from": {
-                        "startLines": "-1",
-                        "startColumns": "-1",
-                        "startOffsets": "-1"
+                        "startLines": "1",
+                        "startColumns": "4",
+                        "startOffsets": "16",
+                        "endColumns": "48",
+                        "endOffsets": "60"
                     },
                     "to": {
                         "startLines": "2019",

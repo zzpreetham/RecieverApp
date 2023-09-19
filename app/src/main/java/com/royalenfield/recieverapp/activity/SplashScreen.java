@@ -16,13 +16,13 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
 import com.royalenfield.recieverapp.R;
-import com.royalenfield.recieverapp.database.DBHandler;
+import com.royalenfield.recieverapp.database.MqttDBHelper;
 import com.royalenfield.recieverapp.database.LocationDBHandler;
 
 public class SplashScreen extends AppCompatActivity {
 
     ImageView logo;
-    DBHandler dbHandler;
+    MqttDBHelper mqttDbHandler;
     LocationDBHandler locationDBHandler;
 
     @Override
@@ -31,15 +31,18 @@ public class SplashScreen extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_splash_screen);
-        dbHandler = new DBHandler(SplashScreen.this);
-        locationDBHandler = new LocationDBHandler(SplashScreen.this);
+        mqttDbHandler = new MqttDBHelper(this);
+
+        locationDBHandler = new LocationDBHandler(this);
 
         try {
             if (ContextCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 101);
-            }else if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            }
+            else if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_COARSE_LOCATION}, 101);
-            }else {
+            }
+            else {
 
             }
         } catch (Exception e) {

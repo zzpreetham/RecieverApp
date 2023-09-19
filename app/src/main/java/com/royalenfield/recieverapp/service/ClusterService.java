@@ -118,7 +118,7 @@ public class ClusterService extends Service{
                         }
 
 
-                        MainActivity.dataReceived = true;
+                        //MainActivity.dataReceived = true;
 
                     } catch (Exception e) {
                         e.printStackTrace();

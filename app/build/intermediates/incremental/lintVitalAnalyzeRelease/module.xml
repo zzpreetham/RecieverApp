@@ -1,6 +1,6 @@
 <lint-module
     format="1"
-    dir="/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/recieverapp/app"
+    dir="/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/github/RecieverApp/app"
     name=":app"
     type="APP"
     maven="RecieverApp:app:"

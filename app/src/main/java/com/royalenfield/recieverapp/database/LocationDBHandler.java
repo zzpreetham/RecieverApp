@@ -15,7 +15,7 @@ import java.util.ArrayList;
 public class LocationDBHandler extends SQLiteOpenHelper {
 
     private static final String DB_NAME = "re_database";
-    private static final int DB_VERSION = 2;
+    private static final int DB_VERSION = 4;
     private static final String TABLE_NAME = "location_data";
     private static final String ID_COL = "id";
     private static final String LATITUDE = "latitude";

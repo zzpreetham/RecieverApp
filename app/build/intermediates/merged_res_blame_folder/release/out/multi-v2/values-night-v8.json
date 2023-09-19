@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.royalenfield.recieverapp-mergeReleaseResources-31:/values-night-v8/values-night-v8.xml",
+            "outputFile": "com.royalenfield.recieverapp-mergeReleaseResources-32:/values-night-v8/values-night-v8.xml",
             "map": [
                 {
                     "source": "/Users/preethamacharya/.gradle/caches/transforms-3/573f9f0e2da9b7b9734db7d3a838fa29/transformed/neumorphism-0.3.0/res/values-night-v8/values-night-v8.xml",

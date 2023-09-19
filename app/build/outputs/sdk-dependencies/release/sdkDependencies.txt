@@ -738,7 +738,7 @@ library {
     sha256: "\236\377\231\304L\tJ\032\226b7\0369\2122\022\301A\366\377\032\026\375\240N\307?\230\263R\027\255"
   }
   repo_index {
-    value: 2
+    value: 3
   }
 }
 library {
@@ -751,7 +751,7 @@ library {
     sha256: ">\207\031\207\317_\264\024B\246B\376 b\242\257\220MnL\203[\334\3124hXT\316\310\335\220"
   }
   repo_index {
-    value: 2
+    value: 3
   }
 }
 library {
@@ -840,6 +840,19 @@ library {
     sha256: "\312(\001\377\300iUZ\376\330\355\335\"\222\023\017CiVE+\310\273\2550\373V\370\344\343\202\240"
   }
   repo_index {
+  }
+}
+library {
+  maven_library {
+    groupId: "com.shimaami.android"
+    artifactId: "progressview"
+    version: "1.0.1"
+  }
+  digests {
+    sha256: "\016&\264Q\024?\216\320\r\362\347~\211\017\265\"\027\224\001\352;*5\361?*\030\270)N\323\264"
+  }
+  repo_index {
+    value: 1
   }
 }
 library_dependencies {
@@ -1242,10 +1255,16 @@ module_dependencies {
   dependency_index: 61
   dependency_index: 62
   dependency_index: 67
+  dependency_index: 69
 }
 repositories {
   maven_repo {
     url: "https://dl.google.com/dl/android/maven2/"
+  }
+}
+repositories {
+  maven_repo {
+    url: "https://jcenter.bintray.com/"
   }
 }
 repositories {

@@ -27,6 +27,7 @@ anim design_bottom_sheet_slide_in
 anim design_bottom_sheet_slide_out
 anim design_snackbar_in
 anim design_snackbar_out
+anim fade_animation
 anim fragment_fast_out_extra_slow_in
 anim linear_indeterminate_line1_head_interpolator
 anim linear_indeterminate_line1_tail_interpolator
@@ -41,6 +42,8 @@ anim m3_side_sheet_slide_out
 anim mtrl_bottom_sheet_slide_in
 anim mtrl_bottom_sheet_slide_out
 anim mtrl_card_lowers_interpolator
+anim slideout1
+anim slideout2
 animator button_state_list_anim_neumorph
 animator design_appbar_state_list_animator
 animator design_fab_hide_motion_spec
@@ -1014,6 +1017,14 @@ attr preserveIconSpacing
 attr pressedTranslationZ
 attr progressBarPadding
 attr progressBarStyle
+attr pvAnimateDuration
+attr pvBackgroundColor
+attr pvBackgroundWidth
+attr pvDirection
+attr pvProgress
+attr pvProgressColor
+attr pvProgressWidth
+attr pvShape
 attr quantizeMotionInterpolator
 attr quantizeMotionPhase
 attr quantizeMotionSteps
@@ -2103,6 +2114,7 @@ color secondary_text_default_material_dark
 color secondary_text_default_material_light
 color secondary_text_disabled_material_dark
 color secondary_text_disabled_material_light
+color smoke_grey
 color switch_thumb_disabled_material_dark
 color switch_thumb_disabled_material_light
 color switch_thumb_material_dark
@@ -2115,6 +2127,7 @@ color textColor
 color textLightColor
 color tooltip_background_dark
 color tooltip_background_light
+color transparent
 color white
 dimen abc_action_bar_content_inset_material
 dimen abc_action_bar_content_inset_with_nav
@@ -2983,11 +2996,11 @@ drawable abc_textfield_search_material
 drawable abc_vector_test
 drawable abs
 drawable abs_on
-drawable applogo
 drawable avd_hide_password
 drawable avd_show_password
 drawable bg5
 drawable bike
+drawable bike_charge
 drawable btn_checkbox_checked_mtrl
 drawable btn_checkbox_checked_to_unchecked_mtrl_animation
 drawable btn_checkbox_unchecked_mtrl
@@ -3001,6 +3014,7 @@ drawable charge_complete
 drawable charge_error
 drawable charge_on
 drawable circle
+drawable circle_progress
 drawable circular_layout
 drawable custom_seekbar
 drawable default_edit_text_background
@@ -3107,12 +3121,15 @@ drawable power
 drawable power_on
 drawable right
 drawable right_on
+drawable royal_enfield_logo
 drawable soc
 drawable soc_low
 drawable test_level_drawable
 drawable tooltip_frame_dark
 drawable tooltip_frame_light
+font alfa_slab_one
 font audiowide
+font audiowide_regular
 id ALT
 id BOTTOM_END
 id BOTTOM_START
@@ -3205,6 +3222,8 @@ id autoCompleteToStart
 id barrier
 id baseline
 id basin
+id battery_percent
+id battery_soh
 id beginOnFirstDraw
 id beginning
 id bestChoice
@@ -3227,7 +3246,11 @@ id center_vertical
 id chain
 id chain2
 id chains
+id chargeON
 id chargePercent
+id chargePercentbat
+id charging_bike
+id charging_time
 id checkbox
 id checked
 id chronometer
@@ -3243,6 +3266,7 @@ id compress
 id concave
 id confirm_button
 id constraint
+id constraintLayout
 id container
 id content
 id contentPanel
@@ -3277,7 +3301,6 @@ id disableIntraAutoTransition
 id disablePostScroll
 id disableScroll
 id disjoint
-id distance_change
 id down
 id dragAnticlockwise
 id dragClockwise
@@ -3319,12 +3342,15 @@ id flip
 id floating
 id forever
 id fragment_container_view_tag
+id fromLeft
+id fromRight
 id frost
 id fullscreen_header
 id ghost_view
 id ghost_view_holder
 id glide_custom_view_target_tag
 id gone
+id gradiant_progress
 id graph
 id graph_wrap
 id group_divider
@@ -3342,6 +3368,7 @@ id ifRoom
 id ignore
 id ignoreRequest
 id image
+id imageView8
 id immediateStop
 id included
 id indeterminate
@@ -3355,6 +3382,7 @@ id jumpToStart
 id labeled
 id landscapeProgressWidget
 id landscapeProgressWidgetCharging
+id landscapeProgressWidgetChargingbat
 id layout
 id left
 id leftBottom
@@ -3362,10 +3390,13 @@ id leftToRight
 id leftTop
 id left_ind
 id legacy
+id line
 id line1
 id line3
 id linear
 id linearLayout
+id linearLayout_cluster
+id linearLayoutbat
 id listMode
 id list_item
 id m3_side_sheet
@@ -3397,6 +3428,8 @@ id matrix
 id message
 id middle
 id mini
+id mode_type
+id modes
 id month_grid
 id month_navigation_bar
 id month_navigation_fragment_toggle
@@ -3449,7 +3482,6 @@ id notification_main_column_container
 id number
 id odoMeter
 id odoTxt
-id odo_change
 id off
 id on
 id onInterceptTouchReturnSwipe
@@ -3547,8 +3579,8 @@ id spacer
 id special_effects_controller_view_tag
 id speed
 id speedTxt
-id speed_change
 id speedometerview
+id splashLogo
 id spline
 id split_action_bar
 id spread
@@ -3762,6 +3794,7 @@ layout abc_search_dropdown_item_icons_2line
 layout abc_search_view
 layout abc_select_dialog_material
 layout abc_tooltip
+layout activity_splash_screen
 layout custom_dialog
 layout design_bottom_navigation_item
 layout design_bottom_sheet_dialog
@@ -5282,6 +5315,7 @@ styleable OnClick clickAction targetId
 styleable OnSwipe autoCompleteMode dragDirection dragScale dragThreshold limitBoundsTo maxAcceleration maxVelocity moveWhenScrollAtTop nestedScrollFlags onTouchUp rotationCenterId springBoundary springDamping springMass springStiffness springStopThreshold touchAnchorId touchAnchorSide touchRegionId
 styleable PopupWindow android_popupBackground android_popupAnimationStyle overlapAnchor
 styleable PopupWindowBackgroundState state_above_anchor
+styleable ProgressView pvAnimateDuration pvBackgroundColor pvBackgroundWidth pvDirection pvProgress pvProgressColor pvProgressWidth pvShape
 styleable PropertySet android_visibility android_alpha layout_constraintTag motionProgress visibilityMode
 styleable RadialViewGroup materialCircleRadius
 styleable RangeSlider minSeparation values
@@ -5311,7 +5345,7 @@ styleable TextEffects android_textSize android_typeface android_textStyle androi
 styleable TextInputEditText textInputLayoutFocusedRectEnabled
 styleable TextInputLayout android_enabled android_textColorHint android_maxWidth android_minWidth android_hint android_maxEms android_minEms boxBackgroundColor boxBackgroundMode boxCollapsedPaddingTop boxCornerRadiusBottomEnd boxCornerRadiusBottomStart boxCornerRadiusTopEnd boxCornerRadiusTopStart boxStrokeColor boxStrokeErrorColor boxStrokeWidth boxStrokeWidthFocused counterEnabled counterMaxLength counterOverflowTextAppearance counterOverflowTextColor counterTextAppearance counterTextColor endIconCheckable endIconContentDescription endIconDrawable endIconMinSize endIconMode endIconScaleType endIconTint endIconTintMode errorAccessibilityLiveRegion errorContentDescription errorEnabled errorIconDrawable errorIconTint errorIconTintMode errorTextAppearance errorTextColor expandedHintEnabled helperText helperTextEnabled helperTextTextAppearance helperTextTextColor hintAnimationEnabled hintEnabled hintTextAppearance hintTextColor passwordToggleContentDescription passwordToggleDrawable passwordToggleEnabled passwordToggleTint passwordToggleTintMode placeholderText placeholderTextAppearance placeholderTextColor prefixText prefixTextAppearance prefixTextColor shapeAppearance shapeAppearanceOverlay startIconCheckable startIconContentDescription startIconDrawable startIconMinSize startIconScaleType startIconTint startIconTintMode suffixText suffixTextAppearance suffixTextColor
 styleable ThemeEnforcement android_textAppearance enforceMaterialTheme enforceTextAppearance
-styleable TickerView android_textAppearance android_textSize android_textStyle android_textColor android_gravity android_text android_shadowColor android_shadowDx android_shadowDy android_shadowRadius ticker_animateMeasurementChange ticker_animationDuration ticker_defaultCharacterList ticker_defaultPreferredScrollingDirection
+styleable TickerView android_textAppearance android_textSize android_textStyle android_textColor android_gravity android_text android_maxLength android_shadowColor android_shadowDx android_shadowDy android_shadowRadius android_fontFamily android_font ticker_animateMeasurementChange ticker_animationDuration ticker_defaultCharacterList ticker_defaultPreferredScrollingDirection
 styleable Toolbar android_gravity android_minHeight buttonGravity collapseContentDescription collapseIcon contentInsetEnd contentInsetEndWithActions contentInsetLeft contentInsetRight contentInsetStart contentInsetStartWithNavigation logo logoDescription maxButtonHeight menu navigationContentDescription navigationIcon popupTheme subtitle subtitleTextAppearance subtitleTextColor title titleMargin titleMarginBottom titleMarginEnd titleMarginStart titleMarginTop titleMargins titleTextAppearance titleTextColor
 styleable Tooltip android_textAppearance android_textColor android_padding android_layout_margin android_minWidth android_minHeight android_text backgroundTint
 styleable Transform android_transformPivotX android_transformPivotY android_translationX android_translationY android_scaleX android_scaleY android_rotation android_rotationX android_rotationY android_translationZ android_elevation transformPivotTarget
