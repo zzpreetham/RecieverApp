@@ -3026,6 +3026,7 @@ drawable design_password_eye
 drawable design_snackbar_background
 drawable dtc
 drawable dtc_on
+drawable fail_upload
 drawable gradient_circle_border
 drawable hazard
 drawable hazard_on
@@ -3127,6 +3128,7 @@ drawable soc_low
 drawable test_level_drawable
 drawable tooltip_frame_dark
 drawable tooltip_frame_light
+drawable upload
 font alfa_slab_one
 font audiowide
 font audiowide_regular
@@ -3437,6 +3439,7 @@ id month_navigation_next
 id month_navigation_previous
 id month_title
 id motion_base
+id mqtt_upload
 id mtrl_anchor_parent
 id mtrl_calendar_day_selector_frame
 id mtrl_calendar_days_of_week

@@ -69,6 +69,7 @@ import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 
 import java.text.SimpleDateFormat;
+import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -97,6 +98,8 @@ public class MainActivity extends AppCompatActivity {
     ImageView abs_str;
     ImageView vehicle_charge;
     ImageView vehicle_chargeBat;
+
+    ImageView mqttUploadStatusImg;
 
     public static String LowSoc, right, left, hazard;
 
@@ -231,6 +234,8 @@ public class MainActivity extends AppCompatActivity {
         mProgressView = findViewById(R.id.gradiant_progress);
         linearLayout_cluster = findViewById(R.id.linearLayout_cluster);
         linearLayoutbat = findViewById(R.id.linearLayoutbat);
+        mqttUploadStatusImg = findViewById(R.id.mqtt_upload);
+        Glide.with(MainActivity.this).load(R.drawable.upload).into(mqttUploadStatusImg);
 
         txtodo.setCharacterLists(TickerUtils.provideNumberList());
         txtodo.setPreferredScrollingDirection(TickerView.ScrollingDirection.DOWN);
@@ -527,8 +532,18 @@ public class MainActivity extends AppCompatActivity {
                 ConnectivityManager conMgr =  (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
                 NetworkInfo netInfo = conMgr.getActiveNetworkInfo();
                 if (netInfo == null){
+                    runOnUiThread(new Runnable() {
+                        public void run() {
+                            Glide.with(MainActivity.this).load(R.drawable.upload).into(mqttUploadStatusImg);
+                        }
+                    });
                     save_mqtt_records(content,"0",String.valueOf(System.currentTimeMillis()));
                 }else{
+                    runOnUiThread(new Runnable() {
+                        public void run() {
+                            Glide.with(MainActivity.this).load(R.drawable.fail_upload).into(mqttUploadStatusImg);
+                        }
+                    });
                     try {
                         save_mqtt_records(content,"1",String.valueOf(System.currentTimeMillis()));
                         MqttClient client = new MqttClient(broker, clientid, new MemoryPersistence());
@@ -560,12 +575,27 @@ public class MainActivity extends AppCompatActivity {
                     catch (MqttException e){
                         save_mqtt_records(content,"0",String.valueOf(System.currentTimeMillis()));
                         e.printStackTrace();
+                        Log.d("error",e.getMessage());
+                        if(Objects.requireNonNull(e.getMessage()).equalsIgnoreCase("Unable to connect to server")){
+                            runOnUiThread(new Runnable() {
+                                public void run() {
+                                    Glide.with(MainActivity.this).load(R.drawable.fail_upload).into(mqttUploadStatusImg);
+                                }
+                            });
+                        }
                     }
                 }
                 uploadData.cancel(true);
             }
             catch (Exception e){
                 e.printStackTrace();
+                if(Objects.requireNonNull(e.getMessage()).equalsIgnoreCase("Unable to connect to server")){
+                    runOnUiThread(new Runnable() {
+                        public void run() {
+                            Glide.with(MainActivity.this).load(R.drawable.fail_upload).into(mqttUploadStatusImg);
+                        }
+                    });
+                }
             }
 
             return content;

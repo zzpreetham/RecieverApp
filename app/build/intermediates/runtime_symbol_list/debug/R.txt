@@ -3025,6 +3025,7 @@ int drawable design_password_eye 0x7f080093
 int drawable design_snackbar_background 0x7f080094
 int drawable dtc 0x7f080095
 int drawable dtc_on 0x7f080096
+int drawable fail_upload 0x7f0800fc
 int drawable gradient_circle_border 0x7f080097
 int drawable hazard 0x7f080098
 int drawable hazard_on 0x7f080099
@@ -3126,6 +3127,7 @@ int drawable soc_low 0x7f0800f8
 int drawable test_level_drawable 0x7f0800f9
 int drawable tooltip_frame_dark 0x7f0800fa
 int drawable tooltip_frame_light 0x7f0800fb
+int drawable upload 0x7f0800fd
 int font alfa_slab_one 0x7f090000
 int font audiowide 0x7f090001
 int font audiowide_regular 0x7f090002
@@ -3436,6 +3438,7 @@ int id month_navigation_next 0x7f0a012f
 int id month_navigation_previous 0x7f0a0130
 int id month_title 0x7f0a0131
 int id motion_base 0x7f0a0132
+int id mqtt_upload 0x7f0a0225
 int id mtrl_anchor_parent 0x7f0a0133
 int id mtrl_calendar_day_selector_frame 0x7f0a0134
 int id mtrl_calendar_days_of_week 0x7f0a0135

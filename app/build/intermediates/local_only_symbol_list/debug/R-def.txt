@@ -57,6 +57,7 @@ drawable custom_seekbar
 drawable degress
 drawable dtc
 drawable dtc_on
+drawable fail_upload
 drawable gradient_circle_border
 drawable hazard
 drawable hazard_on
@@ -72,6 +73,7 @@ drawable right_on
 drawable royal_enfield_logo
 drawable soc
 drawable soc_low
+drawable upload
 font alfa_slab_one
 font audiowide
 font audiowide_regular
@@ -97,6 +99,7 @@ id linearLayout_cluster
 id linearLayoutbat
 id mode_type
 id modes
+id mqtt_upload
 id number
 id odoMeter
 id odoTxt
