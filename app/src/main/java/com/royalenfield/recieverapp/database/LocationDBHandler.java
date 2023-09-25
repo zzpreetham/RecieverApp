@@ -26,6 +26,8 @@ public class LocationDBHandler extends SQLiteOpenHelper {
     public LocationDBHandler(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
     }
+
+    //DB creation
     @Override
     public void onCreate(SQLiteDatabase db) {
         String query = "CREATE TABLE " + TABLE_NAME + " ("
@@ -37,6 +39,7 @@ public class LocationDBHandler extends SQLiteOpenHelper {
         db.execSQL(query);
     }
 
+    //Insertion
     public void addNewLocation(String latitude, String longitude, String timestamp) {
 
         SQLiteDatabase db = this.getWritableDatabase();
@@ -48,6 +51,7 @@ public class LocationDBHandler extends SQLiteOpenHelper {
         db.close();
     }
 
+    //update location
     public boolean updateLocation(String latitude, String longitude, String timestamp){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -65,6 +69,7 @@ public class LocationDBHandler extends SQLiteOpenHelper {
         onCreate(db);
     }
 
+    //Fetching records from DB
     public Cursor getAllData(){
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor res = db.rawQuery("select * from "+TABLE_NAME,null);

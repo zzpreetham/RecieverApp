@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.royalenfield.recieverapp"
     android:versionCode="1"
-    android:versionName="2.1" >
+    android:versionName="2.2" >
 
     <uses-sdk
         android:minSdkVersion="26"
@@ -37,11 +37,16 @@
         android:usesCleartextTraffic="true" >
         <activity
             android:name="com.royalenfield.recieverapp.activity.SplashScreen"
-            android:exported="true" >
+            android:clearTaskOnLaunch="true"
+            android:exported="true"
+            android:launchMode="singleTask"
+            android:stateNotNeeded="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.HOME" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
 
             <meta-data

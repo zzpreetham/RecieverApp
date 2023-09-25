@@ -86,10 +86,6 @@ public class MainActivity extends AppCompatActivity {
     TextView txtvehiclechrgBattery;
     TextView txtvehiclechrgTime;
     TextView txtvehiclechrgPercent;
-    TextView txtchrgtym;
-    TextView txtsoc;
-    TextView txtLowSoc;
-    TextView txtbatterysoh;
     ImageView rightstr;
     ImageView leftstr;
     ImageView hazardstr;
@@ -103,6 +99,7 @@ public class MainActivity extends AppCompatActivity {
 
     public static String LowSoc, right, left, hazard;
 
+    //MQTT server Creditentials
     String broker = "tcp://35.200.186.3:1883";
     //String broker = "tcp://0.0.0.0:1883";
     String topic = "gprsData";
@@ -170,6 +167,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //Full screen mode enabling
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
@@ -184,10 +182,12 @@ public class MainActivity extends AppCompatActivity {
         stGPSValidity = 0;//0 is Invalid 1 is Valid.
         lastLocRecivedTimestamp = 0;
 
+        //MQTT Data base initilization
         mqttDbHandler = new MqttDBHelper(MainActivity.this);
         mqttDbHandler.createIfNotExists();
         mqttDbHandler.close();
 
+        //Location Database initilization
         locationDBHandler = new LocationDBHandler(MainActivity.this);
 
         locationDataCursor = locationDBHandler.getAllData();
@@ -199,6 +199,7 @@ public class MainActivity extends AppCompatActivity {
             stGPSValidity = 0;
         }
         else {
+            //Getting last location from SQLlite DB
             while (locationDataCursor.moveToNext()) {
                 //Log.d("locationCursor", locationDataCursor.getString(0) + "\t" +locationDataCursor.getString(1) + "\t" + locationDataCursor.getString(2));
 
@@ -210,6 +211,7 @@ public class MainActivity extends AppCompatActivity {
 
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
+        //Initilization
         txtspeed = findViewById(R.id.speed);
         txtdistance = findViewById(R.id.rangeTxt);
         txtodo = findViewById(R.id.odoMeter);
@@ -243,6 +245,7 @@ public class MainActivity extends AppCompatActivity {
         txtodo.setTypeface(typeface);
         txtodo.setGravity(Gravity.CENTER);
 
+        //Running timer for MQTT data upload to server with delay of 2sec interval
         handler.postDelayed(runnable = new Runnable() {
             public void run() {
                 //logic to check GPS validity
@@ -289,9 +292,10 @@ public class MainActivity extends AppCompatActivity {
         }, delay);
 
 
-
+        //Starting the receiver service
         startService(new Intent(MainActivity.this, ClusterService.class));
 
+        //initilization of MutableLiveData variables
         speedModel= new ViewModelProvider(this).get(SpeedModel.class);
         distanceModel = new ViewModelProvider(this).get(DistanceModel.class);
         odoModel = new ViewModelProvider(this).get(OdoModel.class);
@@ -309,6 +313,7 @@ public class MainActivity extends AppCompatActivity {
         ridingModeModel = new ViewModelProvider(this).get(RidingModeModel.class);
         reverseModeModel = new ViewModelProvider(this).get(ReverseModeModel.class);
 
+        //Receiving Speed data from MutableLiveData
         speedModel.getData().observe(this, newData -> {
             // Update UI components with the new data
             speedometer = newData;
@@ -331,12 +336,14 @@ public class MainActivity extends AppCompatActivity {
         });
 
         distanceModel.getData().observe(this,newData ->{
+            // Update UI components with the new data
             vehicleRange = newData;
             seekBar.setProgress(Integer.parseInt(vehicleRange));
             txtdistance.setText(vehicleRange + " km");
         });
 
         odoModel.getData().observe(this,newData->{
+            // Update UI components with the new data
             vehicleOdometer = newData;
             //vehicleOdometer = String.valueOf(Integer.parseInt(vehicleOdometer)* 234);
             txtodo.setText(vehicleOdometer);
@@ -344,6 +351,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         chargingStatusModel.getData().observe(this,newData->{
+            // Update UI components with the new data
             vehicleCharge = newData;
             vehicle_charge.setVisibility(View.VISIBLE);
             if (vehicleCharge.equalsIgnoreCase("DISABLED")) {
@@ -373,11 +381,13 @@ public class MainActivity extends AppCompatActivity {
         });
 
         chargingTimeModel.getData().observe(this,newData->{
+            // Update UI components with the new data
             vehicleChargingTime = newData;
             txtvehiclechrgTime.setText(getTotalTime(Integer.parseInt(vehicleChargingTime)));
         });
 
         socModel.getData().observe(this,newData->{
+            // Update UI components with the new data
             stateOfCharge = newData;
             if (stateOfCharge.equalsIgnoreCase("0")){
             }
@@ -394,14 +404,17 @@ public class MainActivity extends AppCompatActivity {
         });
 
         lowSOCModel.getData().observe(this,newData->{
+            // Update UI components with the new data
             LowSoc = newData;
         });
 
         batterySOHModel.getData().observe(this,newData->{
+            // Update UI components with the new data
             batterySOH = newData;
             txtvehiclechrgPercent.setText(batterySOH + "%");
         });
         rightTTLModel.getData().observe(this,newData->{
+            // Update UI components with the new data
             right = newData;
             if (right.equalsIgnoreCase("true")){
                 Glide.with(getApplicationContext()).load(R.drawable.right_on).into(rightstr);
@@ -410,6 +423,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         leftTTLModel.getData().observe(this,newData->{
+            // Update UI components with the new data
             left = newData;
             if (left.equalsIgnoreCase("true")){
                 Glide.with(getApplicationContext()).load(R.drawable.left_on).into(leftstr);
@@ -418,6 +432,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         hazardTTLModel.getData().observe(this,newData->{
+            // Update UI components with the new data
             hazard = newData;
             if (hazard.equalsIgnoreCase("true")){
                 Glide.with(getApplicationContext()).load(R.drawable.hazard_on).into(hazardstr);
@@ -426,6 +441,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         vehicleErrorModel.getData().observe(this,newData->{
+            // Update UI components with the new data
             vehicleErrorIndication = newData;
             if (vehicleErrorIndication.equalsIgnoreCase("true")){
                 vehicleErrorIndication = "ON";
@@ -437,6 +453,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         regenModel.getData().observe(this,newData->{
+            // Update UI components with the new data
             regenerationActive = newData;
             if (regenerationActive.equalsIgnoreCase("true")){
                 regenerationActive = "ON";
@@ -448,6 +465,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         absModel.getData().observe(this,newData->{
+            // Update UI components with the new data
             absEvent = newData;
             if (absEvent.equalsIgnoreCase("0")){
                 Glide.with(getApplicationContext()).load(R.drawable.abs_on).into(abs_str);
@@ -456,6 +474,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         ridingModeModel.getData().observe(this,newData->{
+            // Update UI components with the new data
             rideMode = newData;
             if (rideMode.equalsIgnoreCase("ES")) {
                 rideMode = "ES";
@@ -472,6 +491,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         reverseModeModel.getData().observe(this,newData->{
+            // Update UI components with the new data
            String revMode = newData;
             if(revMode.equalsIgnoreCase("true")||revMode.equalsIgnoreCase("ON")){
                 reverseMode = "ON";
@@ -484,6 +504,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    //Calculating the charging time
     public static String getTotalTime(int time) {
         int hour = time / 3600;
         int minu = (time % 3600) / 60;
@@ -497,6 +518,7 @@ public class MainActivity extends AppCompatActivity {
         return str;
     }
 
+    //Async function to upload MQTT data in background process
     public class UploadData extends AsyncTask<String,String,String>{
 
         @Override
@@ -521,27 +543,24 @@ public class MainActivity extends AppCompatActivity {
 
             Log.d("string_val",content);
 
-            /*ConnectivityManager conMgr =  (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
-            NetworkInfo netInfo = conMgr.getActiveNetworkInfo();
-            if (netInfo == null){
-
-            }else{
-                save_mqtt_records(content,"1",String.valueOf(System.currentTimeMillis()));
-            }*/
             try {
+                //checking for internet connection.
                 ConnectivityManager conMgr =  (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
                 NetworkInfo netInfo = conMgr.getActiveNetworkInfo();
+                //No internet connection
                 if (netInfo == null){
                     runOnUiThread(new Runnable() {
                         public void run() {
-                            Glide.with(MainActivity.this).load(R.drawable.upload).into(mqttUploadStatusImg);
+                            Glide.with(MainActivity.this).load(R.drawable.fail_upload).into(mqttUploadStatusImg);
                         }
                     });
                     save_mqtt_records(content,"0",String.valueOf(System.currentTimeMillis()));
-                }else{
+                }
+                //internet Connected
+                else{
                     runOnUiThread(new Runnable() {
                         public void run() {
-                            Glide.with(MainActivity.this).load(R.drawable.fail_upload).into(mqttUploadStatusImg);
+                            Glide.with(MainActivity.this).load(R.drawable.upload).into(mqttUploadStatusImg);
                         }
                     });
                     try {
@@ -609,10 +628,12 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    //Save MQTT data in local DB
     public void save_mqtt_records(String rawData,String uploadStatus,String timestamp){
         mqttDbHandler.addMqttData(rawData, uploadStatus, timestamp);
     }
 
+    //Location listener to get currect location on location change
     private final LocationListener locationListener = new LocationListener() {
         public void onLocationChanged(Location location) {
             // Handle the new location here
@@ -662,6 +683,7 @@ public class MainActivity extends AppCompatActivity {
         Criteria criteria = new Criteria();
         criteria.setAccuracy(Criteria.ACCURACY_FINE);
 
+        //fetching location using GPS
         if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             // Use GPS_PROVIDER for high-accuracy location
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -700,6 +722,7 @@ public class MainActivity extends AppCompatActivity {
             );
         }
 
+        //NMEA loation listener
         locationManager.requestSingleUpdate(criteria, locationListener, null);
         locationManager.addNmeaListener(new OnNmeaMessageListener() {
             @Override
@@ -709,6 +732,7 @@ public class MainActivity extends AppCompatActivity {
                     Log.d(TAG,"Timestamp is :" +l+"   nmea is :"+s);
 
                     //$GNRMC,075030.00,A,1254.161924,N,08013.621093,E,0.0,,150923,1.1,W,A,V*6E
+                    //getting location latitude and longitude
                     if (s.contains("$GNGGA")) {
                         String[] gpsNmea = s.split(",");
                         //Log.d("lat",gpsNmea[2]+"\t"+gpsNmea[3]+"\n"+ gpsNmea[4]+"\t"+gpsNmea[5]+"\n");
@@ -720,6 +744,7 @@ public class MainActivity extends AppCompatActivity {
                         }
 
                     }
+                    //getting location date and time
                     if (s.contains("$GNRMC")) {
                         String[] gpsNmea = s.split(",");
                         //Log.d("valuesss",gpsNmea[1]+"\t"+gpsNmea[9]);

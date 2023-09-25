@@ -229,6 +229,19 @@
                     app:srcCompat="@drawable/soc" />
 
 
+                <ImageView
+                    android:id="@+id/mqtt_upload"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:scaleType="centerCrop"
+                    app:layout_constraintBottom_toBottomOf="@+id/landscapeProgressWidget"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.88"
+                    app:layout_constraintStart_toStartOf="@+id/landscapeProgressWidget"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.050000012"
+                    app:srcCompat="@drawable/upload" />
+
                 <TextView
                     android:id="@+id/speed"
                     android:layout_width="wrap_content"

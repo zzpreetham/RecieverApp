@@ -35,6 +35,7 @@ public class SplashScreen extends AppCompatActivity {
 
         locationDBHandler = new LocationDBHandler(this);
 
+        //Permission checks for location
         try {
             if (ContextCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 101);
@@ -52,9 +53,12 @@ public class SplashScreen extends AppCompatActivity {
         View decorView = getWindow().getDecorView();
         int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION |View.SYSTEM_UI_FLAG_FULLSCREEN;
         decorView.setSystemUiVisibility(uiOptions);
+
         logo=findViewById(R.id.splashLogo);
         Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_animation);
         logo.startAnimation(animation);
+
+        //Redirecting to Home Page
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {

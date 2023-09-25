@@ -23,7 +23,7 @@
         
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         
-    </style></file><file path="/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/github/RecieverApp/app/src/main/res/values/strings.xml" qualifiers=""><string name="app_name">RecieverApp</string></file><file path="/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/github/RecieverApp/app/src/main/res/values/attrs.xml" qualifiers=""><declare-styleable name="ec_arc_progress">
+    </style></file><file path="/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/github/RecieverApp/app/src/main/res/values/strings.xml" qualifiers=""><string name="app_name">RE_Cluster_App</string></file><file path="/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/github/RecieverApp/app/src/main/res/values/attrs.xml" qualifiers=""><declare-styleable name="ec_arc_progress">
         <attr format="color" name="ec_arc_container_color"/>
         <attr format="color" name="ec_arc_progress_color"/>
         <attr format="dimension" name="ec_arc_text_size"/>

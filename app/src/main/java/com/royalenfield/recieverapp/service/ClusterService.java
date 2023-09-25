@@ -25,7 +25,7 @@ public class ClusterService extends Service{
     private MyBroadcastReceiver MyReceiver;
     private double speed;
     private double soc;
-    public static final String CUSTOM_ACTION = "com.example.myapplication.ACTION_SEND";
+    public static final String CUSTOM_ACTION = "com.royalenfield.digital.telemetry.info.ACTION_SEND";
 
     @Nullable
     @Override
@@ -37,7 +37,7 @@ public class ClusterService extends Service{
     public int onStartCommand(Intent intent, int flags, int startId) {
 
         //Receive data which has been broadcasted
-        IntentFilter filter = new IntentFilter("com.example.myapplication.ACTION_SEND");
+        IntentFilter filter = new IntentFilter("com.royalenfield.digital.telemetry.info.ACTION_SEND");
         MyReceiver = new MyBroadcastReceiver();
         registerReceiver(MyReceiver, filter);
         return super.onStartCommand(intent, flags, startId);
@@ -55,6 +55,8 @@ public class ClusterService extends Service{
             if (intent != null && intent.getAction() != null) {
                 if (intent.getAction().equals(CUSTOM_ACTION)) {
                     try {
+                        //Parsing data logic to Cluster UI Using MutableLiveData
+                        //Once we receive the parameters based on KEY passing to MAIN activity
 
                         //Log.d("received_can",jsonObject.toString());
                         /*double tempSpeed = intent.getDoubleExtra("speed", -1.0);
@@ -65,6 +67,7 @@ public class ClusterService extends Service{
                             speed = speed * 100;
                             speed = Math.round(speed);
                             speed = speed / 100;
+                            //Below line for MutableLiveDataParsing
                             MainActivity.speedModel.updateData(String.valueOf((int)speed));
                         }
 
@@ -79,9 +82,6 @@ public class ClusterService extends Service{
                             soc = soc /100;
                             MainActivity.socModel.updateData(String.valueOf((int)soc));
                         }*/
-
-                        //JSONObject jsonObject = new JSONObject(intent.getStringExtra(""));
-
                         JSONObject jsonObject = new JSONObject(intent.getStringExtra(""));
                         if (jsonObject.getString("signal").contains("speed")) {
                             MainActivity.speedModel.updateData(jsonObject.getString("data"));

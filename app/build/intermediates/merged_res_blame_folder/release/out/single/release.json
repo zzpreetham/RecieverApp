@@ -32,12 +32,20 @@
         "source": "/Users/preethamacharya/.gradle/daemon/7.5/com.royalenfield.recieverapp-main-35:/drawable/soc_low.xml"
     },
     {
+        "merged": "/Users/preethamacharya/.gradle/daemon/7.5/com.royalenfield.recieverapp-merged_res-34:/drawable-v24_upload.png.flat",
+        "source": "/Users/preethamacharya/.gradle/daemon/7.5/com.royalenfield.recieverapp-main-35:/drawable-v24/upload.png"
+    },
+    {
         "merged": "/Users/preethamacharya/.gradle/daemon/7.5/com.royalenfield.recieverapp-merged_res-34:/drawable_soc.xml.flat",
         "source": "/Users/preethamacharya/.gradle/daemon/7.5/com.royalenfield.recieverapp-main-35:/drawable/soc.xml"
     },
     {
         "merged": "/Users/preethamacharya/.gradle/daemon/7.5/com.royalenfield.recieverapp-merged_res-34:/layout_re_layout.xml.flat",
         "source": "/Users/preethamacharya/.gradle/daemon/7.5/com.royalenfield.recieverapp-main-35:/layout/re_layout.xml"
+    },
+    {
+        "merged": "/Users/preethamacharya/.gradle/daemon/7.5/com.royalenfield.recieverapp-merged_res-34:/drawable-v24_fail_upload.png.flat",
+        "source": "/Users/preethamacharya/.gradle/daemon/7.5/com.royalenfield.recieverapp-main-35:/drawable-v24/fail_upload.png"
     },
     {
         "merged": "/Users/preethamacharya/.gradle/daemon/7.5/com.royalenfield.recieverapp-merged_res-34:/drawable_right.xml.flat",

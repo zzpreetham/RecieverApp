@@ -20,10 +20,6 @@
         "source": "/Users/preethamacharya/.gradle/daemon/7.5/com.royalenfield.recieverapp-main-36:/font/audiowide.xml"
     },
     {
-        "merged": "com.royalenfield.recieverapp-merged_res-34:/layout_gauge_layout.xml.flat",
-        "source": "com.royalenfield.recieverapp-main-36:/layout/gauge_layout.xml"
-    },
-    {
         "merged": "/Users/preethamacharya/.gradle/daemon/7.5/com.royalenfield.recieverapp-merged_res-34:/drawable_hazard_on.xml.flat",
         "source": "/Users/preethamacharya/.gradle/daemon/7.5/com.royalenfield.recieverapp-main-36:/drawable/hazard_on.xml"
     },
