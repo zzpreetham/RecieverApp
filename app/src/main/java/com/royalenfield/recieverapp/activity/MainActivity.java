@@ -61,6 +61,7 @@ import com.royalenfield.recieverapp.liveDataModel.VehicleErrorModel;
 import com.royalenfield.recieverapp.progressView.LandscapeProgressWidgetCharging;
 import com.royalenfield.recieverapp.service.ClusterService;
 import com.royalenfield.recieverapp.speedometerView.SpeedoMeterView;
+import com.royalenfield.recieverapp.utils.PendingDataUpload;
 
 import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
@@ -160,6 +161,8 @@ public class MainActivity extends AppCompatActivity {
 
     private UploadData uploadData;
     private LocationManager locationManager;
+
+    private boolean dataReceived = true;
 
 
 
@@ -263,7 +266,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 //date = new SimpleDateFormat(pattern).format(new Date());
                 //time = new SimpleDateFormat(timeFormate).format(new Date());
-                //if(dataReceived) {
+                if(dataReceived) {
                     try {
                         if(uploadData!=null) {
                             if (uploadData.getStatus() == AsyncTask.Status.RUNNING ||
@@ -286,7 +289,7 @@ public class MainActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
 
-                //}
+                }
                 handler.postDelayed(runnable, delay);
             }
         }, delay);
@@ -317,22 +320,22 @@ public class MainActivity extends AppCompatActivity {
         speedModel.getData().observe(this, newData -> {
             // Update UI components with the new data
             speedometer = newData;
-            txtspeed.setText(speedometer);
-            int speedGauge=Integer.parseInt(speedometer) / 2;
-            if (speedGauge>=78){
-                speedGauge=78;
-            }
-            speedoMeterView.setSpeed(speedGauge, true);
-            //Log.d("valueee",Integer.parseInt(speedometer) / 2+"");
-            //colorList = new int[]{Color.argb((float) 0.1, 0, 0, 0), Color.rgb(218, 170, 0)};
-            colorList = new int[]{Color.argb((float) 0.2, 7,7,7), Color.rgb(218, 170, 0)};
-            mProgressView.applyGradient(colorList);
+            if(Integer.parseInt(speedometer) < 180) {
+                txtspeed.setText(speedometer);
+                int speedGauge = Integer.parseInt(speedometer) / 2;
+                if (speedGauge >= 78) {
+                    speedGauge = 78;
+                }
+                speedoMeterView.setSpeed(speedGauge, true);
+                colorList = new int[]{Color.argb((float) 0.2, 7, 7, 7), Color.rgb(218, 170, 0)};
 
-            float speedGradent = Float.parseFloat(speedometer)/204;
-            if (speedGradent>=0.7647059f){
-                speedGradent=0.7647059f;
+                float speedGradent = Float.parseFloat(speedometer) / 204;
+                if (speedGradent >= 0.7647059f) {
+                    speedGradent = 0.7647059f;
+                }
+                mProgressView.applyGradient(colorList);
+                mProgressView.setProgress(speedGradent);
             }
-            mProgressView.setProgress(speedGradent);
         });
 
         distanceModel.getData().observe(this,newData ->{
@@ -501,7 +504,22 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
+        Log.d("valueee",mqttDbHandler.getRowsCount()+"");
+        int pendingRowsCount = mqttDbHandler.getRowsCount();
+        if(pendingRowsCount > 0){
+            //checking for internet connection.
+            ConnectivityManager conMgr =  (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo netInfo = conMgr.getActiveNetworkInfo();
+            //No internet connection
+            if (netInfo == null){
+                //Do Nothing
+            }
+            //internet Connected
+            else{
+                //Upload pending Data
+                new PendingDataUpload(mqttDbHandler,MainActivity.this).execute();
+            }
+        }
     }
 
     //Calculating the charging time
@@ -537,9 +555,9 @@ public class MainActivity extends AppCompatActivity {
                     "|312|0.513|0.160|0.160|0.547|1.000|0.000|[41;0;0;0;0;0]|[0.000;0;0;0;0;0]|12.930|5.676|"+ vehicleChargingTime +"|0.505|6.383|2.364|6.562|-1.000|0.000|36.719|0.938|2.404|"
                     + reverseMode +"|0.000|"+ stateOfCharge +"|"+ speedometer +"|-3.100|12420.60|"+ batterySOH +"|8.00|12.95|[0;0;0;0;0;0;0;0;0]|0.00|1.00|0.00|1.00|0.00|0.00|0.00|0.00";
 
-            content = "{\"payload\":\"$,RE-CONNECT,506.6,4.4,V9.4,"+packetType+","+alertId+","+packetStatus+",660906045499651,"+stGPSValidity+"," +
+            content = "{\"payload\":\"$,RE-CONNECT,506.6,4.4,V9.4,"+packetType+","+alertId+","+packetStatus+",555555555510200,"+stGPSValidity+"," +
                     ""+date+","+time+","+latitude+","+latitudeDir+","+longitude+","+longitudeDir+",0.0,0,0,0,0.0,0.0,airtel,"+ignitionStatus+",12.31,"+gsmSignalStrength+
-                    ",1,"+frameNumber+",0,"+obdData+",,P0030,ME3U5S5F1JA125717,"+tripId+",M4A,*4e\"}";
+                    ",1,"+frameNumber+",0,"+obdData+",,P0030,ME3EVMULE02TEST01,"+tripId+",M4A,*4e\"}";
 
             Log.d("string_val",content);
 
@@ -586,7 +604,7 @@ public class MainActivity extends AppCompatActivity {
                         System.out.println("topic: " + topic);
                         System.out.println("message content: " + content);
                         // disconnect
-                        Log.d("mqtt","Disconnected");
+                        Log.d("Main_mqtt","Disconnected");
                         client.disconnect();
                         // close client
                         client.close();
@@ -766,6 +784,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-
     }
+
+
 }

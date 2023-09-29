@@ -7,6 +7,10 @@ import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.royalenfield.recieverapp.model.MqttDataModel;
+
+import java.util.ArrayList;
+
 /**
  * Created by praburaam on 22/06/16.
  */
@@ -57,6 +61,46 @@ public class MqttDBHelper extends SQLiteOpenHelper {
         }
         db.close();
     }
+
+    public int getRowsCount() {
+        String countQuery = "SELECT  * FROM " + TABLENAME + " WHERE "+ UPLOAD_STATUS + " = 0";
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(countQuery, null);
+        int count = cursor.getCount();
+        cursor.close();
+        return count;
+    }
+
+    public ArrayList<MqttDataModel> readMqttData()
+    {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursorCourses = db.rawQuery("SELECT  * FROM " + TABLENAME + " WHERE "+ UPLOAD_STATUS + " = 0", null);
+        ArrayList<MqttDataModel> mqttDataModelArrayList = new ArrayList<>();
+        if (cursorCourses.moveToFirst()) {
+            do {
+                mqttDataModelArrayList.add(new MqttDataModel(
+                        cursorCourses.getString(0),
+                        cursorCourses.getString(1),
+                        cursorCourses.getString(2),
+                        cursorCourses.getString(3)));
+            } while (cursorCourses.moveToNext());
+        }
+        cursorCourses.close();
+        return mqttDataModelArrayList;
+    }
+
+
+    // below is the method for updating our courses
+    public void updateCourse(String rowId) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(UPLOAD_STATUS, "1");
+        db.update(TABLENAME, values, "ID=?", new String[]{rowId});
+        db.close();
+    }
+
+
+
     public void deleteAllMqttData() {
         SQLiteDatabase db = this.getWritableDatabase();
         String dropSQL = "DELETE FROM "+TABLENAME;
