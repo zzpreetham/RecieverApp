@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.royalenfield.recieverapp"
     android:versionCode="1"
-    android:versionName="2.3" >
+    android:versionName="2.5" >
 
     <uses-sdk
         android:minSdkVersion="26"
@@ -32,6 +32,7 @@
         android:label="@string/app_name"
         android:roundIcon="@drawable/logo"
         android:supportsRtl="true"
+        android:testOnly="true"
         android:theme="@style/Theme.RecieverApp"
         android:usesCleartextTraffic="true" >
         <activity

@@ -84,37 +84,52 @@ public class ClusterService extends Service{
                         }*/
                         JSONObject jsonObject = new JSONObject(intent.getStringExtra(""));
                         if (jsonObject.getString("signal").contains("speed")) {
-                            MainActivity.speedModel.updateData(jsonObject.getString("data"));
-                        } else if (jsonObject.getString("signal").contains("vehicle_range")) {
-                            MainActivity.distanceModel.updateData(jsonObject.getString("data"));
-                        } else if (jsonObject.getString("signal").contains("odo")) {
-                            MainActivity.odoModel.updateData(jsonObject.getString("data"));
-                        } else if (jsonObject.getString("signal").contains("charging_status")) {
-                            MainActivity.chargingStatusModel.updateData(jsonObject.getString("data"));
-                        }else if (jsonObject.getString("signal").contains("charging_time")) {
-                            MainActivity.chargingTimeModel.updateData(jsonObject.getString("data"));
-                        }  else if (jsonObject.getString("signal").equals("soc")) {
-                            MainActivity.socModel.updateData(jsonObject.getString("data"));
-                        } else if (jsonObject.getString("signal").equals("soc_low")) {
-                            MainActivity.lowSOCModel.updateData(jsonObject.getString("data"));
-                        } else if (jsonObject.getString("signal").contains("battery_soh")) {
-                            MainActivity.batterySOHModel.updateData(jsonObject.getString("data"));
-                        }else if (jsonObject.getString("signal").contains("right_ttl")) {
-                            MainActivity.rightTTLModel.updateData(jsonObject.getString("data"));
-                        }  else if (jsonObject.getString("signal").contains("left_ttl")) {
-                            MainActivity.leftTTLModel.updateData(jsonObject.getString("data"));
-                        } else if (jsonObject.getString("signal").contains("hazard_ttl")) {
-                            MainActivity.hazardTTLModel.updateData(jsonObject.getString("data"));
-                        } else if (jsonObject.getString("signal").contains("vehicle_error_ind")) {
-                            MainActivity.vehicleErrorModel.updateData(jsonObject.getString("data"));
-                        } else if (jsonObject.getString("signal").contains("regen_active")) {
-                           MainActivity.regenModel.updateData(jsonObject.getString("data"));
-                        } else if (jsonObject.getString("signal").contains("abs_active")) {
-                            MainActivity.absModel.updateData(jsonObject.getString("data"));
-                        }else if(jsonObject.getString("signal").contains("riding_mode")){
-                            MainActivity.ridingModeModel.updateData(jsonObject.getString("data"));
-                        }else if(jsonObject.getString("signal").contains("reverse_mode")){
-                            MainActivity.reverseModeModel.updateData(jsonObject.getString("data"));
+                            MainActivity.speedModel.updateData(jsonObject.getString("value"));
+                        }
+                        else if (jsonObject.getString("signal").contains("vehicle_range")) {
+                            MainActivity.distanceModel.updateData(jsonObject.getString("value"));
+                        }
+                        else if (jsonObject.getString("signal").contains("odo")) {
+                            MainActivity.odoModel.updateData(jsonObject.getString("value"));
+                        }
+                        else if (jsonObject.getString("signal").contains("charging_status")) {
+                            MainActivity.chargingStatusModel.updateData(jsonObject.getString("value"));
+                        }
+                        else if (jsonObject.getString("signal").contains("charging_time")) {
+                            MainActivity.chargingTimeModel.updateData(jsonObject.getString("value"));
+                        }
+                        else if (jsonObject.getString("signal").equals("soc")) {
+                            MainActivity.socModel.updateData(jsonObject.getString("value"));
+                        }
+                        else if (jsonObject.getString("signal").equals("soc_low")) {
+                            MainActivity.lowSOCModel.updateData(jsonObject.getString("value"));
+                        }
+                        else if (jsonObject.getString("signal").contains("battery_soh")) {
+                            MainActivity.batterySOHModel.updateData(jsonObject.getString("value"));
+                        }
+                        else if (jsonObject.getString("signal").contains("right_ttl")) {
+                            MainActivity.rightTTLModel.updateData(jsonObject.getString("value"));
+                        }
+                        else if (jsonObject.getString("signal").contains("left_ttl")) {
+                            MainActivity.leftTTLModel.updateData(jsonObject.getString("value"));
+                        }
+                        else if (jsonObject.getString("signal").contains("hazard_ttl")) {
+                            MainActivity.hazardTTLModel.updateData(jsonObject.getString("value"));
+                        }
+                        else if (jsonObject.getString("signal").contains("vehicle_error_ind")) {
+                            MainActivity.vehicleErrorModel.updateData(jsonObject.getString("value"));
+                        }
+                        else if (jsonObject.getString("signal").contains("regen_active")) {
+                           MainActivity.regenModel.updateData(jsonObject.getString("value"));
+                        }
+                        else if (jsonObject.getString("signal").contains("abs_active")) {
+                            MainActivity.absModel.updateData(jsonObject.getString("value"));
+                        }
+                        else if(jsonObject.getString("signal").contains("riding_mode")){
+                            MainActivity.ridingModeModel.updateData(jsonObject.getString("value"));
+                        }
+                        else if(jsonObject.getString("signal").contains("reverse_mode")){
+                            MainActivity.reverseModeModel.updateData(jsonObject.getString("value"));
                         }
 
 
