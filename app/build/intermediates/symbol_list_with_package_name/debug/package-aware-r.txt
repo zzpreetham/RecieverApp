@@ -1466,6 +1466,7 @@ color dim_foreground_disabled_material_dark
 color dim_foreground_disabled_material_light
 color dim_foreground_material_dark
 color dim_foreground_material_light
+color ecoColor
 color error_color_material_dark
 color error_color_material_light
 color foreground_material_dark
@@ -2116,6 +2117,7 @@ color secondary_text_default_material_light
 color secondary_text_disabled_material_dark
 color secondary_text_disabled_material_light
 color smoke_grey
+color sportColor
 color switch_thumb_disabled_material_dark
 color switch_thumb_disabled_material_light
 color switch_thumb_material_dark
@@ -2129,6 +2131,7 @@ color textColorDark
 color textLightColor
 color tooltip_background_dark
 color tooltip_background_light
+color tourColor
 color transparent
 color white
 dimen abc_action_bar_content_inset_material

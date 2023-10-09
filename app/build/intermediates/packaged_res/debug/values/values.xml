@@ -20,16 +20,19 @@
     </array>
     <color name="background">#232323</color>
     <color name="black">#FF000000</color>
+    <color name="ecoColor">#26A52C </color>
     <color name="purple_200">#FFBB86FC</color>
     <color name="purple_500">#FF6200EE</color>
     <color name="purple_700">#FF3700B3</color>
     <color name="redCircleColor">#da291c</color>
     <color name="smoke_grey">#848884 </color>
+    <color name="sportColor">#da291c </color>
     <color name="teal_200">#EB262D</color>
     <color name="teal_700">#FF018786</color>
     <color name="textColor">#323232</color>
     <color name="textColorDark">#5e5e5e</color>
     <color name="textLightColor">#999999</color>
+    <color name="tourColor">#FF5F1F </color>
     <color name="transparent">#0000ffff </color>
     <color name="white">#FFFFFFFF</color>
     <string name="app_name">RE_Cluster_App</string>

@@ -16,4 +16,7 @@
 
     <color name="smoke_grey">#848884 </color>
     <color name="transparent">#0000ffff </color>
+    <color name="ecoColor">#26A52C </color>
+    <color name="tourColor">#FF5F1F </color>
+    <color name="sportColor">#da291c </color>
 </resources>

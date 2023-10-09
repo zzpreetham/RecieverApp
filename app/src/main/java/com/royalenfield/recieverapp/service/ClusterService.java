@@ -22,6 +22,8 @@ public class ClusterService extends Service{
     private double lowSocThreshold;
     public static final String CUSTOM_ACTION = "com.royalenfield.digital.telemetry.info.ACTION_SEND";
 
+    private boolean receivedPack = false;
+
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
@@ -164,7 +166,10 @@ public class ClusterService extends Service{
                             MainActivity.ignitionModel.updateData(jsonObject.getString("value"));
                         }
 
-                        //MainActivity.dataReceived = true;
+                        if(!receivedPack) {
+                            MainActivity.dataReceiveModel.updateData("true");
+                            receivedPack = false;
+                        }
 
                     } catch (Exception e) {
                         e.printStackTrace();

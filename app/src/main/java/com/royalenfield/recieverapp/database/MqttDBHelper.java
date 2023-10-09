@@ -74,7 +74,7 @@ public class MqttDBHelper extends SQLiteOpenHelper {
     public ArrayList<MqttDataModel> readMqttData()
     {
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursorCourses = db.rawQuery("SELECT  * FROM " + TABLENAME + " WHERE "+ UPLOAD_STATUS + " = 0", null);
+        Cursor cursorCourses = db.rawQuery("SELECT  * FROM " + TABLENAME + " WHERE "+ UPLOAD_STATUS + " = 0 ORDER BY "+ID_COL+" ASC LIMIT 1", null);
         ArrayList<MqttDataModel> mqttDataModelArrayList = new ArrayList<>();
         if (cursorCourses.moveToFirst()) {
             do {
