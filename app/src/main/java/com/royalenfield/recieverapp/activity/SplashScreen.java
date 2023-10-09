@@ -18,12 +18,14 @@ import android.widget.ImageView;
 import com.royalenfield.recieverapp.R;
 import com.royalenfield.recieverapp.database.MqttDBHelper;
 import com.royalenfield.recieverapp.database.LocationDBHandler;
+import com.royalenfield.recieverapp.database.StatisticsDBHandler;
 
 public class SplashScreen extends AppCompatActivity {
 
     ImageView logo;
     MqttDBHelper mqttDbHandler;
     LocationDBHandler locationDBHandler;
+    StatisticsDBHandler statisticsDBHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +36,7 @@ public class SplashScreen extends AppCompatActivity {
         mqttDbHandler = new MqttDBHelper(this);
 
         locationDBHandler = new LocationDBHandler(this);
+        statisticsDBHandler = new StatisticsDBHandler(this);
 
         //Permission checks for location
         try {

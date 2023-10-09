@@ -4,12 +4,12 @@
         "source": "/Users/preethamacharya/.gradle/daemon/7.5/com.royalenfield.recieverapp-main-35:/drawable/charge_error.xml"
     },
     {
-        "merged": "/Users/preethamacharya/.gradle/daemon/7.5/com.royalenfield.recieverapp-merged_res-34:/drawable_logo.png.flat",
-        "source": "/Users/preethamacharya/.gradle/daemon/7.5/com.royalenfield.recieverapp-main-35:/drawable/logo.png"
-    },
-    {
         "merged": "/Users/preethamacharya/.gradle/daemon/7.5/com.royalenfield.recieverapp-merged_res-34:/font_audiowide_regular.ttf.flat",
         "source": "/Users/preethamacharya/.gradle/daemon/7.5/com.royalenfield.recieverapp-main-35:/font/audiowide_regular.ttf"
+    },
+    {
+        "merged": "/Users/preethamacharya/.gradle/daemon/7.5/com.royalenfield.recieverapp-merged_res-34:/drawable_logo.png.flat",
+        "source": "/Users/preethamacharya/.gradle/daemon/7.5/com.royalenfield.recieverapp-main-35:/drawable/logo.png"
     },
     {
         "merged": "/Users/preethamacharya/.gradle/daemon/7.5/com.royalenfield.recieverapp-merged_res-34:/drawable_gradient_circle_border.xml.flat",
@@ -18,6 +18,14 @@
     {
         "merged": "/Users/preethamacharya/.gradle/daemon/7.5/com.royalenfield.recieverapp-merged_res-34:/font_audiowide.xml.flat",
         "source": "/Users/preethamacharya/.gradle/daemon/7.5/com.royalenfield.recieverapp-main-35:/font/audiowide.xml"
+    },
+    {
+        "merged": "com.royalenfield.recieverapp-merged_res-34:/anim_blink.xml.flat",
+        "source": "com.royalenfield.recieverapp-main-35:/anim/blink.xml"
+    },
+    {
+        "merged": "com.royalenfield.recieverapp-merged_res-34:/layout_gauge_layout.xml.flat",
+        "source": "com.royalenfield.recieverapp-main-35:/layout/gauge_layout.xml"
     },
     {
         "merged": "/Users/preethamacharya/.gradle/daemon/7.5/com.royalenfield.recieverapp-merged_res-34:/drawable_hazard_on.xml.flat",

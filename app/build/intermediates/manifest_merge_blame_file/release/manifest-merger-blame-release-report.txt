@@ -59,104 +59,105 @@
 32-->/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/github/RecieverApp/app/src/main/AndroidManifest.xml:18:9-43
 33        android:supportsRtl="true"
 33-->/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/github/RecieverApp/app/src/main/AndroidManifest.xml:19:9-35
-34        android:theme="@style/Theme.RecieverApp"
-34-->/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/github/RecieverApp/app/src/main/AndroidManifest.xml:20:9-49
-35        android:usesCleartextTraffic="true" >
-35-->/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/github/RecieverApp/app/src/main/AndroidManifest.xml:22:9-44
-36        <activity
-36-->/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/github/RecieverApp/app/src/main/AndroidManifest.xml:23:9-42:20
-37            android:name="com.royalenfield.recieverapp.activity.SplashScreen"
-37-->/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/github/RecieverApp/app/src/main/AndroidManifest.xml:24:13-50
-38            android:clearTaskOnLaunch="true"
-38-->/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/github/RecieverApp/app/src/main/AndroidManifest.xml:27:13-45
-39            android:exported="true"
-39-->/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/github/RecieverApp/app/src/main/AndroidManifest.xml:25:13-36
-40            android:launchMode="singleTask"
-40-->/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/github/RecieverApp/app/src/main/AndroidManifest.xml:26:13-44
-41            android:stateNotNeeded="true" >
-41-->/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/github/RecieverApp/app/src/main/AndroidManifest.xml:28:13-42
-42            <intent-filter>
-42-->/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/github/RecieverApp/app/src/main/AndroidManifest.xml:29:13-34:29
-43                <action android:name="android.intent.action.MAIN" />
-43-->/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/github/RecieverApp/app/src/main/AndroidManifest.xml:30:17-69
-43-->/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/github/RecieverApp/app/src/main/AndroidManifest.xml:30:25-66
-44
-45                <category android:name="android.intent.category.LAUNCHER" />
-45-->/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/github/RecieverApp/app/src/main/AndroidManifest.xml:31:17-77
-45-->/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/github/RecieverApp/app/src/main/AndroidManifest.xml:31:27-74
-46                <category android:name="android.intent.category.HOME" />
-46-->/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/github/RecieverApp/app/src/main/AndroidManifest.xml:32:17-73
-46-->/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/github/RecieverApp/app/src/main/AndroidManifest.xml:32:27-70
-47                <category android:name="android.intent.category.DEFAULT" />
-47-->/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/github/RecieverApp/app/src/main/AndroidManifest.xml:33:17-76
-47-->/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/github/RecieverApp/app/src/main/AndroidManifest.xml:33:27-73
-48            </intent-filter>
-49
-50            <meta-data
-50-->/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/github/RecieverApp/app/src/main/AndroidManifest.xml:36:13-38:36
-51                android:name="android.app.lib_name"
-51-->/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/github/RecieverApp/app/src/main/AndroidManifest.xml:37:17-52
-52                android:value="" />
-52-->/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/github/RecieverApp/app/src/main/AndroidManifest.xml:38:17-33
-53            <meta-data
-53-->/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/github/RecieverApp/app/src/main/AndroidManifest.xml:39:13-41:61
-54                android:name="preloaded_fonts"
-54-->/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/github/RecieverApp/app/src/main/AndroidManifest.xml:40:17-47
-55                android:resource="@array/preloaded_fonts" />
-55-->/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/github/RecieverApp/app/src/main/AndroidManifest.xml:41:17-58
-56        </activity>
-57        <!--
-58        <receiver
-59            android:name=".MessageReceiver"
-60            android:enabled="true"
-61            android:exported="true">
-62            <intent-filter>
-63                <action android:name="com.royalenfield.recieverapp.CUSTOM_ACTION" />
-64            </intent-filter>
-65        </receiver>
-66        -->
-67        <activity
-67-->/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/github/RecieverApp/app/src/main/AndroidManifest.xml:51:9-52:39
-68            android:name="com.royalenfield.recieverapp.activity.MainActivity"
-68-->/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/github/RecieverApp/app/src/main/AndroidManifest.xml:51:19-56
-69            android:exported="false" />
-69-->/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/github/RecieverApp/app/src/main/AndroidManifest.xml:52:13-37
-70
-71        <service
-71-->/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/github/RecieverApp/app/src/main/AndroidManifest.xml:54:9-55:38
-72            android:name="com.royalenfield.recieverapp.service.ClusterService"
-72-->/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/github/RecieverApp/app/src/main/AndroidManifest.xml:54:18-56
-73            android:exported="true" />
-73-->/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/github/RecieverApp/app/src/main/AndroidManifest.xml:55:13-36
-74
-75        <meta-data
-75-->/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/github/RecieverApp/app/src/main/AndroidManifest.xml:39:13-41:61
-76            android:name="preloaded_fonts"
-76-->/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/github/RecieverApp/app/src/main/AndroidManifest.xml:40:17-47
-77            android:resource="@array/preloaded_fonts" />
-77-->/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/github/RecieverApp/app/src/main/AndroidManifest.xml:41:17-58
-78
-79        <provider
-79-->[androidx.emoji2:emoji2:1.2.0] /Users/preethamacharya/.gradle/caches/transforms-3/b534eca45ae0368be30899d5007a440e/transformed/emoji2-1.2.0/AndroidManifest.xml:24:9-32:20
-80            android:name="androidx.startup.InitializationProvider"
-80-->[androidx.emoji2:emoji2:1.2.0] /Users/preethamacharya/.gradle/caches/transforms-3/b534eca45ae0368be30899d5007a440e/transformed/emoji2-1.2.0/AndroidManifest.xml:25:13-67
-81            android:authorities="com.royalenfield.recieverapp.androidx-startup"
-81-->[androidx.emoji2:emoji2:1.2.0] /Users/preethamacharya/.gradle/caches/transforms-3/b534eca45ae0368be30899d5007a440e/transformed/emoji2-1.2.0/AndroidManifest.xml:26:13-68
-82            android:exported="false" >
-82-->[androidx.emoji2:emoji2:1.2.0] /Users/preethamacharya/.gradle/caches/transforms-3/b534eca45ae0368be30899d5007a440e/transformed/emoji2-1.2.0/AndroidManifest.xml:27:13-37
-83            <meta-data
-83-->[androidx.emoji2:emoji2:1.2.0] /Users/preethamacharya/.gradle/caches/transforms-3/b534eca45ae0368be30899d5007a440e/transformed/emoji2-1.2.0/AndroidManifest.xml:29:13-31:52
-84                android:name="androidx.emoji2.text.EmojiCompatInitializer"
-84-->[androidx.emoji2:emoji2:1.2.0] /Users/preethamacharya/.gradle/caches/transforms-3/b534eca45ae0368be30899d5007a440e/transformed/emoji2-1.2.0/AndroidManifest.xml:30:17-75
-85                android:value="androidx.startup" />
-85-->[androidx.emoji2:emoji2:1.2.0] /Users/preethamacharya/.gradle/caches/transforms-3/b534eca45ae0368be30899d5007a440e/transformed/emoji2-1.2.0/AndroidManifest.xml:31:17-49
-86            <meta-data
-86-->[androidx.lifecycle:lifecycle-process:2.4.1] /Users/preethamacharya/.gradle/caches/transforms-3/b0761d22b5c86c7f873b7a426ffce717/transformed/lifecycle-process-2.4.1/AndroidManifest.xml:31:13-33:52
-87                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
-87-->[androidx.lifecycle:lifecycle-process:2.4.1] /Users/preethamacharya/.gradle/caches/transforms-3/b0761d22b5c86c7f873b7a426ffce717/transformed/lifecycle-process-2.4.1/AndroidManifest.xml:32:17-78
-88                android:value="androidx.startup" />
-88-->[androidx.lifecycle:lifecycle-process:2.4.1] /Users/preethamacharya/.gradle/caches/transforms-3/b0761d22b5c86c7f873b7a426ffce717/transformed/lifecycle-process-2.4.1/AndroidManifest.xml:33:17-49
-89        </provider>
-90    </application>
-91
-92</manifest>
+34        android:testOnly="true"
+35        android:theme="@style/Theme.RecieverApp"
+35-->/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/github/RecieverApp/app/src/main/AndroidManifest.xml:20:9-49
+36        android:usesCleartextTraffic="true" >
+36-->/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/github/RecieverApp/app/src/main/AndroidManifest.xml:22:9-44
+37        <activity
+37-->/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/github/RecieverApp/app/src/main/AndroidManifest.xml:23:9-42:20
+38            android:name="com.royalenfield.recieverapp.activity.SplashScreen"
+38-->/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/github/RecieverApp/app/src/main/AndroidManifest.xml:24:13-50
+39            android:clearTaskOnLaunch="true"
+39-->/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/github/RecieverApp/app/src/main/AndroidManifest.xml:27:13-45
+40            android:exported="true"
+40-->/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/github/RecieverApp/app/src/main/AndroidManifest.xml:25:13-36
+41            android:launchMode="singleTask"
+41-->/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/github/RecieverApp/app/src/main/AndroidManifest.xml:26:13-44
+42            android:stateNotNeeded="true" >
+42-->/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/github/RecieverApp/app/src/main/AndroidManifest.xml:28:13-42
+43            <intent-filter>
+43-->/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/github/RecieverApp/app/src/main/AndroidManifest.xml:29:13-34:29
+44                <action android:name="android.intent.action.MAIN" />
+44-->/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/github/RecieverApp/app/src/main/AndroidManifest.xml:30:17-69
+44-->/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/github/RecieverApp/app/src/main/AndroidManifest.xml:30:25-66
+45
+46                <category android:name="android.intent.category.LAUNCHER" />
+46-->/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/github/RecieverApp/app/src/main/AndroidManifest.xml:31:17-77
+46-->/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/github/RecieverApp/app/src/main/AndroidManifest.xml:31:27-74
+47                <category android:name="android.intent.category.HOME" />
+47-->/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/github/RecieverApp/app/src/main/AndroidManifest.xml:32:17-73
+47-->/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/github/RecieverApp/app/src/main/AndroidManifest.xml:32:27-70
+48                <category android:name="android.intent.category.DEFAULT" />
+48-->/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/github/RecieverApp/app/src/main/AndroidManifest.xml:33:17-76
+48-->/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/github/RecieverApp/app/src/main/AndroidManifest.xml:33:27-73
+49            </intent-filter>
+50
+51            <meta-data
+51-->/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/github/RecieverApp/app/src/main/AndroidManifest.xml:36:13-38:36
+52                android:name="android.app.lib_name"
+52-->/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/github/RecieverApp/app/src/main/AndroidManifest.xml:37:17-52
+53                android:value="" />
+53-->/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/github/RecieverApp/app/src/main/AndroidManifest.xml:38:17-33
+54            <meta-data
+54-->/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/github/RecieverApp/app/src/main/AndroidManifest.xml:39:13-41:61
+55                android:name="preloaded_fonts"
+55-->/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/github/RecieverApp/app/src/main/AndroidManifest.xml:40:17-47
+56                android:resource="@array/preloaded_fonts" />
+56-->/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/github/RecieverApp/app/src/main/AndroidManifest.xml:41:17-58
+57        </activity>
+58        <!--
+59        <receiver
+60            android:name=".MessageReceiver"
+61            android:enabled="true"
+62            android:exported="true">
+63            <intent-filter>
+64                <action android:name="com.royalenfield.recieverapp.CUSTOM_ACTION" />
+65            </intent-filter>
+66        </receiver>
+67        -->
+68        <activity
+68-->/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/github/RecieverApp/app/src/main/AndroidManifest.xml:51:9-52:39
+69            android:name="com.royalenfield.recieverapp.activity.MainActivity"
+69-->/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/github/RecieverApp/app/src/main/AndroidManifest.xml:51:19-56
+70            android:exported="false" />
+70-->/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/github/RecieverApp/app/src/main/AndroidManifest.xml:52:13-37
+71
+72        <service
+72-->/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/github/RecieverApp/app/src/main/AndroidManifest.xml:54:9-55:38
+73            android:name="com.royalenfield.recieverapp.service.ClusterService"
+73-->/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/github/RecieverApp/app/src/main/AndroidManifest.xml:54:18-56
+74            android:exported="true" />
+74-->/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/github/RecieverApp/app/src/main/AndroidManifest.xml:55:13-36
+75
+76        <meta-data
+76-->/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/github/RecieverApp/app/src/main/AndroidManifest.xml:39:13-41:61
+77            android:name="preloaded_fonts"
+77-->/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/github/RecieverApp/app/src/main/AndroidManifest.xml:40:17-47
+78            android:resource="@array/preloaded_fonts" />
+78-->/Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/github/RecieverApp/app/src/main/AndroidManifest.xml:41:17-58
+79
+80        <provider
+80-->[androidx.emoji2:emoji2:1.2.0] /Users/preethamacharya/.gradle/caches/transforms-3/b534eca45ae0368be30899d5007a440e/transformed/emoji2-1.2.0/AndroidManifest.xml:24:9-32:20
+81            android:name="androidx.startup.InitializationProvider"
+81-->[androidx.emoji2:emoji2:1.2.0] /Users/preethamacharya/.gradle/caches/transforms-3/b534eca45ae0368be30899d5007a440e/transformed/emoji2-1.2.0/AndroidManifest.xml:25:13-67
+82            android:authorities="com.royalenfield.recieverapp.androidx-startup"
+82-->[androidx.emoji2:emoji2:1.2.0] /Users/preethamacharya/.gradle/caches/transforms-3/b534eca45ae0368be30899d5007a440e/transformed/emoji2-1.2.0/AndroidManifest.xml:26:13-68
+83            android:exported="false" >
+83-->[androidx.emoji2:emoji2:1.2.0] /Users/preethamacharya/.gradle/caches/transforms-3/b534eca45ae0368be30899d5007a440e/transformed/emoji2-1.2.0/AndroidManifest.xml:27:13-37
+84            <meta-data
+84-->[androidx.emoji2:emoji2:1.2.0] /Users/preethamacharya/.gradle/caches/transforms-3/b534eca45ae0368be30899d5007a440e/transformed/emoji2-1.2.0/AndroidManifest.xml:29:13-31:52
+85                android:name="androidx.emoji2.text.EmojiCompatInitializer"
+85-->[androidx.emoji2:emoji2:1.2.0] /Users/preethamacharya/.gradle/caches/transforms-3/b534eca45ae0368be30899d5007a440e/transformed/emoji2-1.2.0/AndroidManifest.xml:30:17-75
+86                android:value="androidx.startup" />
+86-->[androidx.emoji2:emoji2:1.2.0] /Users/preethamacharya/.gradle/caches/transforms-3/b534eca45ae0368be30899d5007a440e/transformed/emoji2-1.2.0/AndroidManifest.xml:31:17-49
+87            <meta-data
+87-->[androidx.lifecycle:lifecycle-process:2.4.1] /Users/preethamacharya/.gradle/caches/transforms-3/b0761d22b5c86c7f873b7a426ffce717/transformed/lifecycle-process-2.4.1/AndroidManifest.xml:31:13-33:52
+88                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+88-->[androidx.lifecycle:lifecycle-process:2.4.1] /Users/preethamacharya/.gradle/caches/transforms-3/b0761d22b5c86c7f873b7a426ffce717/transformed/lifecycle-process-2.4.1/AndroidManifest.xml:32:17-78
+89                android:value="androidx.startup" />
+89-->[androidx.lifecycle:lifecycle-process:2.4.1] /Users/preethamacharya/.gradle/caches/transforms-3/b0761d22b5c86c7f873b7a426ffce717/transformed/lifecycle-process-2.4.1/AndroidManifest.xml:33:17-49
+90        </provider>
+91    </application>
+92
+93</manifest>

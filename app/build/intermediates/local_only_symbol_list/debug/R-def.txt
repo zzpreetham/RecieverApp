@@ -1,5 +1,6 @@
 R_DEF: Internal format may change without notice
 local
+anim blink
 anim fade_animation
 anim slideout1
 anim slideout2
@@ -38,6 +39,7 @@ color smoke_grey
 color teal_200
 color teal_700
 color textColor
+color textColorDark
 color textLightColor
 color transparent
 color white

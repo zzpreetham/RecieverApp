@@ -1,22 +1,16 @@
 package com.royalenfield.recieverapp.service;
 
-import android.app.Application;
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.os.AsyncTask;
 import android.os.IBinder;
 import android.util.Log;
-import android.view.View;
 
 import androidx.annotation.Nullable;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
 
 import com.royalenfield.recieverapp.activity.MainActivity;
-import com.royalenfield.recieverapp.liveDataModel.SpeedModel;
 
 import org.json.JSONObject;
 
@@ -25,6 +19,7 @@ public class ClusterService extends Service{
     private MyBroadcastReceiver MyReceiver;
     private double speed;
     private double soc;
+    private double lowSocThreshold;
     public static final String CUSTOM_ACTION = "com.royalenfield.digital.telemetry.info.ACTION_SEND";
 
     @Nullable
@@ -82,15 +77,29 @@ public class ClusterService extends Service{
                             soc = soc /100;
                             MainActivity.socModel.updateData(String.valueOf((int)soc));
                         }*/
-                        JSONObject jsonObject = new JSONObject(intent.getStringExtra(""));
+                        JSONObject jsonObject = new JSONObject(intent.getStringExtra("packet"));
+                        Log.d("packet",jsonObject.toString());
                         if (jsonObject.getString("signal").contains("speed")) {
-                            MainActivity.speedModel.updateData(jsonObject.getString("value"));
+                            //MainActivity.speedModel.updateData(jsonObject.getString("value"));
+                            double tempSpeed = Double.parseDouble(jsonObject.getString("value"));
+                            if( tempSpeed != -1.0) {
+
+                                speed = tempSpeed;
+                                speed = speed * 100;
+                                speed = Math.round(speed);
+                                speed = speed / 100;
+                                //Below line for MutableLiveDataParsing
+                                Log.d("speedVal",(int)speed+"");
+                                MainActivity.speedModel.updateData(String.valueOf((int)speed));
+                            }
                         }
                         else if (jsonObject.getString("signal").contains("vehicle_range")) {
-                            MainActivity.distanceModel.updateData(jsonObject.getString("value"));
+                            //09.10.23:Since range is not received in MULE2, it is calculated based on SOC
+                            //MainActivity.distanceModel.updateData(jsonObject.getString("value"));
                         }
                         else if (jsonObject.getString("signal").contains("odo")) {
-                            MainActivity.odoModel.updateData(jsonObject.getString("value"));
+                            //09.10.23:Since is ODO is not comming in MULE2, it is calculated based on vehicle Speed
+                            //MainActivity.odoModel.updateData(jsonObject.getString("value"));
                         }
                         else if (jsonObject.getString("signal").contains("charging_status")) {
                             MainActivity.chargingStatusModel.updateData(jsonObject.getString("value"));
@@ -99,10 +108,30 @@ public class ClusterService extends Service{
                             MainActivity.chargingTimeModel.updateData(jsonObject.getString("value"));
                         }
                         else if (jsonObject.getString("signal").equals("soc")) {
-                            MainActivity.socModel.updateData(jsonObject.getString("value"));
+                            //MainActivity.socModel.updateData(jsonObject.getString("value"));
+                            double tempSoc = Double.parseDouble(jsonObject.getString("value"));
+                            if( tempSoc != -1.0 ) {
+                                soc = tempSoc;
+                                soc = soc *100;
+                                soc = Math.round(soc);
+                                soc = Math.round(soc);
+                                soc = Math.round(soc);
+                                soc = soc /100;
+                                MainActivity.socModel.updateData(String.valueOf((int)soc));
+                            }
                         }
                         else if (jsonObject.getString("signal").equals("soc_low")) {
-                            MainActivity.lowSOCModel.updateData(jsonObject.getString("value"));
+                            double tempSoc = Double.parseDouble(jsonObject.getString("value"));
+                            if( tempSoc != -1.0 ) {
+                                lowSocThreshold = tempSoc;
+                                lowSocThreshold = lowSocThreshold *100;
+                                lowSocThreshold = Math.round(lowSocThreshold);
+                                lowSocThreshold = Math.round(lowSocThreshold);
+                                lowSocThreshold = Math.round(lowSocThreshold);
+                                lowSocThreshold = lowSocThreshold /100;
+                                MainActivity.lowSOCModel.updateData(String.valueOf((int) lowSocThreshold));
+                            }
+                            //MainActivity.lowSOCModel.updateData(jsonObject.getString("value"));
                         }
                         else if (jsonObject.getString("signal").contains("battery_soh")) {
                             MainActivity.batterySOHModel.updateData(jsonObject.getString("value"));
@@ -131,7 +160,9 @@ public class ClusterService extends Service{
                         else if(jsonObject.getString("signal").contains("reverse_mode")){
                             MainActivity.reverseModeModel.updateData(jsonObject.getString("value"));
                         }
-
+                        else if(jsonObject.getString("signal").contains("ignition")){
+                            MainActivity.ignitionModel.updateData(jsonObject.getString("value"));
+                        }
 
                         //MainActivity.dataReceived = true;
 

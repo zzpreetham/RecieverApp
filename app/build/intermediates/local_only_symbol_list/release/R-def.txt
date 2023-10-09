@@ -1,5 +1,6 @@
 R_DEF: Internal format may change without notice
 local
+anim blink
 anim fade_animation
 anim slideout1
 anim slideout2

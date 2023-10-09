@@ -10,6 +10,7 @@
     <color name="textColor">#323232</color>
 
     <color name="textLightColor">#999999</color>
+    <color name="textColorDark">#5e5e5e</color>
     <color name="redCircleColor">#da291c</color>
     <color name="background">#232323</color>
 

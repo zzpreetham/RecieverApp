@@ -75,4 +75,22 @@ public class LocationDBHandler extends SQLiteOpenHelper {
         Cursor res = db.rawQuery("select * from "+TABLE_NAME,null);
         return res;
     }
+
+    public void createIfNotExists() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        try{
+            String SELECT_QUERY = "SELECT * FROM "+TABLE_NAME;
+            Cursor rows = db.rawQuery(SELECT_QUERY, null);
+            rows.moveToFirst();
+
+            while(!rows.isAfterLast()){
+                rows.moveToNext();
+            }
+        }
+        catch(Exception e){
+            if (e.getMessage().toString().contains("no such table")){
+                onCreate(db);
+            }
+        }
+    }
 }

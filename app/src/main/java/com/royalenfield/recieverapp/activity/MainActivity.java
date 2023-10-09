@@ -1,7 +1,5 @@
 package com.royalenfield.recieverapp.activity;
 
-import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
@@ -31,6 +29,8 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -42,12 +42,14 @@ import com.robinhood.ticker.TickerView;
 import com.royalenfield.recieverapp.R;
 import com.royalenfield.recieverapp.database.MqttDBHelper;
 import com.royalenfield.recieverapp.database.LocationDBHandler;
+import com.royalenfield.recieverapp.database.StatisticsDBHandler;
 import com.royalenfield.recieverapp.liveDataModel.ABSModel;
 import com.royalenfield.recieverapp.liveDataModel.BatterySOHModel;
 import com.royalenfield.recieverapp.liveDataModel.ChargingStatusModel;
 import com.royalenfield.recieverapp.liveDataModel.ChargingTimeModel;
 import com.royalenfield.recieverapp.liveDataModel.DistanceModel;
 import com.royalenfield.recieverapp.liveDataModel.HazardTTLModel;
+import com.royalenfield.recieverapp.liveDataModel.IgnitionModel;
 import com.royalenfield.recieverapp.liveDataModel.LeftTTLModel;
 import com.royalenfield.recieverapp.liveDataModel.LowSOCModel;
 import com.royalenfield.recieverapp.liveDataModel.OdoModel;
@@ -82,6 +84,7 @@ public class MainActivity extends AppCompatActivity {
     SeekBar seekBar;
     LandscapeProgressWidgetCharging chargingbar;
     LandscapeProgressWidgetCharging chargingbarBattery;
+    int odo_pad_width = 6;
 
     TextView txtvehiclechrg;
     TextView txtvehiclechrgBattery;
@@ -94,11 +97,12 @@ public class MainActivity extends AppCompatActivity {
     ImageView regenstr;
     ImageView abs_str;
     ImageView vehicle_charge;
+    ImageView vehicle_soc;
     ImageView vehicle_chargeBat;
 
     ImageView mqttUploadStatusImg;
 
-    public static String LowSoc, right, left, hazard;
+    public static String LowSocThreshold = "20", right, left, hazard;
 
     //MQTT server Creditentials
     String broker = "tcp://35.200.186.3:1883";
@@ -112,12 +116,16 @@ public class MainActivity extends AppCompatActivity {
     int qos = 0;
 
     String packetType = "NR", alertId = "1", packetStatus = "L", date = "29102023", time = "183507", latitude = "12.903077", latitudeDir = "N", longitude = "80.225708", longitudeDir = "E", ignitionStatus = "1";
-    String gsmSignalStrength = "31", frameNumber = "8273", obdData, tripId = "1";
+    String gsmSignalStrength = "31", frameNumber = "0", obdData, tripId = "1";
 
-    String vehicleErrorIndication = "ON", rideMode = "ES", vehicleCharge = "SEQ_PHASED", regenerationActive = "ON", vehicleRange = "12", vehicleChargingTime = "14",
-            reverseMode = "DEPRESSED", stateOfCharge = "1", speedometer = "1", batterySOH = "45", absEvent = "1", vehicleOdometer = "214748364.75";
+    String vehicleErrorIndication = "OFF", rideMode = "ES", vehicleCharge = "DISABLED", regenerationActive = "OFF", vehicleRange = "12", vehicleChargingTime = "14",
+            reverseMode = "DEPRESSED", currStateOfCharge = "1", speedometer = "1", batterySOH = "45", absEvent = "1", vehicleOdometer = "214748364.75";
     //public static boolean dataReceived = false;
 
+    private String ignitionStr = "0";
+    private String rideModeStr = "ECO";
+    private String vehicleChargeMode = "DISCONNECTED";
+    private String odoValue = "0";
     public static SpeedModel speedModel;
     public static DistanceModel distanceModel;
     public static OdoModel odoModel;
@@ -134,6 +142,8 @@ public class MainActivity extends AppCompatActivity {
     public static ABSModel absModel;
     public static RidingModeModel ridingModeModel;
     public static ReverseModeModel reverseModeModel;
+    public static IgnitionModel ignitionModel;
+    private Animation animation1;
     private ProgressView mProgressView;
     int[] colorList = new int[0];
     private boolean charging = false;
@@ -151,10 +161,13 @@ public class MainActivity extends AppCompatActivity {
 
 
     LocationDBHandler locationDBHandler;
+    StatisticsDBHandler statisticsDBHandler;
     Cursor locationDataCursor;
+    Cursor statisticsDataCursor;
 
     private int stGPSValidity = 0;
     private long lastLocRecivedTimestamp = 0;
+    private long lastODOTimestamp = 0;
     Handler handler = new Handler();
     Runnable runnable;
     int delay = 2000;
@@ -164,6 +177,13 @@ public class MainActivity extends AppCompatActivity {
 
     private boolean dataReceived = true;
 
+    private boolean leftBlinking = false;
+    private boolean rightBlinking = false;
+    private boolean hazardBlinking = false;
+
+    private long mPrevTimeMs = 0;
+    private double totalDistance = 0;
+    private int maxRangeVal = 0;
 
 
     @SuppressLint("SimpleDateFormat")
@@ -184,14 +204,19 @@ public class MainActivity extends AppCompatActivity {
         charging = false;
         stGPSValidity = 0;//0 is Invalid 1 is Valid.
         lastLocRecivedTimestamp = 0;
+        LowSocThreshold = "20";
+        maxRangeVal = 0;
+        init();
 
-        //MQTT Data base initilization
-        mqttDbHandler = new MqttDBHelper(MainActivity.this);
-        mqttDbHandler.createIfNotExists();
-        mqttDbHandler.close();
+        //Initilize max range
+        calculateRangeUsingSOC("1","ECO");
 
-        //Location Database initilization
-        locationDBHandler = new LocationDBHandler(MainActivity.this);
+        txtodo.setCharacterLists(TickerUtils.provideNumberList());
+        txtodo.setPreferredScrollingDirection(TickerView.ScrollingDirection.DOWN);
+        Typeface typeface = ResourcesCompat.getFont(MainActivity.this, R.font.audiowide_regular);
+        txtodo.setTypeface(typeface);
+        txtodo.setGravity(Gravity.CENTER);
+
 
         locationDataCursor = locationDBHandler.getAllData();
         if(locationDataCursor.getCount() == 0){
@@ -212,41 +237,30 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
+        statisticsDataCursor = statisticsDBHandler.getAllData();
+        Log.d("count",statisticsDataCursor.getCount()+"\t");
+        if(statisticsDataCursor.getCount() == 0){
+            odoValue = "0";
+            txtodo.setTextColor(getResources().getColor(R.color.textColorDark));
+            String padded = String.format("%0"+odo_pad_width+"d", Integer.parseInt(odoValue));
+            txtodo.setText(padded);
+        }
+        else{
+            while (statisticsDataCursor.moveToNext()){
+                totalDistance = Double.parseDouble(statisticsDataCursor.getString(1));
+                Log.d("dist",totalDistance+"\t");
+                long totDist = Math.round(totalDistance);
+                odoValue = String.valueOf(totDist);
+                String padded = String.format("%0"+odo_pad_width+"d", Integer.parseInt(odoValue));
+                txtodo.setText(padded);
+            }
+        }
+
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
-        //Initilization
-        txtspeed = findViewById(R.id.speed);
-        txtdistance = findViewById(R.id.rangeTxt);
-        txtodo = findViewById(R.id.odoMeter);
-        speedoMeterView=findViewById(R.id.speedometerview);
-        speedoMeterView.setNeedlecolor(getColor(R.color.white));
-        seekBar=findViewById(R.id.seekBar);
-        txtmodes=findViewById(R.id.txtmodes);
-        txtvehiclechrg=findViewById(R.id.chargePercent);
-        txtvehiclechrgBattery=findViewById(R.id.chargePercentbat);
-        txtvehiclechrgTime=findViewById(R.id.charging_time);
-        txtvehiclechrgPercent=findViewById(R.id.battery_percent);
-        rightstr=findViewById(R.id.right_ind);
-        leftstr=findViewById(R.id.left_ind);
-        hazardstr=findViewById(R.id.vehicle_hazard);
-        errorstr=findViewById(R.id.vehicle_error);
-        regenstr=findViewById(R.id.vehicle_regen);
-        abs_str=findViewById(R.id.vehicle_abs);
-        vehicle_charge=findViewById(R.id.vehicle_charge);
-        vehicle_chargeBat=findViewById(R.id.imageView8);
-        chargingbar=findViewById(R.id.landscapeProgressWidgetCharging);
-        chargingbarBattery=findViewById(R.id.landscapeProgressWidgetChargingbat);
-        mProgressView = findViewById(R.id.gradiant_progress);
-        linearLayout_cluster = findViewById(R.id.linearLayout_cluster);
-        linearLayoutbat = findViewById(R.id.linearLayoutbat);
-        mqttUploadStatusImg = findViewById(R.id.mqtt_upload);
-        Glide.with(MainActivity.this).load(R.drawable.upload).into(mqttUploadStatusImg);
 
-        txtodo.setCharacterLists(TickerUtils.provideNumberList());
-        txtodo.setPreferredScrollingDirection(TickerView.ScrollingDirection.DOWN);
-        Typeface typeface = ResourcesCompat.getFont(MainActivity.this, R.font.audiowide_regular);
-        txtodo.setTypeface(typeface);
-        txtodo.setGravity(Gravity.CENTER);
+
+
 
         //Running timer for MQTT data upload to server with delay of 2sec interval
         handler.postDelayed(runnable = new Runnable() {
@@ -275,12 +289,12 @@ public class MainActivity extends AppCompatActivity {
                                 //TODO: packet missed to be handled later.
                             } else {
                                 uploadData = new UploadData();
-                                uploadData.execute();
+                                //uploadData.execute();
                             }
                         }
                         else{
                             uploadData = new UploadData();
-                            uploadData.execute();
+                            //uploadData.execute();
                         }
 
                     }
@@ -297,24 +311,6 @@ public class MainActivity extends AppCompatActivity {
 
         //Starting the receiver service
         startService(new Intent(MainActivity.this, ClusterService.class));
-
-        //initilization of MutableLiveData variables
-        speedModel= new ViewModelProvider(this).get(SpeedModel.class);
-        distanceModel = new ViewModelProvider(this).get(DistanceModel.class);
-        odoModel = new ViewModelProvider(this).get(OdoModel.class);
-        chargingStatusModel = new ViewModelProvider(this).get(ChargingStatusModel.class);
-        chargingTimeModel = new ViewModelProvider(this).get(ChargingTimeModel.class);
-        socModel = new ViewModelProvider(this).get(SOCModel.class);
-        lowSOCModel = new ViewModelProvider(this).get(LowSOCModel.class);
-        batterySOHModel = new ViewModelProvider(this).get(BatterySOHModel.class);
-        rightTTLModel = new ViewModelProvider(this).get(RightTTLModel.class);
-        leftTTLModel = new ViewModelProvider(this).get(LeftTTLModel.class);
-        hazardTTLModel = new ViewModelProvider(this).get(HazardTTLModel.class);
-        vehicleErrorModel = new ViewModelProvider(this).get(VehicleErrorModel.class);
-        regenModel = new ViewModelProvider(this).get(RegenModel.class);
-        absModel = new ViewModelProvider(this).get(ABSModel.class);
-        ridingModeModel = new ViewModelProvider(this).get(RidingModeModel.class);
-        reverseModeModel = new ViewModelProvider(this).get(ReverseModeModel.class);
 
         //Receiving Speed data from MutableLiveData
         speedModel.getData().observe(this, newData -> {
@@ -335,45 +331,56 @@ public class MainActivity extends AppCompatActivity {
                 }
                 mProgressView.applyGradient(colorList);
                 mProgressView.setProgress(speedGradent);
+                calulateODODistance(Integer.parseInt(speedometer));
             }
         });
 
         distanceModel.getData().observe(this,newData ->{
             // Update UI components with the new data
             vehicleRange = newData;
-            seekBar.setProgress(Integer.parseInt(vehicleRange));
-            txtdistance.setText(vehicleRange + " km");
+                int vehRangeProg = 0;
+                vehRangeProg = ((Integer.parseInt(vehicleRange) * 100)/maxRangeVal);
+                String curVehPer = String.valueOf(Math.round(vehRangeProg));
+                seekBar.setProgress(Integer.parseInt(curVehPer));
+                txtdistance.setTextColor(getResources().getColor(R.color.white));
+                txtdistance.setText(vehicleRange + " km");
         });
 
         odoModel.getData().observe(this,newData->{
             // Update UI components with the new data
             vehicleOdometer = newData;
             //vehicleOdometer = String.valueOf(Integer.parseInt(vehicleOdometer)* 234);
-            txtodo.setText(vehicleOdometer);
+            //String padded = String.format("%0"+odo_pad_width+"d", vehicleOdometer);
+            String padded = String.format("%0"+odo_pad_width+"d", Integer.parseInt(vehicleOdometer));
+            txtodo.setText(padded);
            // txtodo.setText("2500000");
         });
 
         chargingStatusModel.getData().observe(this,newData->{
             // Update UI components with the new data
-            vehicleCharge = newData;
+            vehicleChargeMode = newData;
             vehicle_charge.setVisibility(View.VISIBLE);
-            if (vehicleCharge.equalsIgnoreCase("DISABLED")) {
+            if (vehicleChargeMode.equalsIgnoreCase("DISCONNECTED")) {
+                vehicleCharge = "DISABLED";
                 Glide.with(getApplicationContext()).load(R.drawable.charge).into(vehicle_charge);
                 charging = false;
                 linearLayout_cluster.setVisibility(View.VISIBLE);
                 linearLayoutbat.setVisibility(View.GONE);
                 speedoMeterView.setVisibility(View.VISIBLE);
-            } else if (vehicleCharge.equalsIgnoreCase("STATIC")) {
+            } else if (vehicleChargeMode.equalsIgnoreCase("FAULT")) {
+                vehicleCharge = "STATIC";
                 Glide.with(getApplicationContext()).load(R.drawable.charge_error).into(vehicle_charge);
                 charging = false;
-            } else if (vehicleCharge.equalsIgnoreCase("FREQ")) {
+            } else if (vehicleChargeMode.equalsIgnoreCase("CONNECTED")) {
+                vehicleCharge = "FREQ";
                 Glide.with(getApplicationContext()).load(R.drawable.charge_on).into(vehicle_charge);
                 Glide.with(getApplicationContext()).load(R.drawable.charge_on).into(vehicle_chargeBat);
                 charging = true;
                 linearLayout_cluster.setVisibility(View.GONE);
                 linearLayoutbat.setVisibility(View.VISIBLE);
                 speedoMeterView.setVisibility(View.GONE);
-            } else if (vehicleCharge.equalsIgnoreCase("OUTPUT")) {
+            } else if (vehicleChargeMode.equalsIgnoreCase("COMPLETED")) {
+                vehicleCharge = "OUTPUT";
                 Glide.with(getApplicationContext()).load(R.drawable.charge_complete).into(vehicle_charge);
                 Glide.with(getApplicationContext()).load(R.drawable.charge_complete).into(vehicle_chargeBat);
                 charging = true;
@@ -391,24 +398,39 @@ public class MainActivity extends AppCompatActivity {
 
         socModel.getData().observe(this,newData->{
             // Update UI components with the new data
-            stateOfCharge = newData;
-            if (stateOfCharge.equalsIgnoreCase("0")){
+            currStateOfCharge = newData;
+            if (currStateOfCharge.equalsIgnoreCase("0")){
             }
             else {
                 if(!charging) {
-                    txtvehiclechrg.setText(stateOfCharge + "%");
-                    chargingbar.setPercentage(Integer.parseInt(stateOfCharge));
+                    txtvehiclechrg.setText(currStateOfCharge + "%");
+                    chargingbar.setPadding(0,0,20,0);
+                    chargingbar.setPercentage(Integer.parseInt(currStateOfCharge));
+                    /***********************************/
+                    /**logic to calculate Range**/
+                    //range is calculated based on ride mode. Simple factor to ridemode is given
+                    String currRange = calculateRangeUsingSOC(currStateOfCharge,rideModeStr);
+                    int vehRangeProg = 0;
+                    vehRangeProg = ((Integer.parseInt(currRange) * 100) / maxRangeVal);
+                    String curVehPer = String.valueOf(Math.round(vehRangeProg));
+                    seekBar.setProgress(Integer.parseInt(curVehPer));
+                    //seekBar.setProgress(Integer.parseInt(currRange));
+                    txtdistance.setText(currRange + " km");
+
+                    calculateLowSOC(LowSocThreshold, currStateOfCharge);
                 }
                 else{
-                    txtvehiclechrgBattery.setText(stateOfCharge + "%");
-                    chargingbarBattery.setPercentage(Integer.parseInt(stateOfCharge));
+                    txtvehiclechrgBattery.setText(currStateOfCharge + "%");
+                    chargingbarBattery.setPercentage(Integer.parseInt(currStateOfCharge));
+
                 }
             }
         });
 
         lowSOCModel.getData().observe(this,newData->{
             // Update UI components with the new data
-            LowSoc = newData;
+            LowSocThreshold = newData;
+            calculateLowSOC(LowSocThreshold, currStateOfCharge);
         });
 
         batterySOHModel.getData().observe(this,newData->{
@@ -420,8 +442,16 @@ public class MainActivity extends AppCompatActivity {
             // Update UI components with the new data
             right = newData;
             if (right.equalsIgnoreCase("true")){
+                if(!rightBlinking){
+                    rightBlinking = true;
+                    rightstr.startAnimation(animation1);
+                }
                 Glide.with(getApplicationContext()).load(R.drawable.right_on).into(rightstr);
             } else if (right.equalsIgnoreCase("false")) {
+                if(rightBlinking){
+                    rightBlinking = false;
+                    rightstr.clearAnimation();
+                }
                 Glide.with(getApplicationContext()).load(R.drawable.right).into(rightstr);
             }
         });
@@ -429,8 +459,16 @@ public class MainActivity extends AppCompatActivity {
             // Update UI components with the new data
             left = newData;
             if (left.equalsIgnoreCase("true")){
+                if(!leftBlinking){
+                    leftBlinking = true;
+                    leftstr.startAnimation(animation1);
+                }
                 Glide.with(getApplicationContext()).load(R.drawable.left_on).into(leftstr);
             } else if (left.equalsIgnoreCase("false")) {
+                if(leftBlinking){
+                    leftBlinking = false;
+                    leftstr.clearAnimation();
+                }
                 Glide.with(getApplicationContext()).load(R.drawable.left).into(leftstr);
             }
         });
@@ -438,8 +476,16 @@ public class MainActivity extends AppCompatActivity {
             // Update UI components with the new data
             hazard = newData;
             if (hazard.equalsIgnoreCase("true")){
+                if(!hazardBlinking){
+                    hazardBlinking = true;
+                    hazardstr.startAnimation(animation1);
+                }
                 Glide.with(getApplicationContext()).load(R.drawable.hazard_on).into(hazardstr);
             } else if (hazard.equalsIgnoreCase("false")) {
+                if(hazardBlinking){
+                    hazardBlinking = false;
+                    hazardstr.clearAnimation();
+                }
                 Glide.with(getApplicationContext()).load(R.drawable.hazard).into(hazardstr);
             }
         });
@@ -478,20 +524,29 @@ public class MainActivity extends AppCompatActivity {
         });
         ridingModeModel.getData().observe(this,newData->{
             // Update UI components with the new data
-            rideMode = newData;
-            if (rideMode.equalsIgnoreCase("ES")) {
+            rideModeStr = newData;
+            if (rideModeStr.equalsIgnoreCase("ECO")) {
                 rideMode = "ES";
                 txtmodes.setText("Eco");
 
-            } else if (rideMode.equalsIgnoreCase("ST")) {
+            } else if (rideModeStr.equalsIgnoreCase("TOUR")) {
                 rideMode = "ST";
                 txtmodes.setText("Tour");
 
-            } else if (rideMode.equalsIgnoreCase("IS")) {
+            } else if (rideModeStr.equalsIgnoreCase("SPORTS")) {
                 rideMode = "IS";
                 txtmodes.setText("Sports");
 
             }
+            /***********************************/
+            /**logic to calculate Range**/
+            //range is calculated based on ride mode. Simple factor to ridemode is given
+            String currRange = calculateRangeUsingSOC(currStateOfCharge,rideModeStr);
+            int vehRangeProg = 0;
+            vehRangeProg = ((Integer.parseInt(currRange) * 100) / maxRangeVal);
+            String curVehPer = String.valueOf(Math.round(vehRangeProg));
+            seekBar.setProgress(Integer.parseInt(curVehPer));
+            txtdistance.setText(currRange + " km");
         });
         reverseModeModel.getData().observe(this,newData->{
             // Update UI components with the new data
@@ -501,6 +556,16 @@ public class MainActivity extends AppCompatActivity {
             }
             else{
                 reverseMode = "OFF";
+            }
+        });
+        ignitionModel.getData().observe(this,newData->{
+            // Update UI components with the new data
+            String ignitionMode = newData;
+            if(ignitionMode.equalsIgnoreCase("true")||ignitionMode.equalsIgnoreCase("ON")){
+                ignitionStr = "ON";
+            }
+            else{
+                ignitionStr = "OFF";
             }
         });
 
@@ -520,6 +585,85 @@ public class MainActivity extends AppCompatActivity {
                 new PendingDataUpload(mqttDbHandler,MainActivity.this).execute();
             }
         }
+    }
+
+    public void init(){
+        //Initilization
+        txtspeed = findViewById(R.id.speed);
+        txtdistance = findViewById(R.id.rangeTxt);
+        txtodo = findViewById(R.id.odoMeter);
+        speedoMeterView=findViewById(R.id.speedometerview);
+        speedoMeterView.setNeedlecolor(getColor(R.color.white));
+        seekBar=findViewById(R.id.seekBar);
+        txtmodes=findViewById(R.id.txtmodes);
+        txtvehiclechrg=findViewById(R.id.chargePercent);
+        txtvehiclechrgBattery=findViewById(R.id.chargePercentbat);
+        txtvehiclechrgTime=findViewById(R.id.charging_time);
+        txtvehiclechrgPercent=findViewById(R.id.battery_percent);
+        rightstr=findViewById(R.id.right_ind);
+        leftstr=findViewById(R.id.left_ind);
+        hazardstr=findViewById(R.id.vehicle_hazard);
+        errorstr=findViewById(R.id.vehicle_error);
+        regenstr=findViewById(R.id.vehicle_regen);
+        abs_str=findViewById(R.id.vehicle_abs);
+        vehicle_charge=findViewById(R.id.vehicle_charge);
+        vehicle_soc=findViewById(R.id.vehicle_soc);
+        vehicle_chargeBat=findViewById(R.id.imageView8);
+        chargingbar=findViewById(R.id.landscapeProgressWidgetCharging);
+        chargingbarBattery=findViewById(R.id.landscapeProgressWidgetChargingbat);
+        mProgressView = findViewById(R.id.gradiant_progress);
+        linearLayout_cluster = findViewById(R.id.linearLayout_cluster);
+        linearLayoutbat = findViewById(R.id.linearLayoutbat);
+        mqttUploadStatusImg = findViewById(R.id.mqtt_upload);
+        Glide.with(MainActivity.this).load(R.drawable.upload).into(mqttUploadStatusImg);
+
+        leftBlinking = false;
+        rightBlinking = false;
+        hazardBlinking = false;
+
+        //MQTT Data base initilization
+        mqttDbHandler = new MqttDBHelper(MainActivity.this);
+        mqttDbHandler.createIfNotExists();
+        mqttDbHandler.close();
+
+        //Location Database initilization
+        locationDBHandler = new LocationDBHandler(MainActivity.this);
+        locationDBHandler.createIfNotExists();
+        locationDBHandler.close();
+        //Statistics Database initilization
+        statisticsDBHandler = new StatisticsDBHandler(MainActivity.this);
+        statisticsDBHandler.createIfNotExists();
+        statisticsDBHandler.close();
+
+
+        //initilization of MutableLiveData variables
+        speedModel= new ViewModelProvider(this).get(SpeedModel.class);
+        distanceModel = new ViewModelProvider(this).get(DistanceModel.class);
+        odoModel = new ViewModelProvider(this).get(OdoModel.class);
+        chargingStatusModel = new ViewModelProvider(this).get(ChargingStatusModel.class);
+        chargingTimeModel = new ViewModelProvider(this).get(ChargingTimeModel.class);
+        socModel = new ViewModelProvider(this).get(SOCModel.class);
+        lowSOCModel = new ViewModelProvider(this).get(LowSOCModel.class);
+        batterySOHModel = new ViewModelProvider(this).get(BatterySOHModel.class);
+        rightTTLModel = new ViewModelProvider(this).get(RightTTLModel.class);
+        leftTTLModel = new ViewModelProvider(this).get(LeftTTLModel.class);
+        hazardTTLModel = new ViewModelProvider(this).get(HazardTTLModel.class);
+        vehicleErrorModel = new ViewModelProvider(this).get(VehicleErrorModel.class);
+        regenModel = new ViewModelProvider(this).get(RegenModel.class);
+        absModel = new ViewModelProvider(this).get(ABSModel.class);
+        ridingModeModel = new ViewModelProvider(this).get(RidingModeModel.class);
+        reverseModeModel = new ViewModelProvider(this).get(ReverseModeModel.class);
+        ignitionModel = new ViewModelProvider(this).get(IgnitionModel.class);
+
+        //Animation initilization
+        animation1 = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.blink);
+
+    }
+
+    public static int math(float f) {
+        int c = (int) ((f) + 0.5f);
+        float n = f + 0.5f;
+        return (n - c) % 2 == 0 ? (int) f : c;
     }
 
     //Calculating the charging time
@@ -546,6 +690,8 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected String doInBackground(String... voids) {
+            frameNumber = String.valueOf(Integer.parseInt(frameNumber)+1);
+            Log.d("frameNo",frameNumber);
            /* obdData="ON|SEQ_PHASED|PHASED|"+ vehicleErrorIndication +"|[1126;0;0;0;0;0]|"+ rideMode +"|1095|29.000|"+ vehicleCharge +"|"+ regenerationActive +"|2.334|0|0|19.938|36|102.719|86.938|"+ vehicleRange +
                     "|312|0.513|0.160|0.160|0.547|1.000|0.000|[41;0;0;0;0;0]|[0.000;0;0;0;0;0]|12.930|5.676|"+ vehicleChargingTime +"|0.505|6.383|2.364|6.562|-1.000|0.000|36.719|0.938|2.404|"
                     + reverseMode +"|0.000|"+ stateOfCharge +"|"+ speedometer +"|-3.100|12420.60|"+ batterySOH +"|8.00|12.95|[0;0;0;0;0;0;0;0;0]|0.00|1.00|"+absEvent+"|1.00|0.00|0.00|0.00|0.00|0.00|0.00|0.00|0.00|0.00|"+ vehicleOdometer;
@@ -553,7 +699,7 @@ public class MainActivity extends AppCompatActivity {
 
             obdData="ON|SEQ_PHASED|PHASED|"+ vehicleErrorIndication +"|[1126;0;0;0;0;0]|"+ rideMode +"|1095|29.000|"+ vehicleCharge +"|"+ regenerationActive +"|2.334|0|0|19.938|36|102.719|86.938|"+ vehicleRange +
                     "|312|0.513|0.160|0.160|0.547|1.000|0.000|[41;0;0;0;0;0]|[0.000;0;0;0;0;0]|12.930|5.676|"+ vehicleChargingTime +"|0.505|6.383|2.364|6.562|-1.000|0.000|36.719|0.938|2.404|"
-                    + reverseMode +"|0.000|"+ stateOfCharge +"|"+ speedometer +"|-3.100|12420.60|"+ batterySOH +"|8.00|12.95|[0;0;0;0;0;0;0;0;0]|0.00|1.00|0.00|1.00|0.00|0.00|0.00|0.00";
+                    + reverseMode +"|0.000|"+ currStateOfCharge +"|"+ speedometer +"|-3.100|12420.60|"+ batterySOH +"|8.00|12.95|[0;0;0;0;0;0;0;0;0]|0.00|1.00|0.00|1.00|0.00|0.00|0.00|0.00";
 
             content = "{\"payload\":\"$,RE-CONNECT,506.6,4.4,V9.4,"+packetType+","+alertId+","+packetStatus+",555555555510200,"+stGPSValidity+"," +
                     ""+date+","+time+","+latitude+","+latitudeDir+","+longitude+","+longitudeDir+",0.0,0,0,0,0.0,0.0,airtel,"+ignitionStatus+",12.31,"+gsmSignalStrength+
@@ -747,7 +893,7 @@ public class MainActivity extends AppCompatActivity {
             public void onNmeaMessage(String s, long l) {
                 try {
                     //Log.d(TAG,"Nmea Received :");
-                    Log.d(TAG,"Timestamp is :" +l+"   nmea is :"+s);
+                    //Log.d(TAG,"Timestamp is :" +l+"   nmea is :"+s);
 
                     //$GNRMC,075030.00,A,1254.161924,N,08013.621093,E,0.0,,150923,1.1,W,A,V*6E
                     //getting location latitude and longitude
@@ -785,6 +931,81 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+    //Vechicle range logic
+    public String calculateRangeUsingSOC(String currSOC,String currRideMode){
+        double currVehicleRange = 0;
+        String vehicleRangeStr = "";
+        maxRangeVal = 0;
+        int curSOCInt = Integer.parseInt(currSOC);
+        if(currRideMode.equalsIgnoreCase("ECO")){
+            double ecoFactor = 2.0;
+            currVehicleRange = ecoFactor * curSOCInt;
+            maxRangeVal = (int)Math.round(ecoFactor * 100);
+        }else if(currRideMode.equalsIgnoreCase("TOUR")){
+            double tourFactor = 1.8;
+            currVehicleRange = tourFactor * curSOCInt;
+            maxRangeVal = (int)Math.round(tourFactor * 100);
+        }else if(currRideMode.equalsIgnoreCase("SPORTS")){
+            double sportFactor = 1.5;
+            currVehicleRange = sportFactor * curSOCInt;
+            maxRangeVal = (int)Math.round(sportFactor * 100);
+        }
+        vehicleRangeStr = String.valueOf(Math.round(currVehicleRange));
+        return vehicleRangeStr;
+    }
+
+    public void calculateLowSOC(String currLowSOC,String currSOC){
+        int currLowSocInt = Integer.parseInt(currLowSOC);
+        int currSOCInt = Integer.parseInt(currSOC);
+        if(currSOCInt <= currLowSocInt){
+            Glide.with(MainActivity.this).load(R.drawable.soc_low).into(vehicle_soc);
+        }
+        else{
+            Glide.with(MainActivity.this).load(R.drawable.soc).into(vehicle_soc);
+        }
+    }
+
+
+    public void calulateODODistance(int mCurrSpeedVal){
+        long mCurrentTimeMs = System.currentTimeMillis();
+        double currDistance = 0;
+
+        if(mPrevTimeMs == 0){
+            mPrevTimeMs = mCurrentTimeMs;
+        }
+        if(mCurrentTimeMs > mPrevTimeMs) {
+            //currSpeedValm has to be typecasted to double so that decimal values be captured
+            currDistance = ((mCurrentTimeMs - mPrevTimeMs) * (double) mCurrSpeedVal) / (3600 * 1000);
+            Log.d("currDist",currDistance+"\t");
+            totalDistance = totalDistance + currDistance;
+            Log.d("currDist",currDistance+"\t"+totalDistance);
+            mPrevTimeMs = mCurrentTimeMs;
+
+            txtodo.setCharacterLists(TickerUtils.provideNumberList());
+            txtodo.setPreferredScrollingDirection(TickerView.ScrollingDirection.DOWN);
+            Typeface typeface = ResourcesCompat.getFont(MainActivity.this, R.font.audiowide_regular);
+            txtodo.setTypeface(typeface);
+            txtodo.setGravity(Gravity.CENTER);
+            //txtodo.setText(String.valueOf((int)totalDistance));
+            long totDist = Math.round(totalDistance);
+            String padded = String.format("%0"+odo_pad_width+"d", Integer.parseInt(String.valueOf(totDist)));
+            txtodo.setText(padded);
+
+            if (statisticsDataCursor.getCount() == 0) {
+                lastODOTimestamp = System.currentTimeMillis();
+                //Log.d("locationc",latitude+"\t"+longitude);
+                statisticsDBHandler.addNewOdo(String.valueOf(totDist), String.valueOf(lastODOTimestamp));
+                statisticsDataCursor = statisticsDBHandler.getAllData();
+            } else {
+                lastODOTimestamp = System.currentTimeMillis();
+                //Log.d("locationu",latitude+"\t"+longitude);
+                statisticsDBHandler.updateODO(String.valueOf(totDist), String.valueOf(lastODOTimestamp));
+            }
+        }
+    }
+
+
 
 
 }

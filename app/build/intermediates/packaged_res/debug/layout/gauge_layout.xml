@@ -39,6 +39,7 @@
         <com.progress.progressview.ProgressView
             android:id="@+id/gradiant_progress"
             android:layout_width="330dp"
+            android:visibility="gone"
             android:layout_height="600dp"
             android:layout_marginEnd="120dp"
             android:layout_marginBottom="160dp"
@@ -61,7 +62,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="5dp"
+            android:layout_margin="0dp"
             android:background="@drawable/bg5"
             android:gravity="center"
             android:orientation="vertical">
@@ -69,7 +70,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_margin="65dp"
+                android:layout_margin="56dp"
                 android:background="@drawable/circle"
                 android:backgroundTint="@color/background">
 
@@ -102,10 +103,10 @@
 
                 <ImageView
                     android:id="@+id/vehicle_regen"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:layout_marginStart="35dp"
-                    android:layout_marginTop="22dp"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="37dp"
+                    android:layout_marginTop="24dp"
                     android:layout_marginBottom="20dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -117,9 +118,9 @@
 
                 <ImageView
                     android:id="@+id/vehicle_hazard"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:layout_marginStart="15dp"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="8dp"
                     app:layout_constraintBottom_toBottomOf="@+id/landscapeProgressWidget"
                     app:layout_constraintEnd_toEndOf="@+id/landscapeProgressWidget"
                     app:layout_constraintHorizontal_bias="0.0"
@@ -131,8 +132,8 @@
 
                 <ImageView
                     android:id="@+id/vehicle_light"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
                     android:layout_marginStart="0dp"
                     android:layout_marginTop="3dp"
                     android:layout_marginEnd="5dp"
@@ -147,9 +148,9 @@
                 
                 <ImageView
                     android:id="@+id/vehicle_error"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:layout_marginStart="15dp"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="3dp"
                     android:layout_marginTop="3dp"
                     android:layout_marginBottom="20dp"
                     app:layout_constraintBottom_toBottomOf="@+id/landscapeProgressWidget"
@@ -162,8 +163,8 @@
 
                 <ImageView
                     android:id="@+id/vehicle_abs"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
                     android:layout_marginStart="35dp"
                     android:layout_marginBottom="20dp"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -177,9 +178,9 @@
 
                 <ImageView
                     android:id="@+id/left_ind"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_marginStart="40dp"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="45dp"
                     android:layout_marginBottom="10dp"
                     app:layout_constraintBottom_toBottomOf="@+id/landscapeProgressWidget"
                     app:layout_constraintEnd_toEndOf="@+id/landscapeProgressWidget"
@@ -192,9 +193,9 @@
 
                 <ImageView
                     android:id="@+id/right_ind"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_marginEnd="40dp"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginEnd="45dp"
                     app:layout_constraintBottom_toBottomOf="@+id/left_ind"
                     app:layout_constraintEnd_toEndOf="@+id/landscapeProgressWidget"
                     app:layout_constraintHorizontal_bias="1.0"
@@ -204,8 +205,8 @@
 
                 <ImageView
                     android:id="@+id/vehicle_charge"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
                     app:layout_constraintBottom_toBottomOf="@+id/landscapeProgressWidget"
                     app:layout_constraintEnd_toEndOf="@+id/landscapeProgressWidget"
                     app:layout_constraintHorizontal_bias="1.0"
@@ -217,8 +218,9 @@
 
                 <ImageView
                     android:id="@+id/vehicle_soc"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="40dp"
                     android:scaleType="centerCrop"
                     app:layout_constraintBottom_toBottomOf="@+id/landscapeProgressWidget"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -231,9 +233,10 @@
 
                 <ImageView
                     android:id="@+id/mqtt_upload"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
                     android:scaleType="centerCrop"
+                    android:layout_marginTop="15dp"
                     app:layout_constraintBottom_toBottomOf="@+id/landscapeProgressWidget"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.88"
@@ -249,6 +252,7 @@
                     android:layout_marginTop="20dp"
                     android:fontFamily="@font/audiowide"
                     android:text="0"
+                    android:maxLength="3"
                     android:textColor="@color/white"
                     android:textSize="52sp"
                     app:layout_constraintBottom_toBottomOf="@+id/landscapeProgressWidget"
@@ -306,7 +310,7 @@
                     android:layout_height="35dp"
                     android:fontFamily="@font/audiowide_regular"
                     android:gravity="end"
-                    android:maxLength="5"
+                    android:maxLength="7"
                     android:text="0000000"
                     android:textColor="@color/white"
                     android:textSize="22dp"

@@ -39,6 +39,7 @@
         <com.progress.progressview.ProgressView
             android:id="@+id/gradiant_progress"
             android:layout_width="330dp"
+            android:visibility="gone"
             android:layout_height="600dp"
             android:layout_marginEnd="120dp"
             android:layout_marginBottom="160dp"
@@ -177,9 +178,9 @@
 
                 <ImageView
                     android:id="@+id/left_ind"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_marginStart="40dp"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="45dp"
                     android:layout_marginBottom="10dp"
                     app:layout_constraintBottom_toBottomOf="@+id/landscapeProgressWidget"
                     app:layout_constraintEnd_toEndOf="@+id/landscapeProgressWidget"
@@ -192,9 +193,9 @@
 
                 <ImageView
                     android:id="@+id/right_ind"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_marginEnd="40dp"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginEnd="45dp"
                     app:layout_constraintBottom_toBottomOf="@+id/left_ind"
                     app:layout_constraintEnd_toEndOf="@+id/landscapeProgressWidget"
                     app:layout_constraintHorizontal_bias="1.0"
@@ -217,9 +218,11 @@
 
                 <ImageView
                     android:id="@+id/vehicle_soc"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
                     android:scaleType="centerCrop"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="8dp"
                     app:layout_constraintBottom_toBottomOf="@+id/landscapeProgressWidget"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="1.0"

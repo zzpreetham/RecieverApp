@@ -18,7 +18,7 @@ import com.royalenfield.recieverapp.R;
  */
 public class LandscapeProgressWidgetCharging extends View {
     private int progressColor;
-    private int percent = 90;
+    private int percent = 80;
     private int radiusOuter = 110, radiusInner = 115;
     private Paint mPaintOuter;
     private Paint mPaintPercent;
