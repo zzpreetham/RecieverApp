@@ -1,5 +1,7 @@
 package com.royalenfield.recieverapp.activity;
 
+import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
@@ -66,6 +68,9 @@ import com.royalenfield.recieverapp.progressView.LandscapeProgressWidgetCharging
 import com.royalenfield.recieverapp.service.ClusterService;
 import com.royalenfield.recieverapp.speedometerView.SpeedoMeterView;
 
+import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
+import org.eclipse.paho.client.mqttv3.MqttCallback;
+import org.eclipse.paho.client.mqttv3.MqttCallbackExtended;
 import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
@@ -78,9 +83,10 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Objects;
 
+import kotlin.jvm.Synchronized;
 import soup.neumorphism.NeumorphCardView;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements MqttCallbackExtended{
 
     TextView txtspeed;
     TextView txtdistance;
@@ -112,12 +118,10 @@ public class MainActivity extends AppCompatActivity {
 
     //MQTT server Creditentials
     String broker = "tcp://35.200.186.3:1883";
-    //String broker = "tcp://0.0.0.0:1883";
-    String topic = "gprsData";
     String username = "royalenfield";
     String password = "RoyalEnfieldMqttBroker";
     String clientid = "publish_client";
-    String content = "Hello MQTT";
+    String content = "";
 
     String currentPacketContent = "hello MQTT";
 
@@ -132,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
             reverseMode = "DEPRESSED", currStateOfCharge = "1", speedometer = "1", batterySOH = "45", absEvent = "1", vehicleOdometer = "214748364.75";
     public static boolean dataReceived = false;
 
-    private String ignitionStr = "0";
+    private String ignitionStr = "ON";
     private String rideModeStr = "ECO";
     private String vehicleChargeMode = "DISCONNECTED";
     private String odoValue = "0";
@@ -182,9 +186,9 @@ public class MainActivity extends AppCompatActivity {
     Handler handler = new Handler();
     Runnable runnable;
     int mqttServerUploadDelay = 1000;
-    int mqttServerAsyncTaskDelay = mqttServerUploadDelay / 10;
+    //int mqttServerAsyncTaskDelay = mqttServerUploadDelay / 5;
+    int mqttServerAsyncTaskDelay = 400;
 
-    private UploadData uploadData;
     private LocationManager locationManager;
 
     //private boolean dataReceived = true;
@@ -200,6 +204,11 @@ public class MainActivity extends AppCompatActivity {
 
     public boolean currMqttPacketUpload = false;
 
+    private MqttClient client;
+
+    private boolean mqttConnect = false;
+    MqttConnectOptions options;
+    MqttConnect mqttConnectTask;
 
 
 
@@ -224,6 +233,7 @@ public class MainActivity extends AppCompatActivity {
         lastLocRecivedTimestamp = 0;
         LowSocThreshold = "20";
         maxRangeVal = 0;
+        mqttConnect = false;
         init();
 
         //Initilize max range
@@ -276,13 +286,10 @@ public class MainActivity extends AppCompatActivity {
 
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
-
-
-
-
         //Running timer for MQTT data upload to server with delay of 2sec interval
         handler.postDelayed(runnable = new Runnable() {
             public void run() {
+                Log.d("mainRunCurPck",System.currentTimeMillis()+"");
                 //logic to check GPS validity
                 if(stGPSValidity == 1){
                     //check difference between current timestamp and location DB timestamp
@@ -300,21 +307,9 @@ public class MainActivity extends AppCompatActivity {
                 //time = new SimpleDateFormat(timeFormate).format(new Date());
                 if(dataReceived) {
                     try {
-                        if(uploadData!=null) {
-                            /*if (uploadData.getStatus() == AsyncTask.Status.RUNNING ||
-                                    uploadData.getStatus() == AsyncTask.Status.PENDING) {
-                                uploadData.cancel(true);
-                                //TODO: packet missed to be handled later.
-                            } else {*/
-                                uploadData = new UploadData();
-                                uploadData.execute();
-                            //}
-                        }
-                        else{
-                            uploadData = new UploadData();
-                            uploadData.execute();
-                        }
-
+                        Log.d("mainRunCurPck1",System.currentTimeMillis()+"");
+                        //calling MQTT creation function
+                        constructCurrMqttPacket();
                     }
                     catch (Exception e){
                         //TODO:packet missed to be handled later.
@@ -380,7 +375,8 @@ public class MainActivity extends AppCompatActivity {
             vehicle_charge.setVisibility(View.VISIBLE);
             if (vehicleChargeMode.equalsIgnoreCase("DISCONNECTED")) {
                 vehicleCharge = "DISABLED";
-                Glide.with(getApplicationContext()).load(R.drawable.charge).into(vehicle_charge);
+                vehicle_charge.setBackground(getDrawable(R.drawable.charge));
+                //Glide.with(getApplicationContext()).load(R.drawable.charge).into(vehicle_charge);
                 charging = false;
                 linearLayout_cluster.setVisibility(View.VISIBLE);
                 linearLayoutbat.setVisibility(View.GONE);
@@ -597,19 +593,14 @@ public class MainActivity extends AppCompatActivity {
         });
 
         dataReceiveModel.getData().observe(this,newData->{
-            String receiveMode = newData;
-            if(receiveMode.equalsIgnoreCase("true")){
-                dataReceived = true;
-            }
-            else {
-                dataReceived = false;
-            }
+            dataReceived = newData.equalsIgnoreCase("true");
         });
 
         Log.d("valueee",mqttDbHandler.getRowsCount()+"");
         int pendingRowsCount = mqttDbHandler.getRowsCount();
-
-        if(pendingRowsCount > 0){
+        //Upload pending Data
+        new MqttDataUpload(mqttDbHandler,MainActivity.this).execute();
+        /*if(pendingRowsCount > 0){
             //checking for internet connection.
             ConnectivityManager conMgr =  (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo netInfo = conMgr.getActiveNetworkInfo();
@@ -622,9 +613,63 @@ public class MainActivity extends AppCompatActivity {
                 //Upload pending Data
                 new MqttDataUpload(mqttDbHandler,MainActivity.this).execute();
             }
+        }*/
+
+        try{
+            //Initially connecting to MQTT client and establishing the connection
+            //Setup MQTT Connection
+            client = new MqttClient(broker, clientid, new MemoryPersistence());
+            options = new MqttConnectOptions();
+            options.setUserName(username);
+            options.setPassword(password.toCharArray());
+            options.setConnectionTimeout(30);
+            options.setKeepAliveInterval(60);
+            options.setAutomaticReconnect(false);
+            mqttConnectTask = new MqttConnect();
+            mqttConnectTask.execute();
+            client.setCallback(this);
+            //options.setExecutorServiceTimeout();
+        }
+        catch (MqttException e){
+            e.printStackTrace();
         }
     }
 
+    public class MqttConnect extends AsyncTask<Void,Void,Void> {
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            try {
+                // connect
+                Log.d("mqtt", "attemting to connect " + System.currentTimeMillis());
+                client.connect(options);
+                Log.d("mqtt", "connected" + System.currentTimeMillis());
+                client.setCallback(MainActivity.this);
+            }
+            catch (MqttException e){
+                Log.d("exception",e.getMessage());
+                e.printStackTrace();
+                retryMqttConnect();
+            }
+            return null;
+        }
+    }
+
+    public void retryMqttConnect(){
+        if(mqttConnectTask.getStatus() == AsyncTask.Status.RUNNING ||
+                mqttConnectTask.getStatus() == AsyncTask.Status.PENDING) {
+            mqttConnectTask.cancel(true);
+            mqttConnectTask = new MqttConnect();
+            mqttConnectTask.execute();
+        }
+    }
+
+
+
+
+
+
+    @SuppressLint("UseCompatLoadingForDrawables")
     public void init(){
         //Initilization
         txtspeed = findViewById(R.id.speed);
@@ -653,6 +698,7 @@ public class MainActivity extends AppCompatActivity {
         linearLayout_cluster = findViewById(R.id.linearLayout_cluster);
         linearLayoutbat = findViewById(R.id.linearLayoutbat);
         mqttUploadStatusImg = findViewById(R.id.mqtt_upload);
+        //mqttUploadStatusImg.setBackground(getDrawable(R.drawable.upload));
         Glide.with(MainActivity.this).load(R.drawable.upload).into(mqttUploadStatusImg);
 
         leftBlinking = false;
@@ -720,55 +766,41 @@ public class MainActivity extends AppCompatActivity {
         return str;
     }
 
-    //Async function to upload MQTT data in background process
-    public class UploadData extends AsyncTask<String,String,String>{
+    // function to Create MQTT data
+    @Synchronized
+    public void constructCurrMqttPacket(){
+        currentPacketContent = "";
+        try{
+            DateTimeFormatter curDate = DateTimeFormatter.ofPattern("ddMMyyyy");
+            DateTimeFormatter curTime = DateTimeFormatter.ofPattern("hhmmss");
+            LocalDateTime now = LocalDateTime.now();
+            networkDate = curDate.format(now);
+            networkTime = curTime.format(now);
 
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
+            date = networkDate;
+            time = networkTime;
         }
-
-        @Override
-        protected String doInBackground(String... voids) {
-            currentPacketContent = "";
-            try{
-                DateTimeFormatter curDate = DateTimeFormatter.ofPattern("ddMMyyyy");
-                DateTimeFormatter curTime = DateTimeFormatter.ofPattern("hhmmss");
-                LocalDateTime now = LocalDateTime.now();
-                networkDate = curDate.format(now);
-                networkTime = curTime.format(now);
-
-                date = networkDate;
-                time = networkTime;
-            }
-            catch (Exception e){
-                e.printStackTrace();
-            }
-            frameNumber = String.valueOf(Integer.parseInt(frameNumber)+1);
-            Log.d("frameNo",frameNumber);
-            obdData="ON|SEQ_PHASED|PHASED|"+ vehicleErrorIndication +"|[1126;0;0;0;0;0]|"+ rideMode +"|1095|29.000|"+ vehicleCharge +"|"+ regenerationActive +"|2.334|0|0|19.938|36|102.719|86.938|"+ vehicleRange +
-                    "|312|0.513|0.160|0.160|0.547|1.000|0.000|[41;0;0;0;0;0]|[0.000;0;0;0;0;0]|12.930|5.676|"+ vehicleChargingTime +"|0.505|6.383|2.364|6.562|-1.000|0.000|36.719|0.938|2.404|"
-                    + reverseMode +"|0.000|"+ currStateOfCharge +"|"+ speedometer +"|-3.100|12420.60|"+ batterySOH +"|8.00|12.95|[0;0;0;0;0;0;0;0;0]|0.00|1.00|0.00|1.00|0.00|0.00|0.00|0.00";
-
-            content = "{\"payload\":\"$,RE-CONNECT,506.6,4.4,V9.4,"+packetType+","+alertId+","+packetStatus+",555555555510200,"+stGPSValidity+"," +
-                    ""+date+","+time+","+latitude+","+latitudeDir+","+longitude+","+longitudeDir+",0.0,0,0,0,0.0,0.0,airtel,"+ignitionStatus+",12.31,"+gsmSignalStrength+
-                    ",1,"+frameNumber+",0,"+obdData+",,P0030,ME3EVMULE02TEST01,"+tripId+",M4A,*4e\"}";
-
-            Log.d("string_val",content);
-
-            currMqttPacketUpload = true;
-            currentPacketContent = content;
-
-            return content;
+        catch (Exception e){
+            e.printStackTrace();
         }
+        frameNumber = String.valueOf(Integer.parseInt(frameNumber)+1);
+        Log.d("frameNo",frameNumber);
+        obdData="ON|SEQ_PHASED|PHASED|"+ vehicleErrorIndication +"|[1126;0;0;0;0;0]|"+ rideMode +"|1095|29.000|"+ vehicleCharge +"|"+ regenerationActive +"|2.334|0|0|19.938|36|102.719|86.938|"+ vehicleRange +
+                "|312|0.513|0.160|0.160|0.547|1.000|0.000|[41;0;0;0;0;0]|[0.000;0;0;0;0;0]|12.930|5.676|"+ vehicleChargingTime +"|0.505|6.383|2.364|6.562|-1.000|0.000|36.719|0.938|2.404|"
+                + reverseMode +"|0.000|"+ currStateOfCharge +"|"+ speedometer +"|-3.100|12420.60|"+ batterySOH +"|8.00|12.95|[0;0;0;0;0;0;0;0;0]|0.00|1.00|0.00|1.00|0.00|0.00|0.00|0.00";
 
-        @Override
-        protected void onPostExecute(String contentVal) {
-            super.onPostExecute(contentVal);
+        content = "{\"payload\":\"$,RE-CONNECT,506.6,4.4,V9.4,"+ignitionStr+","+alertId+","+packetStatus+",555555555510200,"+stGPSValidity+"," +
+                ""+date+","+time+","+latitude+","+latitudeDir+","+longitude+","+longitudeDir+",0.0,0,0,0,0.0,0.0,airtel,"+ignitionStatus+",12.31,"+gsmSignalStrength+
+                ",1,"+frameNumber+",0,"+obdData+",,P0030,ME3EVMULE02TEST01,"+tripId+",M4A,*4e\"}";
 
-        }
+        Log.d("string_val",content);
+
+        currMqttPacketUpload = true;
+        currentPacketContent = content;
 
     }
+
+
 
     //Save MQTT data in local DB
     public void save_mqtt_records(String rawData,String uploadStatus,String timestamp){
@@ -910,6 +942,8 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    //setting the call back service for MQTT client to check connection lost and msg delivery status
+
     //Vechicle range logic
     public String calculateRangeUsingSOC(String currSOC,String currRideMode){
         double currVehicleRange = 0;
@@ -937,10 +971,12 @@ public class MainActivity extends AppCompatActivity {
         int currLowSocInt = Integer.parseInt(currLowSOC);
         int currSOCInt = Integer.parseInt(currSOC);
         if(currSOCInt <= currLowSocInt){
-            Glide.with(MainActivity.this).load(R.drawable.soc_low).into(vehicle_soc);
+            vehicle_soc.setBackground(getDrawable(R.drawable.soc_low));
+            //Glide.with(MainActivity.this).load(R.drawable.soc_low).into(vehicle_soc);
         }
         else{
-            Glide.with(MainActivity.this).load(R.drawable.soc).into(vehicle_soc);
+            vehicle_soc.setBackground(getDrawable(R.drawable.soc));
+            //Glide.with(MainActivity.this).load(R.drawable.soc).into(vehicle_soc);
         }
     }
 
@@ -983,18 +1019,44 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void connectComplete(boolean reconnect, String serverURI) {
+        mqttConnect = true;
+        Log.d("mqttStatus","connection");
+    }
+
+    @Override
+    public void connectionLost(Throwable cause) {
+        mqttConnect = false;
+        Log.d("mqttStatus","lostconnection");
+    }
+
+    @Override
+    public void messageArrived(String topic, MqttMessage message) throws Exception {
+        Log.d("mqttStatus","message");
+    }
+
+    @Override
+    public void deliveryComplete(IMqttDeliveryToken token) {
+        Log.d("mqttStatus","Packet Upload successfully");
+    }
+
+
+    /**********************************************************************************************
+     *
+     * MQTT DATA UPLOAD ASYNC TASK will perform 2 main activities
+     * 1. The Task is configured to run continuosly at every mqttServerAsyncTaskDelay
+     * 2. The Delay is configured to be a subset of mqttServerUploadDelay
+     * 3. The Task will first check if there is a current packet for upload
+     * 4. When there is no current packet then it uploads a pending packet.
+     *
+     *********************************************************************************************/
     public class MqttDataUpload extends AsyncTask<Void,Void,Void> {
 
         MqttDBHelper mqttDBHelper;
         Context context;
-        //MQTT server Creditentials
-        String broker = "tcp://35.200.186.3:1883";
-        //String broker = "tcp://0.0.0.0:1883";
         String topic = "gprsData";
-        String username = "royalenfield";
-        String password = "RoyalEnfieldMqttBroker";
-        String clientid = "publish_client";
-        String pendingContent = "Hello MQTT";
+        String pendingContent = "";
         int qos = 0;
         Handler handler = new Handler();
         Runnable runnable;
@@ -1014,179 +1076,156 @@ public class MainActivity extends AppCompatActivity {
         protected Void doInBackground(Void... voids) {
             handler.postDelayed(runnable = new Runnable() {
                 public void run() {
-                    //logic to check GPS validity
-                    //First check for pending packet in DB
-                    ArrayList<MqttDataModel> mqttDataModelArrayList = mqttDBHelper.readMqttData();
-                    if(mqttDataModelArrayList.size() > 0) {
-                        //login when pending packet are there in DB
-                        //for loop can be removed later
-                        for (int i = 0; i < mqttDataModelArrayList.size(); i++) {
-
-                            //checking for internet connection.
-                            ConnectivityManager conMgr =  (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
-                            NetworkInfo netInfo = conMgr.getActiveNetworkInfo();
-                            //No internet connection
-                            if (netInfo == null){
-                                runOnUiThread(new Runnable() {
-                                    public void run() {
-                                        Glide.with(MainActivity.this).load(R.drawable.fail_upload).into(mqttUploadStatusImg);
-                                    }
-                                });
-                                if(currMqttPacketUpload){
-                                    save_mqtt_records(content,"0",String.valueOf(System.currentTimeMillis()));
-                                    currMqttPacketUpload = false;
-                                }
-
+                    //checking for internet connection.
+                    ConnectivityManager conMgr =  (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+                    NetworkInfo netInfo = conMgr.getActiveNetworkInfo();
+                    //No internet connection
+                    if (netInfo == null){
+                        runOnUiThread(new Runnable() {
+                            public void run() {
+                                //mqttUploadStatusImg.setBackground(getDrawable(R.drawable.fail_upload));
+                                Glide.with(MainActivity.this).load(R.drawable.fail_upload).into(mqttUploadStatusImg);
                             }
-                            else {
-                                try {
-                                    pendingContent = mqttDataModelArrayList.get(i).getRaw_data();
-                                    try {
-                                        MqttClient client = new MqttClient(broker, clientid, new MemoryPersistence());
-                                        MqttConnectOptions options = new MqttConnectOptions();
-                                        options.setUserName(username);
-                                        options.setPassword(password.toCharArray());
-                                        options.setConnectionTimeout(30);
-                                        options.setKeepAliveInterval(60);
-                                        options.setAutomaticReconnect(false);
-                                        //options.setExecutorServiceTimeout();
-                                        // connect
-                                        Log.d("mqtt", "attemting to connect " + System.currentTimeMillis());
-                                        client.connect(options);
-                                        Log.d("mqtt", "connected" + System.currentTimeMillis());
-                                        // create message and setup QoS
-
-                                        // publish message
-                                        if (currMqttPacketUpload) {
-                                            Log.d("dataUp", "current");
-                                            //Since we are switching to current packet upload, decrement pending upload count
-                                            i--;
-                                            MqttMessage message = new MqttMessage(currentPacketContent.getBytes());
-                                            message.setQos(qos);
-                                            client.publish(topic, message);
-                                            save_mqtt_records(currentPacketContent,"1",String.valueOf(System.currentTimeMillis()));
-                                            currMqttPacketUpload = false;
-                                        } else {
-                                            Log.d("dataUp", "pending");
-                                            MqttMessage message = new MqttMessage(pendingContent.getBytes());
-                                            message.setQos(qos);
-                                            client.publish(topic, message);
-                                            mqttDBHelper.updateCourse(mqttDataModelArrayList.get(i).getId_col());
-                                        }
-                                        System.out.println("Message published");
-                                        System.out.println("topic: " + topic);
-                                        System.out.println("message content: " + pendingContent);
-                                        // disconnect
-                                        Log.d("Pending_mqtt", "Disconnected");
-                                        client.disconnect();
-                                        // close client
-                                        client.close();
-                                    } catch (MqttException e) {
-                                        e.printStackTrace();
-                                        if (currMqttPacketUpload) {
-                                            currMqttPacketUpload = false;
-                                            Log.d("error", e.getMessage());
-                                            save_mqtt_records(content, "0", String.valueOf(System.currentTimeMillis()));
-                                            // Glide.with(MainActivity.this).load(R.drawable.fail_upload).into(mqttUploadStatusImg);
-                                            if (Objects.requireNonNull(e.getMessage()).equalsIgnoreCase("Unable to connect to server") ||
-                                                    e.getMessage().equalsIgnoreCase("MqttException")) {
-                                                runOnUiThread(new Runnable() {
-                                                    public void run() {
-                                                        Glide.with(MainActivity.this).load(R.drawable.fail_upload).into(mqttUploadStatusImg);
-                                                    }
-                                                });
-                                            }
-                                        }
-                                    }
-
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                    if (currMqttPacketUpload) {
-                                        currMqttPacketUpload = false;
-                                        Log.d("error", e.getMessage());
-                                        save_mqtt_records(content, "0", String.valueOf(System.currentTimeMillis()));
-                                        // Glide.with(MainActivity.this).load(R.drawable.fail_upload).into(mqttUploadStatusImg);
-                                        if (Objects.requireNonNull(e.getMessage()).equalsIgnoreCase("Unable to connect to server") ||
-                                                e.getMessage().equalsIgnoreCase("MqttException")) {
-                                            runOnUiThread(new Runnable() {
-                                                public void run() {
-                                                    Glide.with(MainActivity.this).load(R.drawable.fail_upload).into(mqttUploadStatusImg);
-                                                }
-                                            });
-                                        }
-                                    }
-                                }
-                            }
+                        });
+                        if(currMqttPacketUpload){
+                            Log.d("before3",currentPacketContent);
+                            String contentMarkHistory = currentPacketContent.replace("1,L,","1,H,");
+                            Log.d("before3",contentMarkHistory);
+                            save_mqtt_records(contentMarkHistory,"0",String.valueOf(System.currentTimeMillis()));
+                            currMqttPacketUpload = false;
                         }
+
                     }
                     else {
-                        if(currMqttPacketUpload) {
-                            try {
-                                MqttClient client = new MqttClient(broker, clientid, new MemoryPersistence());
-                                MqttConnectOptions options = new MqttConnectOptions();
-                                options.setUserName(username);
-                                options.setPassword(password.toCharArray());
-                                options.setConnectionTimeout(30);
-                                options.setKeepAliveInterval(60);
-                                options.setAutomaticReconnect(false);
-                                //options.setExecutorServiceTimeout();
-                                // connect
-                                Log.d("mqtt", "attemting to connect " + System.currentTimeMillis());
-                                client.connect(options);
-                                Log.d("mqtt", "connected" + System.currentTimeMillis());
-                                // create message and setup QoS
+                        //Network connection available
+                        //STEP1: Check if there is a current packet to be uploaded
+                        //Current Packet has higher priority than Pending PAckets
+                        //The Flag currMqttPacketUpload is set in the main activity at packet construction interval.
+                        if(mqttConnect) {
+                            runOnUiThread(new Runnable() {
+                                @SuppressLint("UseCompatLoadingForDrawables")
+                                public void run() {
+                                    //mqttUploadStatusImg.setBackground(getDrawable(R.drawable.fail_upload));
+                                    //Update ICon on UI to denote failed Upload
+                                    Glide.with(MainActivity.this).load(R.drawable.upload).into(mqttUploadStatusImg);
+                                }
+                            });
+                            if (currMqttPacketUpload) {
+                                try {
+                                    //Only publishing is done here
+                                    // publish message
+                                    Log.d("dataUp", "current");
+                                    //Since we are switching to current packet upload, decrement pending upload count
+                                    MqttMessage message = new MqttMessage(currentPacketContent.getBytes());
+                                    message.setQos(qos);
+                                    client.publish(topic, message);
+                                    //Save Data in DB with Status as 1
+                                    save_mqtt_records(currentPacketContent, "1", String.valueOf(System.currentTimeMillis()));
+                                    //Reset Flag to denote upload Completed
+                                    currMqttPacketUpload = false;
 
-                                // publish message
-                                Log.d("dataUp", "current");
-                                //Since we are switching to current packet upload, decrement pending upload count
-                                MqttMessage message = new MqttMessage(currentPacketContent.getBytes());
-                                message.setQos(qos);
-                                client.publish(topic, message);
-                                save_mqtt_records(currentPacketContent,"1",String.valueOf(System.currentTimeMillis()));
-                                currMqttPacketUpload = false;
+                                    System.out.println("Message published cur");
+                                    System.out.println("topic: " + topic);
+                                    System.out.println("message content: " + currentPacketContent);
 
-                                System.out.println("Message published");
-                                System.out.println("topic: " + topic);
-                                System.out.println("message content: " + pendingContent);
-                                // disconnect
-                                Log.d("Pending_mqtt", "Disconnected");
-                                client.disconnect();
-                                // close client
-                                client.close();
-                            } catch (MqttException e) {
-                                currMqttPacketUpload = false;
-                                e.printStackTrace();
-                                Log.d("error", e.getMessage());
-                                save_mqtt_records(content,"0",String.valueOf(System.currentTimeMillis()));
-                                e.printStackTrace();
-                                Log.d("error",e.getMessage());
-                                // Glide.with(MainActivity.this).load(R.drawable.fail_upload).into(mqttUploadStatusImg);
-                                if(Objects.requireNonNull(e.getMessage()).equalsIgnoreCase("Unable to connect to server")||
-                                        e.getMessage().equalsIgnoreCase("MqttException")){
+                                } catch (MqttException e) {
+                                    //Incase of Exception, save the packate in DB and Reset Flag
+                                    // This Exception typically happens when the server is unresponsive and the MQTT connection Fails
+                                    currMqttPacketUpload = false;
+                                    e.printStackTrace();
+                                    Log.d("error", e.getMessage());
+                                    Log.d("before2",currentPacketContent);
+                                    String contentMarkHistory = currentPacketContent.replace("1,L,","1,H,");
+                                    Log.d("before2",contentMarkHistory);
+                                    save_mqtt_records(contentMarkHistory, "0", String.valueOf(System.currentTimeMillis()));
+                                    e.printStackTrace();
+                                    Log.d("error", e.getMessage());
+                                    // Glide.with(MainActivity.this).load(R.drawable.fail_upload).into(mqttUploadStatusImg);
                                     runOnUiThread(new Runnable() {
+                                        @SuppressLint("UseCompatLoadingForDrawables")
                                         public void run() {
+                                            //mqttUploadStatusImg.setBackground(getDrawable(R.drawable.fail_upload));
+                                            //Update ICon on UI to denote failed Upload
                                             Glide.with(MainActivity.this).load(R.drawable.fail_upload).into(mqttUploadStatusImg);
                                         }
                                     });
                                 }
+                            } else {
+                                //There is no Current Packet for Upload. So Check for Pending Packets
+                                //check for pending packet in DB. Read One Packet at a Time.
+                                // The DB read is configured to read multiple packets if required and hence the array.
+                                // Right Now we are returning only one packet and hence the array size will be 1
+                                ArrayList<MqttDataModel> mqttDataModelArrayList = mqttDBHelper.readMqttData();
+                                if (mqttDataModelArrayList.size() > 0) {
+                                    //login when pending packet are there in DB
+                                    //for loop can be removed later
+                                    for (int i = 0; i < mqttDataModelArrayList.size(); i++) {
+                                        pendingContent = mqttDataModelArrayList.get(i).getRaw_data();
+                                        try {
+                                            //Only publishing is done here
+                                            // create message and setup QoS
+                                            // publish message
+                                            Log.d("dataUp", "pending");
+                                            MqttMessage message = new MqttMessage(pendingContent.getBytes());
+                                            message.setQos(qos);
+                                            // The Publish call is syncronous and will retrun for completing the publish.
+                                            client.publish(topic, message);
+                                            // Once the Pending Packet is uploaded, Update Status as 1.
+                                            mqttDBHelper.updateCourse(mqttDataModelArrayList.get(i).getId_col());
+                                            System.out.println("Message published");
+                                            System.out.println("topic: " + topic);
+                                            System.out.println("message content: " + pendingContent);
+
+                                        } catch (MqttException e) {
+                                            e.printStackTrace();
+                                        }
+
+                                    }
+                                }
+                            }
+                        }
+
+
+                        else if(!mqttConnect) {
+                            runOnUiThread(new Runnable() {
+                                public void run() {
+                                    Glide.with(MainActivity.this).load(R.drawable.fail_upload).into(mqttUploadStatusImg);
+                                }
+                            });
+                            if(currMqttPacketUpload){
+                                Log.d("before1",currentPacketContent);
+                                String contentMarkHistory = currentPacketContent.replace("1,L,","1,H,");
+                                Log.d("before1",contentMarkHistory);
+                                save_mqtt_records(contentMarkHistory,"0",String.valueOf(System.currentTimeMillis()));
+                                currMqttPacketUpload = false;
                             }
                         }
                     }
-
                     handler.postDelayed(runnable, mqttServerAsyncTaskDelay);
                 }
             }, mqttServerAsyncTaskDelay);
 
             return null;
         }
-
-
-
-
-
-
-
     }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        try {
+            // disconnect
+            Log.d("Pending_mqtt", "Disconnected");
+            client.disconnect();
+            // close client
+            client.close();
+        }
+        catch (MqttException e){
+            e.printStackTrace();
+        }
+    }
+
+
+
 
 
 

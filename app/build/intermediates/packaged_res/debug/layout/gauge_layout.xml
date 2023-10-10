@@ -71,6 +71,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="56dp"
+                android:visibility="visible"
                 android:background="@drawable/circle"
                 android:backgroundTint="@color/background">
 
