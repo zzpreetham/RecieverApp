@@ -42,7 +42,7 @@ public class SpeedoMeterView extends View {
     private float currentSpeed=0;
     private ValueAnimator speedAnimator, trembleAnimator, realSpeedAnimator;
     private Animator.AnimatorListener animatorListener;
-    private float trembleDegree = 4f;
+    private float trembleDegree = 0f;
     private boolean canceled = false;
     private Drawable drawable;
     private boolean isborder;
@@ -346,7 +346,7 @@ public class SpeedoMeterView extends View {
             cancelSpeedAnimator();
             speedAnimator = ValueAnimator.ofFloat(currentSpeed, speed);
             speedAnimator.setInterpolator(new DecelerateInterpolator());
-            speedAnimator.setDuration(10);
+            speedAnimator.setDuration(1000);
             speedAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                 @Override
                 public void onAnimationUpdate(ValueAnimator animation) {

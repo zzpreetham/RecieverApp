@@ -96,7 +96,7 @@ public class MainActivity extends AppCompatActivity implements MqttCallbackExten
     SeekBar seekBar;
     LandscapeProgressWidgetCharging chargingbar;
     LandscapeProgressWidgetCharging chargingbarBattery;
-    int odo_pad_width = 6;
+    int odo_pad_width = 7;
 
     TextView txtvehiclechrg;
     TextView txtvehiclechrgBattery;
@@ -114,7 +114,7 @@ public class MainActivity extends AppCompatActivity implements MqttCallbackExten
 
     ImageView mqttUploadStatusImg;
 
-    public static String LowSocThreshold = "20", right, left, hazard;
+    public static String LowSocThreshold = "20", right="", left="", hazard;
 
     //MQTT server Creditentials
     String broker = "tcp://35.200.186.3:1883";
@@ -455,41 +455,51 @@ public class MainActivity extends AppCompatActivity implements MqttCallbackExten
         rightTTLModel.getData().observe(this,newData->{
             // Update UI components with the new data
             right = newData;
-            if (right.equalsIgnoreCase("true")){
-                if(!rightBlinking){
-                    rightBlinking = true;
-                    rightstr.startAnimation(animation1);
+            if(hazard.equalsIgnoreCase("false")) {
+                if (right.equalsIgnoreCase("true")) {
+                    if (!rightBlinking) {
+                        rightBlinking = true;
+                        rightstr.startAnimation(animation1);
+                    }
+                    Glide.with(getApplicationContext()).load(R.drawable.right_on).into(rightstr);
+                } else if (right.equalsIgnoreCase("false")) {
+                    if (rightBlinking) {
+                        rightBlinking = false;
+                        rightstr.clearAnimation();
+                    }
+                    Glide.with(getApplicationContext()).load(R.drawable.right).into(rightstr);
                 }
-                Glide.with(getApplicationContext()).load(R.drawable.right_on).into(rightstr);
-            } else if (right.equalsIgnoreCase("false")) {
-                if(rightBlinking){
-                    rightBlinking = false;
-                    rightstr.clearAnimation();
-                }
-                Glide.with(getApplicationContext()).load(R.drawable.right).into(rightstr);
             }
         });
         leftTTLModel.getData().observe(this,newData->{
             // Update UI components with the new data
             left = newData;
-            if (left.equalsIgnoreCase("true")){
-                if(!leftBlinking){
-                    leftBlinking = true;
-                    leftstr.startAnimation(animation1);
+            if(hazard.equalsIgnoreCase("false")) {
+                if (left.equalsIgnoreCase("true")) {
+                    if (!leftBlinking) {
+                        leftBlinking = true;
+                        leftstr.startAnimation(animation1);
+                    }
+                    Glide.with(getApplicationContext()).load(R.drawable.left_on).into(leftstr);
+                } else if (left.equalsIgnoreCase("false")) {
+                    if (leftBlinking) {
+                        leftBlinking = false;
+                        leftstr.clearAnimation();
+                    }
+                    Glide.with(getApplicationContext()).load(R.drawable.left).into(leftstr);
                 }
-                Glide.with(getApplicationContext()).load(R.drawable.left_on).into(leftstr);
-            } else if (left.equalsIgnoreCase("false")) {
-                if(leftBlinking){
-                    leftBlinking = false;
-                    leftstr.clearAnimation();
-                }
-                Glide.with(getApplicationContext()).load(R.drawable.left).into(leftstr);
             }
         });
         hazardTTLModel.getData().observe(this,newData->{
             // Update UI components with the new data
             hazard = newData;
             if (hazard.equalsIgnoreCase("true")){
+
+                leftstr.startAnimation(animation1);
+                Glide.with(getApplicationContext()).load(R.drawable.left_on).into(leftstr);
+
+               rightstr.startAnimation(animation1);
+                Glide.with(getApplicationContext()).load(R.drawable.right_on).into(rightstr);
                 if(!hazardBlinking){
                     hazardBlinking = true;
                     hazardstr.startAnimation(animation1);
@@ -500,6 +510,12 @@ public class MainActivity extends AppCompatActivity implements MqttCallbackExten
                     hazardBlinking = false;
                     hazardstr.clearAnimation();
                 }
+                leftstr.clearAnimation();
+                Glide.with(getApplicationContext()).load(R.drawable.left).into(leftstr);
+
+                rightstr.clearAnimation();
+                Glide.with(getApplicationContext()).load(R.drawable.right).into(rightstr);
+
                 Glide.with(getApplicationContext()).load(R.drawable.hazard).into(hazardstr);
             }
         });
@@ -542,22 +558,22 @@ public class MainActivity extends AppCompatActivity implements MqttCallbackExten
             if (rideModeStr.equalsIgnoreCase("ECO")) {
                 rideMode = "ES";
                 txtmodes.setText("Eco");
-                neumorphCardView.setShadowColorDark(getResources().getColor(R.color.ecoColor));
-                neumorphCardView.setShadowColorLight(getResources().getColor(R.color.ecoColor));
+                //neumorphCardView.setShadowColorDark(getResources().getColor(R.color.ecoColor));
+                //neumorphCardView.setShadowColorLight(getResources().getColor(R.color.ecoColor));
                 //neumorphCardView.setStrokeColor(getColor(R.color.ecoColor));
 
             } else if (rideModeStr.equalsIgnoreCase("TOUR")) {
                 rideMode = "ST";
                 txtmodes.setText("Tour");
-                neumorphCardView.setShadowColorDark(getResources().getColor(R.color.tourColor));
-                neumorphCardView.setShadowColorLight(getResources().getColor(R.color.tourColor));
+                //neumorphCardView.setShadowColorDark(getResources().getColor(R.color.tourColor));
+                //neumorphCardView.setShadowColorLight(getResources().getColor(R.color.tourColor));
                 //neumorphCardView.setStrokeColor(ColorStateList.valueOf(R.color.tourColor));
 
             } else if (rideModeStr.equalsIgnoreCase("SPORT")) {
                 rideMode = "IS";
                 txtmodes.setText("Sport");
-                neumorphCardView.setShadowColorDark(getResources().getColor(R.color.sportColor));
-                neumorphCardView.setShadowColorLight(getResources().getColor(R.color.sportColor));
+                //neumorphCardView.setShadowColorDark(getResources().getColor(R.color.sportColor));
+                //neumorphCardView.setShadowColorLight(getResources().getColor(R.color.sportColor));
                 //neumorphCardView.setStrokeColor(ge);
 
             }
@@ -789,7 +805,7 @@ public class MainActivity extends AppCompatActivity implements MqttCallbackExten
                 "|312|0.513|0.160|0.160|0.547|1.000|0.000|[41;0;0;0;0;0]|[0.000;0;0;0;0;0]|12.930|5.676|"+ vehicleChargingTime +"|0.505|6.383|2.364|6.562|-1.000|0.000|36.719|0.938|2.404|"
                 + reverseMode +"|0.000|"+ currStateOfCharge +"|"+ speedometer +"|-3.100|12420.60|"+ batterySOH +"|8.00|12.95|[0;0;0;0;0;0;0;0;0]|0.00|1.00|0.00|1.00|0.00|0.00|0.00|0.00";
 
-        content = "{\"payload\":\"$,RE-CONNECT,506.6,4.4,V9.4,"+ignitionStr+","+alertId+","+packetStatus+",555555555510200,"+stGPSValidity+"," +
+        content = "{\"payload\":\"$,RE-CONNECT,506.6,4.4,V9.4,"+packetType+","+alertId+","+packetStatus+",555555555510200,"+stGPSValidity+"," +
                 ""+date+","+time+","+latitude+","+latitudeDir+","+longitude+","+longitudeDir+",0.0,0,0,0,0.0,0.0,airtel,"+ignitionStatus+",12.31,"+gsmSignalStrength+
                 ",1,"+frameNumber+",0,"+obdData+",,P0030,ME3EVMULE02TEST01,"+tripId+",M4A,*4e\"}";
 

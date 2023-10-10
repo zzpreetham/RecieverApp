@@ -11,8 +11,8 @@
 
     <com.royalenfield.recieverapp.speedometerView.SpeedoMeterView
         android:id="@+id/speedometerview"
-        android:layout_width="900px"
-        android:layout_height="900px"
+        android:layout_width="960px"
+        android:layout_height="960px"
         android:layout_margin="2dp"
         android:background="@color/background"
         android:backgroundTint="@color/background"
@@ -70,7 +70,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_margin="56dp"
+                android:layout_margin="63dp"
                 android:visibility="visible"
                 android:background="@drawable/circle"
                 android:backgroundTint="@color/background">
