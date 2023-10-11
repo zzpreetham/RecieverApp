@@ -37,7 +37,6 @@ color purple_500
 color purple_700
 color redCircleColor
 color smoke_grey
-color sportColor
 color teal_200
 color teal_700
 color textColor
@@ -46,6 +45,7 @@ color textLightColor
 color tourColor
 color transparent
 color white
+color yellow
 drawable abs
 drawable abs_on
 drawable bg5
@@ -89,6 +89,7 @@ id battery_soh
 id chargeON
 id chargePercent
 id chargePercentbat
+id charge_range
 id charging_bike
 id charging_time
 id constraintLayout

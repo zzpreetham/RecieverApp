@@ -512,7 +512,7 @@
                         android:id="@+id/battery_percent"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="0%"
+                        android:text="95%"
                         android:padding="3dp"
                         android:gravity="start"
                         android:textColor="@color/white"
@@ -525,23 +525,25 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical"
+                    android:layout_marginEnd="15dp"
+                    android:visibility="visible"
                     android:layout_weight="1">
 
                     <TextView
                         android:id="@+id/modes"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Ride Mode"
+                        android:text="Vehicle Range"
                         android:padding="3dp"
                         android:gravity="end"
                         android:textColor="@color/smoke_grey"
                         android:textSize="10sp" />
 
                     <TextView
-                        android:id="@+id/mode_type"
+                        android:id="@+id/charge_range"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Sport+"
+                        android:text=""
                         android:padding="3dp"
                         android:gravity="end"
                         android:textColor="@color/white"

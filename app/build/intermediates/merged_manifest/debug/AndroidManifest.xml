@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.royalenfield.recieverapp"
     android:versionCode="1"
-    android:versionName="2.8" >
+    android:versionName="2.9" >
 
     <uses-sdk
         android:minSdkVersion="26"
@@ -45,10 +45,8 @@
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-                <!--
                 <category android:name="android.intent.category.HOME" />
                 <category android:name="android.intent.category.DEFAULT" />
-                -->
             </intent-filter>
 
             <meta-data

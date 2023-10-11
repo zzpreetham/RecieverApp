@@ -26,7 +26,6 @@
     <color name="purple_700">#FF3700B3</color>
     <color name="redCircleColor">#da291c</color>
     <color name="smoke_grey">#848884 </color>
-    <color name="sportColor">#da291c </color>
     <color name="teal_200">#EB262D</color>
     <color name="teal_700">#FF018786</color>
     <color name="textColor">#323232</color>
@@ -35,6 +34,7 @@
     <color name="tourColor">#FF5F1F </color>
     <color name="transparent">#0000ffff </color>
     <color name="white">#FFFFFFFF</color>
+    <color name="yellow">#FFD700 </color>
     <string name="app_name">RE_Cluster_App</string>
     <style name="Theme.RecieverApp" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         

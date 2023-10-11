@@ -2117,7 +2117,6 @@ color secondary_text_default_material_light
 color secondary_text_disabled_material_dark
 color secondary_text_disabled_material_light
 color smoke_grey
-color sportColor
 color switch_thumb_disabled_material_dark
 color switch_thumb_disabled_material_light
 color switch_thumb_material_dark
@@ -2134,6 +2133,7 @@ color tooltip_background_light
 color tourColor
 color transparent
 color white
+color yellow
 dimen abc_action_bar_content_inset_material
 dimen abc_action_bar_content_inset_with_nav
 dimen abc_action_bar_default_height_material
@@ -3256,6 +3256,7 @@ id chains
 id chargeON
 id chargePercent
 id chargePercentbat
+id charge_range
 id charging_bike
 id charging_time
 id checkbox

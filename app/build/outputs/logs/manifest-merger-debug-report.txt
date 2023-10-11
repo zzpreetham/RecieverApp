@@ -150,7 +150,7 @@ ADDED from /Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/github/Re
 		ADDED from /Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/github/RecieverApp/app/src/main/AndroidManifest.xml:25:13-36
 	android:name
 		ADDED from /Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/github/RecieverApp/app/src/main/AndroidManifest.xml:24:13-50
-intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
+intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.DEFAULT+category:name:android.intent.category.HOME+category:name:android.intent.category.LAUNCHER
 ADDED from /Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/github/RecieverApp/app/src/main/AndroidManifest.xml:29:13-34:29
 action#android.intent.action.MAIN
 ADDED from /Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/github/RecieverApp/app/src/main/AndroidManifest.xml:30:17-69
@@ -160,6 +160,14 @@ category#android.intent.category.LAUNCHER
 ADDED from /Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/github/RecieverApp/app/src/main/AndroidManifest.xml:31:17-77
 	android:name
 		ADDED from /Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/github/RecieverApp/app/src/main/AndroidManifest.xml:31:27-74
+category#android.intent.category.HOME
+ADDED from /Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/github/RecieverApp/app/src/main/AndroidManifest.xml:32:17-73
+	android:name
+		ADDED from /Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/github/RecieverApp/app/src/main/AndroidManifest.xml:32:27-70
+category#android.intent.category.DEFAULT
+ADDED from /Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/github/RecieverApp/app/src/main/AndroidManifest.xml:33:17-76
+	android:name
+		ADDED from /Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/github/RecieverApp/app/src/main/AndroidManifest.xml:33:27-73
 meta-data#android.app.lib_name
 ADDED from /Users/preethamacharya/Documents/EngineCAL/02_Code/Receiver/github/RecieverApp/app/src/main/AndroidManifest.xml:36:13-38:36
 	android:value

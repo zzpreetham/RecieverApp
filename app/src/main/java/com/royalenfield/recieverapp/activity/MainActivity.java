@@ -110,6 +110,7 @@ public class MainActivity extends AppCompatActivity implements MqttCallbackExten
     ImageView abs_str;
     ImageView vehicle_charge;
     ImageView vehicle_soc;
+    TextView charge_range;
     ImageView vehicle_chargeBat;
 
     ImageView mqttUploadStatusImg;
@@ -196,6 +197,7 @@ public class MainActivity extends AppCompatActivity implements MqttCallbackExten
     private boolean leftBlinking = false;
     private boolean rightBlinking = false;
     private boolean hazardBlinking = false;
+    private boolean lowSocBlinking = false;
 
     private long mPrevTimeMs = 0;
     private double totalDistance = 0;
@@ -329,7 +331,7 @@ public class MainActivity extends AppCompatActivity implements MqttCallbackExten
         speedModel.getData().observe(this, newData -> {
             // Update UI components with the new data
             speedometer = newData;
-            if(Integer.parseInt(speedometer) < 180) {
+            if(Integer.parseInt(speedometer) < 160) {
                 txtspeed.setText(speedometer);
                 int speedGauge = Integer.parseInt(speedometer) / 2;
                 if (speedGauge >= 78) {
@@ -346,6 +348,15 @@ public class MainActivity extends AppCompatActivity implements MqttCallbackExten
                 mProgressView.setProgress(speedGradent);
                 calulateODODistance(Integer.parseInt(speedometer));
             }
+            else{
+                speedometer = "160";
+                txtspeed.setText(speedometer);
+                int speedGauge = Integer.parseInt(speedometer) / 2;
+                if (speedGauge >= 78) {
+                    speedGauge = 78;
+                }
+                speedoMeterView.setSpeed(speedGauge, true);
+            }
         });
 
         distanceModel.getData().observe(this,newData ->{
@@ -357,6 +368,7 @@ public class MainActivity extends AppCompatActivity implements MqttCallbackExten
                 seekBar.setProgress(Integer.parseInt(curVehPer));
                 txtdistance.setTextColor(getResources().getColor(R.color.white));
                 txtdistance.setText(vehicleRange + " km");
+                charge_range.setText(vehicleRange + " km");
         });
 
         odoModel.getData().observe(this,newData->{
@@ -375,8 +387,8 @@ public class MainActivity extends AppCompatActivity implements MqttCallbackExten
             vehicle_charge.setVisibility(View.VISIBLE);
             if (vehicleChargeMode.equalsIgnoreCase("DISCONNECTED")) {
                 vehicleCharge = "DISABLED";
-                vehicle_charge.setBackground(getDrawable(R.drawable.charge));
-                //Glide.with(getApplicationContext()).load(R.drawable.charge).into(vehicle_charge);
+                //vehicle_charge.setBackground(getDrawable(R.drawable.charge));
+                Glide.with(getApplicationContext()).load(R.drawable.charge).into(vehicle_charge);
                 charging = false;
                 linearLayout_cluster.setVisibility(View.VISIBLE);
                 linearLayoutbat.setVisibility(View.GONE);
@@ -387,7 +399,7 @@ public class MainActivity extends AppCompatActivity implements MqttCallbackExten
                 charging = false;
             } else if (vehicleChargeMode.equalsIgnoreCase("CONNECTED")) {
                 vehicleCharge = "FREQ";
-                Glide.with(getApplicationContext()).load(R.drawable.charge_on).into(vehicle_charge);
+                Glide.with(getApplicationContext()).load(R.drawable.charge).into(vehicle_charge);
                 Glide.with(getApplicationContext()).load(R.drawable.charge_on).into(vehicle_chargeBat);
                 charging = true;
                 linearLayout_cluster.setVisibility(View.GONE);
@@ -430,6 +442,7 @@ public class MainActivity extends AppCompatActivity implements MqttCallbackExten
                     seekBar.setProgress(Integer.parseInt(curVehPer));
                     //seekBar.setProgress(Integer.parseInt(currRange));
                     txtdistance.setText(currRange + " km");
+                    charge_range.setText(currRange + " km");
 
                     calculateLowSOC(LowSocThreshold, currStateOfCharge);
                 }
@@ -586,6 +599,7 @@ public class MainActivity extends AppCompatActivity implements MqttCallbackExten
             String curVehPer = String.valueOf(Math.round(vehRangeProg));
             seekBar.setProgress(Integer.parseInt(curVehPer));
             txtdistance.setText(currRange + " km");
+            charge_range.setText(currRange + " km");
         });
         reverseModeModel.getData().observe(this,newData->{
             // Update UI components with the new data
@@ -714,6 +728,7 @@ public class MainActivity extends AppCompatActivity implements MqttCallbackExten
         linearLayout_cluster = findViewById(R.id.linearLayout_cluster);
         linearLayoutbat = findViewById(R.id.linearLayoutbat);
         mqttUploadStatusImg = findViewById(R.id.mqtt_upload);
+        charge_range = findViewById(R.id.charge_range);
         //mqttUploadStatusImg.setBackground(getDrawable(R.drawable.upload));
         Glide.with(MainActivity.this).load(R.drawable.upload).into(mqttUploadStatusImg);
 
@@ -838,12 +853,12 @@ public class MainActivity extends AppCompatActivity implements MqttCallbackExten
 
             if(locationDataCursor.getCount() == 0) {
 
-                //Log.d("locationc",latitude+"\t"+longitude);
+                Log.d("locationc",latitude+"\t"+longitude);
                 locationDBHandler.addNewLocation(latitude,longitude,String.valueOf(lastLocRecivedTimestamp));
                 locationDataCursor = locationDBHandler.getAllData();
             }
             else{
-                //Log.d("locationu",latitude+"\t"+longitude);
+                Log.d("locationu",latitude+"\t"+longitude);
                 locationDBHandler.updateLocation(latitude,longitude,String.valueOf(lastLocRecivedTimestamp));
             }
             // ...
@@ -925,7 +940,7 @@ public class MainActivity extends AppCompatActivity implements MqttCallbackExten
                     //getting location latitude and longitude
                     if (s.contains("$GNGGA")) {
                         String[] gpsNmea = s.split(",");
-                        //Log.d("lat",gpsNmea[2]+"\t"+gpsNmea[3]+"\n"+ gpsNmea[4]+"\t"+gpsNmea[5]+"\n");
+                        Log.d("lat",gpsNmea[2]+"\t"+gpsNmea[3]+"\n"+ gpsNmea[4]+"\t"+gpsNmea[5]+"\n");
                         if(!gpsNmea[3].equalsIgnoreCase("")) {
                             latitudeDir = gpsNmea[3];
                         }
@@ -937,7 +952,7 @@ public class MainActivity extends AppCompatActivity implements MqttCallbackExten
                     //getting location date and time
                     if (s.contains("$GNRMC")) {
                         String[] gpsNmea = s.split(",");
-                        //Log.d("valuesss",gpsNmea[1]+"\t"+gpsNmea[9]);
+                        Log.d("valuesss",gpsNmea[1]+"\t"+gpsNmea[9]);
                         if(!gpsNmea[9].equalsIgnoreCase("")) {
                             date = outputDate.format(inputDate.parse(gpsNmea[9]));
                         }
@@ -974,7 +989,7 @@ public class MainActivity extends AppCompatActivity implements MqttCallbackExten
             double tourFactor = 1.8;
             currVehicleRange = tourFactor * curSOCInt;
             maxRangeVal = (int)Math.round(tourFactor * 100);
-        }else if(currRideMode.equalsIgnoreCase("SPORTS")){
+        }else if(currRideMode.equalsIgnoreCase("SPORT")){
             double sportFactor = 1.5;
             currVehicleRange = sportFactor * curSOCInt;
             maxRangeVal = (int)Math.round(sportFactor * 100);
@@ -987,12 +1002,18 @@ public class MainActivity extends AppCompatActivity implements MqttCallbackExten
         int currLowSocInt = Integer.parseInt(currLowSOC);
         int currSOCInt = Integer.parseInt(currSOC);
         if(currSOCInt <= currLowSocInt){
-            vehicle_soc.setBackground(getDrawable(R.drawable.soc_low));
-            //Glide.with(MainActivity.this).load(R.drawable.soc_low).into(vehicle_soc);
+            if(!lowSocBlinking){
+                lowSocBlinking = true;
+                vehicle_soc.startAnimation(animation1);
+            }
+            Glide.with(MainActivity.this).load(R.drawable.soc_low).into(vehicle_soc);
         }
         else{
-            vehicle_soc.setBackground(getDrawable(R.drawable.soc));
-            //Glide.with(MainActivity.this).load(R.drawable.soc).into(vehicle_soc);
+            if(lowSocBlinking){
+                lowSocBlinking = false;
+                vehicle_soc.clearAnimation();
+            }
+            Glide.with(MainActivity.this).load(R.drawable.soc).into(vehicle_soc);
         }
     }
 
@@ -1045,6 +1066,7 @@ public class MainActivity extends AppCompatActivity implements MqttCallbackExten
     public void connectionLost(Throwable cause) {
         mqttConnect = false;
         Log.d("mqttStatus","lostconnection");
+        retryMqttConnect();
     }
 
     @Override

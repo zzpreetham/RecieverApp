@@ -181,10 +181,10 @@ public class SpeedoMeterView extends View {
         path=new Path();
         float  bottomY = getWidth()/1.6f ;
         path.moveTo(getWidth()/2.0f,radius/4.0f);
-        path.lineTo(centerx-(radius/78.8f),radius/4.0f);
+        path.lineTo(centerx-(radius/98.8f),radius/3.0f);
         path.lineTo(centerx-(radius/39.4f),bottomY);
         path.lineTo(centerx+(radius/39.4f),bottomY);
-        path.lineTo(centerx+(radius/78.8f),radius/4.0f);
+        path.lineTo(centerx+(radius/78.8f),radius/3.0f);
     }
     public static Bitmap drawableToBitmap (Drawable drawable) {
         Bitmap bitmap = null;
