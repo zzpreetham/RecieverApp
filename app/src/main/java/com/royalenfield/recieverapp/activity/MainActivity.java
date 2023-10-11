@@ -281,6 +281,7 @@ public class MainActivity extends AppCompatActivity implements MqttCallbackExten
                 Log.d("dist",totalDistance+"\t");
                 long totDist = Math.round(totalDistance);
                 odoValue = String.valueOf(totDist);
+                txtodo.setTextColor(getResources().getColor(R.color.white));
                 String padded = String.format("%0"+odo_pad_width+"d", Integer.parseInt(odoValue));
                 txtodo.setText(padded);
             }
@@ -376,6 +377,7 @@ public class MainActivity extends AppCompatActivity implements MqttCallbackExten
             vehicleOdometer = newData;
             //vehicleOdometer = String.valueOf(Integer.parseInt(vehicleOdometer)* 234);
             //String padded = String.format("%0"+odo_pad_width+"d", vehicleOdometer);
+            txtodo.setTextColor(getResources().getColor(R.color.white));
             String padded = String.format("%0"+odo_pad_width+"d", Integer.parseInt(vehicleOdometer));
             txtodo.setText(padded);
            // txtodo.setText("2500000");
@@ -1040,6 +1042,7 @@ public class MainActivity extends AppCompatActivity implements MqttCallbackExten
             txtodo.setGravity(Gravity.CENTER);
             //txtodo.setText(String.valueOf((int)totalDistance));
             long totDist = Math.round(totalDistance);
+            txtodo.setTextColor(getResources().getColor(R.color.white));
             String padded = String.format("%0"+odo_pad_width+"d", Integer.parseInt(String.valueOf(totDist)));
             txtodo.setText(padded);
 
