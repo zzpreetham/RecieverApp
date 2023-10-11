@@ -134,7 +134,7 @@ public class MainActivity extends AppCompatActivity implements MqttCallbackExten
     String gsmSignalStrength = "31", frameNumber = "0", obdData, tripId = "1";
 
     String vehicleErrorIndication = "OFF", rideMode = "ES", vehicleCharge = "DISABLED", regenerationActive = "OFF", vehicleRange = "12", vehicleChargingTime = "14",
-            reverseMode = "DEPRESSED", currStateOfCharge = "1", speedometer = "1", batterySOH = "45", absEvent = "1", vehicleOdometer = "214748364.75";
+            reverseMode = "DEPRESSED", currStateOfCharge = "1", speedometer = "1", batterySOH = "45", absEvent = "1", vehicleOdometer = "";
     public static boolean dataReceived = false;
 
     private String ignitionStr = "ON";
@@ -212,6 +212,10 @@ public class MainActivity extends AppCompatActivity implements MqttCallbackExten
     MqttConnectOptions options;
     MqttConnect mqttConnectTask;
 
+    private int mqttCounter = 0;
+    private boolean mqttConnectCounter = false;
+    private boolean mqttReconnectionInProgress = false;
+
 
 
     @SuppressLint({"SimpleDateFormat", "ResourceAsColor"})
@@ -236,6 +240,9 @@ public class MainActivity extends AppCompatActivity implements MqttCallbackExten
         LowSocThreshold = "20";
         maxRangeVal = 0;
         mqttConnect = false;
+        mqttCounter = 0;
+        mqttConnectCounter = false;
+        mqttReconnectionInProgress = false;
         init();
 
         //Initilize max range
@@ -273,6 +280,7 @@ public class MainActivity extends AppCompatActivity implements MqttCallbackExten
             odoValue = "0";
             txtodo.setTextColor(getResources().getColor(R.color.textColorDark));
             String padded = String.format("%0"+odo_pad_width+"d", Integer.parseInt(odoValue));
+            vehicleOdometer = odoValue;
             txtodo.setText(padded);
         }
         else{
@@ -283,6 +291,7 @@ public class MainActivity extends AppCompatActivity implements MqttCallbackExten
                 odoValue = String.valueOf(totDist);
                 txtodo.setTextColor(getResources().getColor(R.color.white));
                 String padded = String.format("%0"+odo_pad_width+"d", Integer.parseInt(odoValue));
+                vehicleOdometer = odoValue;
                 txtodo.setText(padded);
             }
         }
@@ -357,6 +366,7 @@ public class MainActivity extends AppCompatActivity implements MqttCallbackExten
                     speedGauge = 78;
                 }
                 speedoMeterView.setSpeed(speedGauge, true);
+                calulateODODistance(Integer.parseInt(speedometer));
             }
         });
 
@@ -443,12 +453,16 @@ public class MainActivity extends AppCompatActivity implements MqttCallbackExten
                     String curVehPer = String.valueOf(Math.round(vehRangeProg));
                     seekBar.setProgress(Integer.parseInt(curVehPer));
                     //seekBar.setProgress(Integer.parseInt(currRange));
+                    vehicleRange = currRange;
                     txtdistance.setText(currRange + " km");
                     charge_range.setText(currRange + " km");
 
                     calculateLowSOC(LowSocThreshold, currStateOfCharge);
                 }
                 else{
+                    String currRange = calculateRangeUsingSOC(currStateOfCharge,rideModeStr);
+                    vehicleRange = currRange;
+                    charge_range.setText(currRange + " km");
                     txtvehiclechrgBattery.setText(currStateOfCharge + "%");
                     chargingbarBattery.setPercentage(Integer.parseInt(currStateOfCharge));
 
@@ -600,6 +614,7 @@ public class MainActivity extends AppCompatActivity implements MqttCallbackExten
             vehRangeProg = ((Integer.parseInt(currRange) * 100) / maxRangeVal);
             String curVehPer = String.valueOf(Math.round(vehRangeProg));
             seekBar.setProgress(Integer.parseInt(curVehPer));
+            vehicleRange = currRange;
             txtdistance.setText(currRange + " km");
             charge_range.setText(currRange + " km");
         });
@@ -688,9 +703,14 @@ public class MainActivity extends AppCompatActivity implements MqttCallbackExten
     }
 
     public void retryMqttConnect(){
+        mqttReconnectionInProgress = true;
         if(mqttConnectTask.getStatus() == AsyncTask.Status.RUNNING ||
                 mqttConnectTask.getStatus() == AsyncTask.Status.PENDING) {
             mqttConnectTask.cancel(true);
+            mqttConnectTask = new MqttConnect();
+            mqttConnectTask.execute();
+        }
+        else {
             mqttConnectTask = new MqttConnect();
             mqttConnectTask.execute();
         }
@@ -820,7 +840,7 @@ public class MainActivity extends AppCompatActivity implements MqttCallbackExten
         Log.d("frameNo",frameNumber);
         obdData="ON|SEQ_PHASED|PHASED|"+ vehicleErrorIndication +"|[1126;0;0;0;0;0]|"+ rideMode +"|1095|29.000|"+ vehicleCharge +"|"+ regenerationActive +"|2.334|0|0|19.938|36|102.719|86.938|"+ vehicleRange +
                 "|312|0.513|0.160|0.160|0.547|1.000|0.000|[41;0;0;0;0;0]|[0.000;0;0;0;0;0]|12.930|5.676|"+ vehicleChargingTime +"|0.505|6.383|2.364|6.562|-1.000|0.000|36.719|0.938|2.404|"
-                + reverseMode +"|0.000|"+ currStateOfCharge +"|"+ speedometer +"|-3.100|12420.60|"+ batterySOH +"|8.00|12.95|[0;0;0;0;0;0;0;0;0]|0.00|1.00|0.00|1.00|0.00|0.00|0.00|0.00";
+                + reverseMode +"|0.000|"+ currStateOfCharge +"|"+ speedometer +"|-3.100|12420.60|"+ batterySOH +"|8.00|12.95|[0;0;0;0;0;0;0;0;0]|0.00|1.00|0.00|1.00|0.00|0.00|0.00|"+vehicleOdometer;
 
         content = "{\"payload\":\"$,RE-CONNECT,506.6,4.4,V9.4,"+packetType+","+alertId+","+packetStatus+",555555555510200,"+stGPSValidity+"," +
                 ""+date+","+time+","+latitude+","+latitudeDir+","+longitude+","+longitudeDir+",0.0,0,0,0,0.0,0.0,airtel,"+ignitionStatus+",12.31,"+gsmSignalStrength+
@@ -1044,6 +1064,7 @@ public class MainActivity extends AppCompatActivity implements MqttCallbackExten
             long totDist = Math.round(totalDistance);
             txtodo.setTextColor(getResources().getColor(R.color.white));
             String padded = String.format("%0"+odo_pad_width+"d", Integer.parseInt(String.valueOf(totDist)));
+            vehicleOdometer = String.valueOf(totDist);
             txtodo.setText(padded);
 
             if (statisticsDataCursor.getCount() == 0) {
@@ -1062,12 +1083,15 @@ public class MainActivity extends AppCompatActivity implements MqttCallbackExten
     @Override
     public void connectComplete(boolean reconnect, String serverURI) {
         mqttConnect = true;
+        mqttReconnectionInProgress = false;
+        mqttConnectCounter = false;
         Log.d("mqttStatus","connection");
     }
 
     @Override
     public void connectionLost(Throwable cause) {
         mqttConnect = false;
+        mqttReconnectionInProgress = false;
         Log.d("mqttStatus","lostconnection");
         retryMqttConnect();
     }
@@ -1201,7 +1225,7 @@ public class MainActivity extends AppCompatActivity implements MqttCallbackExten
                                     //login when pending packet are there in DB
                                     //for loop can be removed later
                                     for (int i = 0; i < mqttDataModelArrayList.size(); i++) {
-                                        pendingContent = mqttDataModelArrayList.get(i).getRaw_data();
+                                        pendingContent = mqttDataModelArrayList.get(i).getRaw_data().replace("'","");
                                         try {
                                             //Only publishing is done here
                                             // create message and setup QoS
@@ -1239,6 +1263,15 @@ public class MainActivity extends AppCompatActivity implements MqttCallbackExten
                                 Log.d("before1",contentMarkHistory);
                                 save_mqtt_records(contentMarkHistory,"0",String.valueOf(System.currentTimeMillis()));
                                 currMqttPacketUpload = false;
+                            }
+                            mqttCounter = mqttCounter + 1;
+                            Log.d("mqttCounter",mqttCounter+"\t"+mqttConnectCounter);
+                            if(mqttCounter > 15 && !mqttConnectCounter){
+                                mqttConnectCounter = true;
+                                mqttCounter = 0;
+                                if(!mqttReconnectionInProgress) {
+                                    retryMqttConnect();
+                                }
                             }
                         }
                     }
