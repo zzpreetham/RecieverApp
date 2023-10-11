@@ -706,7 +706,7 @@ public class MainActivity extends AppCompatActivity implements MqttCallbackExten
         txtdistance = findViewById(R.id.rangeTxt);
         txtodo = findViewById(R.id.odoMeter);
         speedoMeterView=findViewById(R.id.speedometerview);
-        speedoMeterView.setNeedlecolor(getColor(R.color.white));
+        speedoMeterView.setNeedlecolor(getColor(R.color.redCircleColor));
         seekBar=findViewById(R.id.seekBar);
         txtmodes=findViewById(R.id.txtmodes);
         txtvehiclechrg=findViewById(R.id.chargePercent);

@@ -173,18 +173,18 @@ public class SpeedoMeterView extends View {
         centerx=getWidth()/2.0f;
         centery=getHeight()/2.0f;
 
-        radius=Math.min(getWidth()/2.0f,getHeight()/2.0f);
+        radius=Math.min(getWidth()/2.0f,getHeight()/5.3f);
         if (drawable!=null){
             backimagebitmap=transform(drawableToBitmap(drawable));
         }
         createSpeedometerDisk();
         path=new Path();
         float  bottomY = getWidth()/1.6f ;
-        path.moveTo(getWidth()/2.0f,radius/4.0f);
-        path.lineTo(centerx-(radius/98.8f),radius/3.0f);
+        path.moveTo(getWidth()/2.0f,radius/8.0f);
+        path.lineTo(centerx-(radius/28.8f),radius/5.5f);
         path.lineTo(centerx-(radius/39.4f),bottomY);
         path.lineTo(centerx+(radius/39.4f),bottomY);
-        path.lineTo(centerx+(radius/78.8f),radius/3.0f);
+        path.lineTo(centerx+(radius/28.8f),radius/5.5f);
     }
     public static Bitmap drawableToBitmap (Drawable drawable) {
         Bitmap bitmap = null;
