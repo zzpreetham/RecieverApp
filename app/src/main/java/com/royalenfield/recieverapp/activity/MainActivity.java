@@ -844,7 +844,7 @@ public class MainActivity extends AppCompatActivity implements MqttCallbackExten
 
         content = "{\"payload\":\"$,RE-CONNECT,506.6,4.4,V9.4,"+packetType+","+alertId+","+packetStatus+",555555555510200,"+stGPSValidity+"," +
                 ""+date+","+time+","+latitude+","+latitudeDir+","+longitude+","+longitudeDir+",0.0,0,0,0,0.0,0.0,airtel,"+ignitionStatus+",12.31,"+gsmSignalStrength+
-                ",1,"+frameNumber+",0,"+obdData+",,P0030,ME3EVMULE02TEST01,"+tripId+",M4A,*4e\"}";
+                ",1,"+frameNumber+",0,"+obdData+",,P0030,ME3EVMULE02TEST01,"+tripId+",M4C,*4e\"}";
 
         Log.d("string_val",content);
 
